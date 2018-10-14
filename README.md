@@ -11,7 +11,7 @@ Our team name is Java & The Hutts, with Team1 being used for administrative purp
 
 
 ## Application Stack
-Our project will be written in Java. Maven will be used for managing dependencies, and the Swing library will be used for our GUI needs.
+Our project will be written in Java. Maven will be used for managing dependencies, and the Swing library will be used for our GUI needs. When creating packages, `jth` (standing for Java & The Hutts) will be used for the organization name.
 
 ## Running the project
 All that is required for running the project is the appropriate Java version for your machine. All dependencies will be installed via Maven given that a internet connection is available.
