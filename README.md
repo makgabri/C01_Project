@@ -18,3 +18,6 @@ All that is required for running the project is the appropriate Java version for
 
 1. Clone the project to your local machine
 2. Use the maven command line tools to compile and run the project
+
+## Progress
+Our team is currently in design and preparation phase of the first sprint
