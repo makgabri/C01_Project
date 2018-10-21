@@ -27,8 +27,15 @@ public class DatabaseDriver {
 	   * @return the connection you passed in, to allow you to continue.
 	   * @throws ConnectionFailedException If the tables couldn't be initialized, throw
 	   */
-	  protected static Connection initialize(Connection connection) throws ConnectionFailedException {
+	  public static Connection initialize(Connection connection) throws ConnectionFailedException {
 	    if (!initializeDatabase(connection)) {
+	      throw new ConnectionFailedException();
+	    }
+	    return connection;
+	  }
+	  
+	  public static Connection clear(Connection connection) throws ConnectionFailedException {
+	    if (!clearDatabase(connection)) {
 	      throw new ConnectionFailedException();
 	    }
 	    return connection;
@@ -43,12 +50,13 @@ public class DatabaseDriver {
 	      
 	      String sql = "CREATE TABLE USERS " 
 	          + "(ID VARCHAR(64) PRIMARY KEY NOT NULL UNIQUE," 
-	          + "ACCESS INTEGER NOT NULL,"
+	          + "ACCESS INTEGER,"
 	          + "UPLOADED INTEGER NOT NULL,"
 	          + "CREATIONDATE TEXT NOT NULL,"
 	          + "ROLEID INTEGER NOT NULL,"
 	          + "FOREIGN KEY(ROLEID) REFERENCES ROLE(ID))";
 	      statement.executeUpdate(sql);
+	      
 	      sql = "CREATE TABLE ROLETYPES "
 	          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT,"
 	          + "NAME TEXT NOT NULL)";
@@ -68,5 +76,30 @@ public class DatabaseDriver {
 	    }
 	    return false;
 	  }
+	  
+	  private static boolean clearDatabase(Connection connection) {
+		    Statement statement = null;
+		    
+		    try {
+		      statement = connection.createStatement();
+		      
+		      
+		      String sql = "DROP TABLE USERS;";
+		      statement.executeUpdate(sql);
+		      
+		      sql = "DROP TABLE ROLETYPES;";
+		      statement.executeUpdate(sql);
+		  
+		      sql = "DROP TABLE USERPW;";
+		      statement.executeUpdate(sql);
+		      
+		      statement.close();
+		      return true;
+		      
+		    } catch (Exception e) {
+		      e.printStackTrace();
+		    }
+		    return false;
+		  }
 
 }
