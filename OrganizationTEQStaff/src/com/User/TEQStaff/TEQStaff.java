@@ -5,21 +5,34 @@ import com.User.Organization.SupportType;
 import com.User.Roles;
 import com.User.User;
 
+import java.util.Date;
+
 public class TEQStaff extends User {
 
-    public TEQStaff(String firstName, String lastName, Roles roles, int userId, String email, String password) {
+    private String firstName;
+    private String lastName;
+
+    public TEQStaff(String firstName, String lastName, Roles roles, String userId, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = roles;
         this.userId = userId;
         this.email = email;
-        this.password = password;
-
+        this.uploaded = false;
+        this.creationDate = new Date();
     }
 
     @Override
     public Boolean logIn(int userId, String password) {
         return null;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public Boolean changeLimitation(int userId) {
@@ -30,10 +43,10 @@ public class TEQStaff extends User {
         return null;
     }
 
-    public Organization createOrganizationAccount(String name, int userId, String password, String email,
+    public Organization createOrganizationAccount(String name, String userId, String email,
                                                   String postalCode,
                                                   SupportType supportType) {
-        return new Organization(name, userId, password, email, postalCode, supportType);
+        return new Organization(name, userId, email, postalCode, supportType);
     }
 
     public void addTemplateField() {

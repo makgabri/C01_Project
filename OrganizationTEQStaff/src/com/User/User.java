@@ -1,20 +1,33 @@
 package com.User;
 
-public abstract class User implements UserLogin {
-    protected String firstName;
-    protected String lastName;
+import java.util.Date;
+
+public abstract class User {
+    protected Date creationDate;
+    protected Boolean uploaded;
     protected Roles role;
-    protected int userId;
+    protected String userId;
     protected String email;
-    protected String password;
-    // protected Authenticate authenticate;
+    public Authenticate authenticate;
 
     public Roles getRole() {
         return role;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Boolean isUploaded() {
+        return uploaded;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
     }
 
     public abstract Boolean logIn(int userId, String password);
