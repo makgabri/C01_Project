@@ -34,7 +34,7 @@ public class Organization extends User {
     }
 
     public Boolean isUploaded(){
-        return true;
+        return uploaded;
     }
 
     public Boolean checkingTemplates() {
