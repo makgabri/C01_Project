@@ -6,24 +6,24 @@ import java.security.NoSuchAlgorithmException;
 public interface Authenticate {	
 
 	/** 
-	 * Authenicates the user if their password matches the password storied in the database
+	 * Authenticates the user if their password matches the password storied in the database
 	 * 
 	 * @param password - the plain password of the user
-	 * @return true if the authenication was successful
+	 * @return true if the authentication was successful
 	 * @throws NoSuchAlgorithmException - if the SHA-256 algorithm is not found
 	 * @throws UnsupportedEncodingException -if UTF-8 encoding is not supported
 	 */
-	public boolean authenicate(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException;
+	public boolean authenticate(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException;
 	
 	/**
-	 * Deauthenicates the user
+	 * Deauthenticates the user
 	 */
-	public void deauthenicate();
+	public void deauthenticate();
 	
 	/**
-	 * Checks whether the user is authenicated
+	 * Checks whether the user is authenticated
 	 * 
-	 * @return true if the user is authenicated
+	 * @return true if the user is authenticated
 	 */
 	public boolean isAuthenticated();
 
