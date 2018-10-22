@@ -18,7 +18,7 @@ public class LoginSystem {
 	 * @throws IOException - if bufferedreader cannot read information
 	 * @throws NoSuchAlgorithmException - if the SHA-256 algorithm is not found
 	 */
-	public static void main(String[] argv) throws NumberFormatException, IOException, NoSuchAlgorithmException {
+	public static void loginCLI() throws NumberFormatException, IOException, NoSuchAlgorithmException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Welcome. Please choose an option:");
 		System.out.println("1: login");
