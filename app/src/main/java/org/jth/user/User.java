@@ -1,5 +1,7 @@
 package org.jth.user;
 
+import org.jth.security.Authenticate;
+
 import java.util.Date;
 
 public abstract class User {
