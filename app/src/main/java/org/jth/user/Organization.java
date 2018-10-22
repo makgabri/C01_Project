@@ -1,7 +1,5 @@
 package org.jth.user;
 
-import com.User.User;
-
 import java.util.ArrayList;
 import java.util.Date;
 

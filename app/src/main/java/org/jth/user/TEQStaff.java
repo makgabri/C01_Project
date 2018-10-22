@@ -1,8 +1,5 @@
 package org.jth.user;
 
-import com.User.Organization.Organization;
-import com.User.Organization.SupportType;
-
 import java.util.Date;
 
 public class TEQStaff extends User {
