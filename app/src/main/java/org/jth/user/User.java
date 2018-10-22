@@ -16,32 +16,57 @@ public abstract class User {
     protected String email;
     public Authenticate authenticate;
 
+    /**
+     * get user role.
+     * @return user roles.
+     */
     public Roles getRole() {
         return role;
     }
 
+    /**
+     * get user id.
+     * @return a string represent user id
+     */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * get email
+     * @return String represent email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * check the user is uploaded or not.
+     * @return true if it is already uploaded.
+     */
     public Boolean isUploaded() {
         return uploaded;
     }
 
+    /**
+     * add creation data.
+     * @return Date class of the account
+     */
     public Date getCreationDate() {
         return creationDate;
     }
-    
+
+    /**
+     * user login
+     * @param userId the id of the user
+     * @param password the password of the user
+     * @return true login success, false otherwise.
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     */
     public Boolean logIn(String userId, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        Authenticate userAuthentication = new AuthenticateImpl(userId);
-        if (userAuthentication.authenticate(password)) {
-        	return true;
-        }
-        return false;
+        authenticate = new AuthenticateImpl(userId);
+        return (authenticate.authenticate(password));
     }
     
 }

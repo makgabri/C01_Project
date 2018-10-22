@@ -22,15 +22,22 @@ public class Organization extends User {
         this.creationDate = new Date();
     }
 
-    @Override
-    public Boolean logIn(int userId, String password) {
-        return null;
-    }
 
+    // TODO
+    /**
+     * upload templates to database.
+     * @param fileName list of templates that need upload.
+     * @return true if upload success, false otherwise.
+     */
     public Boolean uploadTemplates(ArrayList<String> fileName) {
         return true;
     }
 
+    // TODO
+    /**
+     * system automatically check of conflict.
+     * @return true if there is no conflict, false otherwise.
+     */
     public Boolean checkingTemplates() {
         return true;
     }
