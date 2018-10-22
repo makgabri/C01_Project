@@ -1,7 +1,11 @@
 package org.jth.user;
 
 import org.jth.security.Authenticate;
+import org.jth.security.AuthenticateImpl;
+import org.jth.user.Roles;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public abstract class User {
@@ -31,6 +35,13 @@ public abstract class User {
     public Date getCreationDate() {
         return creationDate;
     }
-
-    public abstract Boolean logIn(int userId, String password);
+    
+    public Boolean logIn(String userId, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        Authenticate userAuthentication = new AuthenticateImpl(userId);
+        if (userAuthentication.authenticate(password)) {
+        	return true;
+        }
+        return false;
+    }
+    
 }

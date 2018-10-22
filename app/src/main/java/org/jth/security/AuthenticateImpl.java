@@ -13,7 +13,7 @@ public class AuthenticateImpl implements Authenticate {
 	/**
 	 * Initializes AuthenicateImpl with the user's id
 	 * 
-	 * @param userId
+	 * @param userId - the user's id used for authentication
 	 */
 	public AuthenticateImpl(String userId) {
 		this.userId = userId;
