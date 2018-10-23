@@ -61,8 +61,8 @@ public abstract class User {
      * @param userId the id of the user
      * @param password the password of the user
      * @return true login success, false otherwise.
-     * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException - if the SHA-256 algorithm cannot be found
+     * @throws UnsupportedEncodingException - if UTF-8 encoding is not supported
      */
     public Boolean logIn(String userId, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         authenticate = new AuthenticateImpl(userId);
