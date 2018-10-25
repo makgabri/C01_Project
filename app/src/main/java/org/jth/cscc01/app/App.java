@@ -53,8 +53,6 @@ public class App {
 	        }
         } else {
         	System.out.println("Main app");
-        	DatabaseInsertHelper dbInsert = new DatabaseInsertHelperImpl();
-        	dbInsert.insertUser(Roles.UTSC.name(), "email2@email.com", "password");
         }
     }
 }
