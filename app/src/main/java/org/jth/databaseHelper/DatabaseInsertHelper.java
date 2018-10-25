@@ -1,9 +1,11 @@
 package org.jth.databaseHelper;
 
+import java.util.Map;
+
 public interface DatabaseInsertHelper {
 	
 	public int insertRole(String roleName);
 	
-	public String insertUser(User user);
+	public Map<String, String> insertUser(String role, String email, String password);
 	
 }

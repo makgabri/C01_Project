@@ -19,7 +19,6 @@ public class AuthenticateImpl implements Authenticate {
 		this.userId = userId;
 	}
 	
-	@Override
 	public boolean authenticate(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		String hashedPassword = PasswordHelpers.passwordHash(password);
 		// TODO get database password
@@ -31,14 +30,12 @@ public class AuthenticateImpl implements Authenticate {
 		return false;
 	}
 	
-	@Override
 	public void deauthenticate() {
 		if (this.isAuthenticated()) {
 			this.userIsAuthenticated = false;
 		}
 	}
 
-	@Override
 	public boolean isAuthenticated() {
 		if (this.userIsAuthenticated == true) {
 			return true;

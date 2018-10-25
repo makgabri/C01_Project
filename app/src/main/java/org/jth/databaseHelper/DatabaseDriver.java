@@ -50,10 +50,11 @@ public class DatabaseDriver {
 	      
 	      String sql = "CREATE TABLE USERS " 
 	          + "(ID VARCHAR(64) PRIMARY KEY NOT NULL UNIQUE," 
-	          + "ACCESS INTEGER,"
+	          + "ACCESS INTEGER NOT NULL,"
 	          + "UPLOADED INTEGER NOT NULL,"
 	          + "CREATIONDATE TEXT NOT NULL,"
 	          + "ROLEID INTEGER NOT NULL,"
+	          + "EMAIL VARCHAR(64) NOT NULL UNIQUE,"
 	          + "FOREIGN KEY(ROLEID) REFERENCES ROLE(ID))";
 	      statement.executeUpdate(sql);
 	      
