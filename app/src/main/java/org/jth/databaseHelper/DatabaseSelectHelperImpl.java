@@ -131,4 +131,31 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 		return roleName;
 	}
 
+	@Override
+	public String getHashedPassword(String userId) {
+		// TODO Auto-generated method stub
+		Connection conn = DatabaseDriver.connectOrCreateDatabase();
+		Statement stmt;
+		String sql = "";
+		ResultSet rs;
+		String password = null;
+		
+		sql = "SELECT PASSWORD FROM USERPW WHERE USERID=" + userId + ";";
+		
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				password = rs.getString("PASSWORD");
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return password;
+	}
+
 }

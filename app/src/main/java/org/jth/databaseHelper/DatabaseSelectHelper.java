@@ -13,5 +13,7 @@ public interface DatabaseSelectHelper {
 	public int getRoleId(String role);
 	
 	public String getRoleName(int roleId);
+	
+	public String getHashedPassword(String userId);
 
 }
