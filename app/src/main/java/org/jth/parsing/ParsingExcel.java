@@ -101,7 +101,7 @@ public class ParsingExcel {
             Sheet sheet = wb.getSheetAt(s);
             //System.out.print("SheetTitle: ");
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
-
+                boolean lineEmpty = true;
                 template.add(new ArrayList<String>());
                 XSSFRow xssfrow = (XSSFRow) sheet.getRow(i);
 
@@ -109,16 +109,16 @@ public class ParsingExcel {
                     XSSFCell xssfcell = xssfrow.getCell(j);
                     if(xssfcell != null) {
                         String cellValue = parseExcel(xssfcell);
-                        template.get(i).add(cellValue);
-                        /*
-                        if (xssfcell.getCellType() != Cell.CELL_TYPE_BLANK) {
-                            if(firstTime) {
-                                template.add(new ArrayList<String>());
-                                firstTime = false;
-                            }
-                            template.get(template.size() - 1).add(cellValue);
-                        }*/
+                        template.get(template.size() - 1).add(cellValue);
                     }
+                }
+                for(int j = 0; lineEmpty && j < template.get(template.size() - 1).size() ; j ++) {
+                    if(!template.get(template.size() - 1).get(j).equals("")) {
+                        lineEmpty = false;
+                    }
+                }
+                if(lineEmpty) {
+                    template.remove(template.size() - 1);
                 }
             }
         }
@@ -134,7 +134,7 @@ public class ParsingExcel {
         switch (cell.getCellType()) {
 
             case HSSFCell.CELL_TYPE_NUMERIC:
-                // progressing the 
+                // progressing the
                 if (HSSFDateUtil.isCellDateFormatted(cell)) {
                     SimpleDateFormat sdf = null;
                     if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("h:mm")) {
@@ -167,6 +167,8 @@ public class ParsingExcel {
                 result = cell.getRichStringCellValue().toString();
                 break;
             case HSSFCell.CELL_TYPE_BLANK:
+                result = "";
+                break;
             default:
                 result = "";
                 break;
@@ -174,20 +176,22 @@ public class ParsingExcel {
         return result;
     }
 
-    /*
+
     private void printTemplate() {
         //System.out.println("****************************************************************************");
         for(int i = 0; i < template.size(); i ++) {
+            System.out.println("Rocord Number: " + i);
             //if(template.get(i).equals(""))
             for(int j = 0; j < template.get(i).size(); j ++) {
-                if(template.get(i).get(j).length() != 0) {
-                    System.out.print(template.get(i).get(j) + "          ");
-                }
+                //if(template.get(i).get(j).length() != 0) {
+                System.out.println("Column Number: " + j + " " + template.get(i).get(j) + "          ");
+                //}
             }
-            System.out.println();
+
+            //System.out.println();
             System.out.println("*************************************************************************");
         }
         System.out.println("****************************************************************************");
-    }*/
+    }
 }
 
