@@ -21,16 +21,16 @@ import org.jth.exceptions.ParsingExcelVersionFailException;
 
 
 public class ParsingExcel {
-
-    // template[0] will be the title of templates
+    
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
+    /*
     public static void main(String[] args) throws ParsingExcelVersionFailException, CloseExcelFailException {
         String xlsx = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/New_iCARE_Template_Comb_with_Examples.xlsx";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
         e.getFromExcel(xlsx);
-    }
+    }*/
 
     /**
      * get file type and decide which type of Excel is going to use.
@@ -195,6 +195,14 @@ public class ParsingExcel {
             }
             System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         }
+    }
+
+    /**
+     * get templates.
+     * @return templates contain all 10
+     */
+    public ArrayList<ArrayList<ArrayList<String>>> getTemplates() {
+        return templates;
     }
 }
 
