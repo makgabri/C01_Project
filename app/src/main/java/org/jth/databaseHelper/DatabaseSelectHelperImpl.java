@@ -87,13 +87,13 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 		ResultSet rs;
 		int roleId = -1;
 		
-		sql = "SELECT ROLEID FROM ROLETYPES WHERE NAME=" + role.toUpperCase() + ";";
+		sql = "SELECT ID FROM ROLETYPES WHERE NAME='" + role.toUpperCase() + "';";
 		
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-				roleId = rs.getInt("ROLEID");
+				roleId = rs.getInt("ID");
 			}
 			rs.close();
 			stmt.close();
