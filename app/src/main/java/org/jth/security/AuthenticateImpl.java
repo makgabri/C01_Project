@@ -1,9 +1,9 @@
 package org.jth.security;
 
-import org.jth.security.PasswordHelpers;
 import java.io.UnsupportedEncodingException;
-
 import java.security.NoSuchAlgorithmException;
+
+import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 
 
 public class AuthenticateImpl implements Authenticate {
@@ -21,8 +21,7 @@ public class AuthenticateImpl implements Authenticate {
 	
 	public boolean authenticate(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		String hashedPassword = PasswordHelpers.passwordHash(password);
-		// TODO get database password
-		String databasePassword = PasswordHelpers.passwordHash(password);
+		String databasePassword = new DatabaseSelectHelperImpl().getHashedPassword(userId);
 		if (PasswordHelpers.comparePassword(databasePassword, hashedPassword)) {
 			this.userIsAuthenticated = true;
 			return true;

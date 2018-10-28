@@ -59,7 +59,7 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				String roleName = getRoleName(rs.getInt("ROLEID"));
+				String roleName = getRoleName(rs.getInt("ID"));
 				if (roleName.equals(Roles.ORGANIZATION.name())) {
 					user = new Organization(roleName, roleName, roleName, roleName, null);
 				} else if (roleName.equals(Roles.TEQ.name())) {
@@ -113,7 +113,7 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 		ResultSet rs;
 		String roleName = null;
 		
-		sql = "SELECT NAME FROM ROLETYPES WHERE ROLEID=" + roleId + ";";
+		sql = "SELECT NAME FROM ROLETYPES WHERE ID=" + roleId + ";";
 		
 		try {
 			stmt = conn.createStatement();
@@ -129,6 +129,59 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 			e.printStackTrace();
 		}
 		return roleName;
+	}
+
+	@Override
+	public String getHashedPassword(String userId) {
+		// TODO Auto-generated method stub
+		Connection conn = DatabaseDriver.connectOrCreateDatabase();
+		Statement stmt;
+		String sql = "";
+		ResultSet rs;
+		String password = null;
+		
+		sql = "SELECT PASSWORD FROM USERPW WHERE USERID='" + userId + "';";
+		
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				password = rs.getString("PASSWORD");
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return password;
+	}
+	
+	public String getUserId(String email) {
+		// TODO Auto-generated method stub
+		Connection conn = DatabaseDriver.connectOrCreateDatabase();
+		Statement stmt;
+		String sql = "";
+		ResultSet rs;
+		String password = null;
+		
+		sql = "SELECT ID FROM USERS WHERE EMAIL='" + email + "';";
+		
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				password = rs.getString("ID");
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return password;
 	}
 
 }
