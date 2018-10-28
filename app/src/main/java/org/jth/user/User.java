@@ -10,7 +10,7 @@ import java.util.Date;
 
 public abstract class User {
     protected Date creationDate;
-    protected Boolean uploaded;
+    protected Boolean uploaded = false;
     protected Roles role;
     protected String userId;
     protected String email;
