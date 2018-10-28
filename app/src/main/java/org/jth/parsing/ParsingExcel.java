@@ -23,7 +23,7 @@ import org.jth.exceptions.ParsingExcelVersionFailException;
 public class ParsingExcel {
 
     // template[0] will be the title of templates
-    private ArrayList<ArrayList<String>> template = new ArrayList<ArrayList<String>>();
+    private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
     public static void main(String[] args) throws ParsingExcelVersionFailException, CloseExcelFailException {
         String xlsx = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/New_iCARE_Template_Comb_with_Examples.xlsx";
@@ -94,33 +94,31 @@ public class ParsingExcel {
      * @param wb the templates that wants to read.
      */
     private void readXlsx(Workbook wb) {
-        int k = wb.getNumberOfSheets();
-        System.out.print("Number of sheet: " + k);
-        for (int s = 1; s < 2; s++) {
-            System.out.print("sheet: " + s + "\t");
+        for (int s = 0; s < wb.getNumberOfSheets(); s++) {
             Sheet sheet = wb.getSheetAt(s);
-            //System.out.print("SheetTitle: ");
+            // add a new template
+            templates.add(new ArrayList<ArrayList<String>>());
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
                 boolean lineEmpty = true;
-                template.add(new ArrayList<String>());
+                ArrayList<String> line = new ArrayList<>();
                 XSSFRow xssfrow = (XSSFRow) sheet.getRow(i);
-
                 for (int j = 0; j < xssfrow.getLastCellNum(); j++) {
                     XSSFCell xssfcell = xssfrow.getCell(j);
                     if(xssfcell != null) {
                         String cellValue = parseExcel(xssfcell);
-                        template.get(template.size() - 1).add(cellValue);
+                        line.add(cellValue);
                     }
                 }
-                for(int j = 0; lineEmpty && j < template.get(template.size() - 1).size() ; j ++) {
-                    if(!template.get(template.size() - 1).get(j).equals("")) {
+                for (String k: line) {
+                    if(!k.equals("")) {
                         lineEmpty = false;
                     }
                 }
-                if(lineEmpty) {
-                    template.remove(template.size() - 1);
+                if(!lineEmpty) {
+                    templates.get(templates.size() - 1).add(line);
                 }
             }
+
         }
     }
 
@@ -176,22 +174,27 @@ public class ParsingExcel {
         return result;
     }
 
-
+    /**
+     * print the templates
+     */
     private void printTemplate() {
-        //System.out.println("****************************************************************************");
-        for(int i = 0; i < template.size(); i ++) {
-            System.out.println("Rocord Number: " + i);
-            //if(template.get(i).equals(""))
-            for(int j = 0; j < template.get(i).size(); j ++) {
-                //if(template.get(i).get(j).length() != 0) {
-                System.out.println("Column Number: " + j + " " + template.get(i).get(j) + "          ");
-                //}
+        for(int i = 0; i < templates.size(); i ++) {
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println("Templates " + (i + 1));
+            for(int j = 0; j < templates.get(i).size(); j ++) {
+                System.out.println("*********************************************************************************");
+                System.out.println("Row Number: " + (j + 1));
+                if(j == 0) {
+                    System.out.println("Title : ");
+                }
+                for (int k = 0; k < templates.get(i).get(j).size(); k++) {
+                    if(!templates.get(i).get(j).get(k).equals("")) {
+                        System.out.println("Column Number: " + (k + 1) + " " + templates.get(i).get(j).get(k));
+                    }
+                }
             }
-
-            //System.out.println();
-            System.out.println("*************************************************************************");
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         }
-        System.out.println("****************************************************************************");
     }
 }
 
