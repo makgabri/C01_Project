@@ -1,2 +1,2 @@
 before-install: cd app
-languagw: java
+language: java
