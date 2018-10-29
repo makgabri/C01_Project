@@ -20,8 +20,8 @@ public class Organization extends User {
         this.supportType = supportType;
         this.uploaded = false;
         this.creationDate = new Date();
+        this.role = Roles.ORGANIZATION;
     }
-
 
     // TODO
     /**
@@ -40,5 +40,9 @@ public class Organization extends User {
      */
     public Boolean checkingTemplates() {
         return true;
+    }
+
+    public String getOrganizationName() {
+        return name;
     }
 }

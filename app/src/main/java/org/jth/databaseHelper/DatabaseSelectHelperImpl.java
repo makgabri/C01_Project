@@ -22,23 +22,24 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 		ResultSet rs;
 		User user = null;
 		
-		sql = "SELECT * FROM USERS WHERE ID=" + userId + ";";
+		sql = "SELECT * FROM USERS WHERE ID='" + userId + "';";
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				String roleName = getRoleName(rs.getInt("ROLEID"));
 				if (roleName.equals(Roles.ORGANIZATION.name())) {
-					user = new Organization(roleName, roleName, roleName, roleName, null);
+					user = new Organization(roleName, rs.getString("ID"), rs.getString("EMAIL"), roleName, null);
 				} else if (roleName.equals(Roles.TEQ.name())) {
-					user = new TEQStaff(roleName, roleName, null, roleName, roleName);
+					user = new TEQStaff(roleName, roleName, Roles.TEQ, rs.getString("ID"), rs.getString("EMAIL"));
 				} else if (roleName.equals(Roles.UTSC.name())) {
-					user = new UTSCStaff(roleName, roleName, roleName, roleName);
+					user = new UTSCStaff(roleName, roleName, rs.getString("ID"), rs.getString("EMAIL"));
 				}
 			}
 			rs.close();
 			stmt.close();
 			conn.close();
+			return user;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,13 +60,13 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				String roleName = getRoleName(rs.getInt("ID"));
+				String roleName = getRoleName(rs.getInt("ROLEID"));
 				if (roleName.equals(Roles.ORGANIZATION.name())) {
-					user = new Organization(roleName, roleName, roleName, roleName, null);
+					user = new Organization(roleName, rs.getString("ID"), rs.getString("EMAIL"), roleName, null);
 				} else if (roleName.equals(Roles.TEQ.name())) {
-					user = new TEQStaff(roleName, roleName, null, roleName, roleName);
+					user = new TEQStaff(roleName, roleName, null, rs.getString("ID"), roleName);
 				} else if (roleName.equals(Roles.UTSC.name())) {
-					user = new UTSCStaff(roleName, roleName, roleName, roleName);
+					user = new UTSCStaff(roleName, roleName, rs.getString("ID"), roleName);
 				}
 				users.add(user);
 			}
@@ -131,7 +132,6 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 		return roleName;
 	}
 
-	@Override
 	public String getHashedPassword(String userId) {
 		// TODO Auto-generated method stub
 		Connection conn = DatabaseDriver.connectOrCreateDatabase();
@@ -182,6 +182,32 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 			e.printStackTrace();
 		}
 		return password;
+	}
+	
+	public String getCreationDate(String userId) {
+		// TODO Auto-generated method stub
+		Connection conn = DatabaseDriver.connectOrCreateDatabase();
+		Statement stmt;
+		String sql = "";
+		ResultSet rs;
+		String creationDate = null;
+		
+		sql = "SELECT CREATIONDATE FROM USERS WHERE ID='" + userId + "';";
+		
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				creationDate = rs.getString("CREATIONDATE");
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return creationDate;
 	}
 
 }
