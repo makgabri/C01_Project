@@ -1,15 +1,15 @@
 package org.jth.templates;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
 
 public class DefaultTemplate {
 
-    private HashMap<Fields, Object> map;
+    private HashMap<String,String> map;
     private Boolean containsMandatoryFields;
 
     public DefaultTemplate () {
-        this.map = new Hashmap<Fields, Object>;
+        this.map = new HashMap<String, String>();
         this.containsMandatoryFields = false;
     }
 
