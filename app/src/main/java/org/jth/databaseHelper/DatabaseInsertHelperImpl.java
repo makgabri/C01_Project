@@ -82,19 +82,13 @@ public class DatabaseInsertHelperImpl implements DatabaseInsertHelper {
 		int roleId = new DatabaseSelectHelperImpl().getRoleId(role);
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat simpleFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 		Date date = new Date();
 		String formattedDate = dateFormat.format(date);
-		try {
-			userId = PasswordHelpers.passwordHash(role + email + formattedDate);
-			hashedPassword = PasswordHelpers.passwordHash(password);
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		String simpleDate = simpleFormat.format(date);
+		userId = PasswordHelpers.passwordHash(role + email + simpleDate);
+		hashedPassword = PasswordHelpers.passwordHash(password);
+	
 		String sql = "INSERT INTO USERS VALUES (?,1,0,?,?,?);";
 		try {
 			stmt = conn.prepareStatement(sql);

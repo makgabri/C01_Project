@@ -5,9 +5,11 @@ import java.sql.Connection;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.databaseHelper.DatabaseSelectHelper;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.exceptions.ConnectionFailedException;
 import org.jth.user.Roles;
+import org.jth.user.User;
 
 public class App {
 	
@@ -27,7 +29,10 @@ public class App {
 		if (utscRoleId < 0) {
 			System.out.println("Failed to insert UTSC role");
 		}
-		//dbInsert.insertUser(Roles.TEQ.name(), "email@email.com", "password");
+		dbInsert.insertUser(Roles.ORGANIZATION.name(), "email@email.com", "password");
+		dbInsert.insertUser(Roles.UTSC.name(), "1232314", "123");
+		dbInsert.insertUser(Roles.TEQ.name(), "crystal.li@gmail.com", "a4y81^");
+		dbInsert.insertUser(Roles.ORGANIZATION.name(), "FGH@gmail.com", "123");
 	}
 	
     public static void main( String[] args ) {
@@ -54,8 +59,11 @@ public class App {
 	        }
         } else {
         	System.out.println("Main app");
-        	String userId = new DatabaseSelectHelperImpl().getUserId("1232314");
-        	System.out.println(userId);
+        	DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
+        	
+        	User user = dbs.getUser(dbs.getUserId("email@email.com"));
+        	System.out.println(user);
+        	System.out.println(dbs.getUserId("email@email.com"));
         }
     }
 }

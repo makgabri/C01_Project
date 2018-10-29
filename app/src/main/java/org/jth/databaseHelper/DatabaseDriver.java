@@ -48,19 +48,19 @@ public class DatabaseDriver {
 	      statement = connection.createStatement();
 	      
 	      
-	      String sql = "CREATE TABLE USERS " 
-	          + "(ID VARCHAR(64) PRIMARY KEY NOT NULL UNIQUE," 
-	          + "ACCESS INTEGER NOT NULL,"
-	          + "UPLOADED INTEGER NOT NULL,"
-	          + "CREATIONDATE TEXT NOT NULL,"
-	          + "ROLEID INTEGER NOT NULL,"
-	          + "EMAIL VARCHAR(64) NOT NULL UNIQUE,"
-	          + "FOREIGN KEY(ROLEID) REFERENCES ROLE(ID))";
+	      String sql = "CREATE TABLE ROLETYPES "
+	              + "(ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+	              + "NAME TEXT NOT NULL)";
 	      statement.executeUpdate(sql);
 	      
-	      sql = "CREATE TABLE ROLETYPES "
-	          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-	          + "NAME TEXT NOT NULL)";
+	      sql = "CREATE TABLE USERS " 
+		          + "(ID VARCHAR(64) PRIMARY KEY NOT NULL UNIQUE," 
+		          + "ACCESS INTEGER NOT NULL,"
+		          + "UPLOADED INTEGER NOT NULL,"
+		          + "CREATIONDATE TEXT NOT NULL,"
+		          + "ROLEID INTEGER NOT NULL,"
+		          + "EMAIL VARCHAR(64) NOT NULL UNIQUE,"
+		          + "FOREIGN KEY(ROLEID) REFERENCES ROLETYPES(ID));";
 	      statement.executeUpdate(sql);
 	  
 	      sql = "CREATE TABLE USERPW " 

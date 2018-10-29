@@ -7,22 +7,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
-import java.util.Map;
-
-import org.junit.jupiter.api.Test;
-
 
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.databaseHelper.DatabaseSelectHelper;
+import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.security.Authenticate;
 import org.jth.security.AuthenticateImpl;
+import org.junit.jupiter.api.Test;
 
 class TEQStaffTest {
 	DatabaseInsertHelper dbi = new DatabaseInsertHelperImpl();
-	Map<String, String> userMap = dbi.insertUser(Roles.TEQ.name(), "crystal.li@gmail.com", "a4y81^");
-	String userID = userMap.keySet().iterator().next();
-	String creationDate = userMap.values().iterator().next();
+	DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
+	//Map<String, String> userMap = dbi.insertUser(Roles.TEQ.name(), "crystal.li@gmail.com", "a4y81^");
+	String userID = dbs.getUserId("crystal.li@gmail.com");//userMap.keySet().iterator().next();
+	String creationDate = dbs.getCreationDate(userID);
 	User teqStaff = new TEQStaff("Crystal", "Li", Roles.TEQ, userID, "crystal.li@gmail.com");
 	Authenticate authenticate = new AuthenticateImpl(userID);
 	
@@ -54,7 +53,7 @@ class TEQStaffTest {
 	
 	@Test
 	void loginSuccessful() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		assertTrue(authenticate.authenticate("a4y81"));
+		assertTrue(authenticate.authenticate("a4y81^"));
 	}
 	
 	@Test
