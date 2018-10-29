@@ -4,6 +4,7 @@ import jxl.*;
 import org.apache.poi.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.text.*;
 import java.util.*;
 import java.lang.System;
@@ -65,7 +66,6 @@ public class ParsingExcel {
             e.printStackTrace();
             throw new CloseExcelFailException();
         }
-        printTemplate();
     }
 
     /**
@@ -202,11 +202,46 @@ public class ParsingExcel {
     }
 
     /**
-     * get templates.
+     * get all the templates.
      * @return templates contain all 10
      */
     public ArrayList<ArrayList<ArrayList<String>>> getTemplates() {
         return templates;
     }
+
+    /**
+     * get specific template.
+     * @param index the specific templates want to get.
+     * @return the specific templates.
+     */
+    public ArrayList<ArrayList<String>> getSpecificTemplates(int index) {
+        if(index <= templates.size()){
+            return templates.get(index - 1);
+        } else {
+            System.out.println("Index is out of range!");
+            return null;
+        }
+    }
+
+    /**
+     * get the specific line in the specific template.
+     * @param templateIndex index of template.
+     * @param lineIndex index of line.
+     * @return the line.
+     */
+    public ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex) {
+        if(templateIndex <= templates.size()) {
+            if(lineIndex <= templates.get(templateIndex - 1).size()) {
+                return templates.get(templateIndex - 1).get(lineIndex - 1);
+            } else {
+                System.out.println("Line Index is out of range!");
+                return null;
+            }
+        } else {
+            System.out.println("Template index is out of range!");
+            return null;
+        }
+    }
 }
+
 
