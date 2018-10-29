@@ -1,2 +1,3 @@
-before-install: cd app
+before_install:
+- cd app
 language: java
