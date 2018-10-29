@@ -27,7 +27,34 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+	<!-- ******************************* Need These package ******************************* -->
+
+	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi-ooxml</artifactId>
+		<version>3.9</version>
+	</dependency>
+
+
+	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->	
+	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi</artifactId>
+		<version>3.7</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>jexcelapi</groupId>
+		<artifactId>jxl</artifactId>
+		<version>2.4.2</version>
+	</dependency>
+	
+	<!-- ******************************* Packages Ends Here ******************************* -->
+
     <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+	
 	<dependency>
 	    <groupId>org.xerial</groupId>
 	    <artifactId>sqlite-jdbc</artifactId>
