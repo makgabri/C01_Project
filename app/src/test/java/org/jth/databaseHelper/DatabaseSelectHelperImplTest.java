@@ -2,6 +2,7 @@ package org.jth.databaseHelper;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.jth.security.PasswordHelpers;
 import org.jth.user.Roles;
 import org.jth.user.User;
 import org.junit.jupiter.api.DisplayName;
@@ -26,10 +27,19 @@ class DatabaseSelectHelperImplTest {
 	
 	@DisplayName("get a roleId using the name of the role")
 	@Test
-	void getRoleIdTest() {
+	void getRoleIdTest() {	
 		int roleId = dbs.getRoleId(Roles.ORGANIZATION.name());
 		int orgId = 1;
 		assertTrue(roleId == orgId);
+	}
+	
+	@DisplayName("Get user's password")
+	@Test
+	void getPasswordTest() {	
+		String userId = dbs.getUserId("email@email.com");
+		String password = dbs.getHashedPassword(userId);
+		String actualPassword = PasswordHelpers.passwordHash("password");
+		assertTrue(password.equals(actualPassword));
 	}
 	
 	

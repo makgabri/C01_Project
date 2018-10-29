@@ -17,6 +17,7 @@ public class UTSCStaff extends User {
 		this.lastName = lastName;
 		this.userId = userId;
 		this.email = email;
+		this.role = Roles.UTSC;
 	}
 	
 	/**

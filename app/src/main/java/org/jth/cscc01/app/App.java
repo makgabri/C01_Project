@@ -9,6 +9,7 @@ import org.jth.databaseHelper.DatabaseSelectHelper;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.exceptions.ConnectionFailedException;
 import org.jth.user.Roles;
+import org.jth.user.TEQStaff;
 import org.jth.user.User;
 
 public class App {
@@ -33,6 +34,9 @@ public class App {
 		dbInsert.insertUser(Roles.UTSC.name(), "1232314", "123");
 		dbInsert.insertUser(Roles.TEQ.name(), "crystal.li@gmail.com", "a4y81^");
 		dbInsert.insertUser(Roles.ORGANIZATION.name(), "FGH@gmail.com", "123");
+		dbInsert.insertUser(Roles.TEQ.name(),"alice@janitor.edu.ca", "123");
+		dbInsert.insertUser(Roles.UTSC.name(),"bob@teq.com", "123");
+		dbInsert.insertUser(Roles.ORGANIZATION.name(),"charlie@random.io", "123");
 	}
 	
     public static void main( String[] args ) {
@@ -64,6 +68,8 @@ public class App {
         	User user = dbs.getUser(dbs.getUserId("email@email.com"));
         	System.out.println(user);
         	System.out.println(dbs.getUserId("email@email.com"));
+        	System.out.println(dbs.getRoleId(Roles.TEQ.name()));
+        	System.out.println(dbs.getUser(dbs.getUserId("alice@janitor.edu.ca")).getRole());
         }
     }
 }

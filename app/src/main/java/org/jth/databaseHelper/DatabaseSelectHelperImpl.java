@@ -31,7 +31,7 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 				if (roleName.equals(Roles.ORGANIZATION.name())) {
 					user = new Organization(roleName, rs.getString("ID"), rs.getString("EMAIL"), roleName, null);
 				} else if (roleName.equals(Roles.TEQ.name())) {
-					user = new TEQStaff(roleName, roleName, null, rs.getString("ID"), rs.getString("EMAIL"));
+					user = new TEQStaff(roleName, roleName, Roles.TEQ, rs.getString("ID"), rs.getString("EMAIL"));
 				} else if (roleName.equals(Roles.UTSC.name())) {
 					user = new UTSCStaff(roleName, roleName, rs.getString("ID"), rs.getString("EMAIL"));
 				}
