@@ -5,6 +5,7 @@ import java.sql.Connection;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.exceptions.ConnectionFailedException;
 import org.jth.user.Roles;
 
@@ -26,7 +27,7 @@ public class App {
 		if (utscRoleId < 0) {
 			System.out.println("Failed to insert UTSC role");
 		}
-		dbInsert.insertUser(Roles.TEQ.name(), "email@email.com", "password");
+		//dbInsert.insertUser(Roles.TEQ.name(), "email@email.com", "password");
 	}
 	
     public static void main( String[] args ) {
@@ -53,6 +54,8 @@ public class App {
 	        }
         } else {
         	System.out.println("Main app");
+        	String userId = new DatabaseSelectHelperImpl().getUserId("1232314");
+        	System.out.println(userId);
         }
     }
 }

@@ -6,12 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
-import org.jth.security.AuthenticateImpl;
-
+import org.jth.databaseHelper.DatabaseInsertHelper;
+import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.junit.jupiter.api.Test;
 
 class AuthenticateImplTest {
-	AuthenticateImpl user = new AuthenticateImpl("alice123");
+	DatabaseInsertHelper dbi = new DatabaseInsertHelperImpl();
+	//Map<String, String> userMap = dbi.insertUser(Roles.UTSC.name(), "1232314", "123");
+	String userId = new DatabaseSelectHelperImpl().getUserId("1232314");
+	
+	AuthenticateImpl user = new AuthenticateImpl(userId);
 	
 	@Test
 	void authenticateSuccess() throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -21,7 +26,7 @@ class AuthenticateImplTest {
 	@Test
 	void authenticateFail() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		// TODO Check once authenticate uses database info instead of having it true all the time
-		assertFalse(user.authenticate("123"));
+		assertFalse(user.authenticate("1234"));
 	}
 	
 	@Test
