@@ -25,7 +25,7 @@ public class ParsingExcel {
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
     /*
-    public static void main(String[] args) throws ParsingExcelVersionFailException, CloseExcelFailException {
+    public static void main(String[] args) throws ParsingExcelVersionFailException, CloseExcelFailException, IOException {
         String xlsx = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/New_iCARE_Template_Comb_with_Examples.xlsx";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
@@ -38,20 +38,23 @@ public class ParsingExcel {
      * @param filename the template file path
      * @throws ParsingExcelVersionFailException - if parsing Excel type fail throw it.
      */
-    public void getFromExcel(String filename) throws ParsingExcelVersionFailException, CloseExcelFailException {
-        InputStream is = null;
-        Workbook wb = null;
-        String type = filename.substring(filename.lastIndexOf(".") + 1);
-        File file = new File(filename);
+    public void getFromExcel(String filename) throws ParsingExcelVersionFailException,
+                                                     CloseExcelFailException, IOException {
+        InputStream is = new FileInputStream(new File(filename));
+        Workbook wb = new XSSFWorkbook(is);
+        //String type = filename.substring(filename.lastIndexOf(".") + 1);
+        //File file = new File(filename);
         try {
-            is = new FileInputStream(file);
-            if (type.equals("xls")) {
+
+            //is = new FileInputStream(file);
+            /*if (type.equals("xls")) {
                 wb = new HSSFWorkbook(is);
                 readXls(wb);
             } else if (type.equals("xlsx")) {
                 wb = new XSSFWorkbook(is);
                 readXlsx(wb);
-            }
+            }*/
+            readXlsx(wb);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ParsingExcelVersionFailException();
@@ -68,11 +71,12 @@ public class ParsingExcel {
     /**
      * @param wb:excel文件对象
      */
+    /**
     private void readXls(Workbook wb) {
         boolean firstTime = true;
-        Sheet sheet = wb.getSheetAt(0);//对应excel正文对
+        Sheet sheet = wb.getSheetAt(0);
         for (int i = 0; i <= sheet.getLastRowNum(); i++) {
-            HSSFRow hssfrow = (HSSFRow) sheet.getRow(i);//行
+            HSSFRow hssfrow = (HSSFRow) sheet.getRow(i);
             for (int j = 0; j <= hssfrow.getLastCellNum(); j++) {
                 HSSFCell hssfcell = hssfrow.getCell(j);
                 if (hssfcell != null) {
@@ -87,7 +91,7 @@ public class ParsingExcel {
             }
             System.out.println();
         }
-    }
+    }*/
 
     /**
      * read all the data from Excel and convert into String
