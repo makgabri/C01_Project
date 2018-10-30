@@ -44,4 +44,8 @@ public class DefaultTemplate {
      public Boolean containsMandatory () {
          return this.containsMandatoryFields;
      }
+     
+     public HashMap<String, String> getMap() {
+       return this.map;
+     }
 }
