@@ -22,7 +22,8 @@ class TEQStaffTest {
 	//Map<String, String> userMap = dbi.insertUser(Roles.TEQ.name(), "crystal.li@gmail.com", "a4y81^");
 	String userID = dbs.getUserId("crystal.li@gmail.com");//userMap.keySet().iterator().next();
 	String creationDate = dbs.getCreationDate(userID);
-	User teqStaff = new TEQStaff("Crystal", "Li", Roles.TEQ, userID, "crystal.li@gmail.com");
+	User teqStaff = new TEQStaff("Crystal", "Li", Roles.TEQ, userID, "crystal.li@gmail.com",
+			dbs.getCreationDate(userID));
 	Authenticate authenticate = new AuthenticateImpl(userID);
 	
 	@Test

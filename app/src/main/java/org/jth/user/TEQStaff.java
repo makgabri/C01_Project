@@ -7,14 +7,14 @@ public class TEQStaff extends User {
     private String firstName;
     private String lastName;
 
-    public TEQStaff(String firstName, String lastName, Roles roles, String userId, String email) {
+    public TEQStaff(String firstName, String lastName, Roles roles, String userId, String email, String creationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = roles;
         this.userId = userId;
         this.email = email;
         this.uploaded = false;
-        this.creationDate = new Date();
+        this.creationDate = creationDate;
     }
 
     /**
@@ -65,7 +65,8 @@ public class TEQStaff extends User {
     public Organization createOrganizationAccount(String name, String userId, String email,
                                                   String postalCode,
                                                   SupportType supportType) {
-        return new Organization(name, userId, email, postalCode, supportType);
+        //return new Organization(name, userId, email, postalCode, supportType);
+        return null;
     }
 
     // TODO parameters depend on how the templates store in the database

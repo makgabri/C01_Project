@@ -52,7 +52,8 @@ public class UTSCStaff extends User {
     public Organization createOrganizationAccount(String name, String userId, String email,
                                                   String postalCode,
                                                   SupportType supportType) {
-        return new Organization(name, userId, email, postalCode, supportType);
+        //return new Organization(name, userId, email, postalCode, supportType);
+		return null;
     }
     
     // TODO

@@ -12,14 +12,15 @@ public class Organization extends User {
                         String userId,
                         String email,
                         String postalCode,
-                        SupportType supportType) {
+                        SupportType supportType,
+                        String creationDate) {
         this.name = name;
         this.userId = userId;
         this.email = email;
         this.postalCode = postalCode;
         this.supportType = supportType;
         this.uploaded = false;
-        this.creationDate = new Date();
+        this.creationDate = creationDate;
         this.role = Roles.ORGANIZATION;
     }
 
