@@ -11,16 +11,22 @@ import java.util.Map;
 
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.databaseHelper.DatabaseSelectHelper;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.security.AuthenticateImpl;
 import org.jth.security.PasswordHelpers;
 import org.junit.jupiter.api.Test;
 
 public class OrganizationTest {
-    private String organizationId = new DatabaseSelectHelperImpl().getUserId("FGH@gmail.com");
-    private User organization = new Organization("FGH", organizationId,
-                                                 "FGH@gmail.com", "M1P 3B2", LEGAL_SERVICES);
+    DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
     DatabaseInsertHelper dbi = new DatabaseInsertHelperImpl();
+
+    private String organizationId = new DatabaseSelectHelperImpl().getUserId("FGH@gmail.com");
+    String creationDate = dbs.getCreationDate(organizationId);
+    private User organization = new Organization("FGH", organizationId,
+                                                 "FGH@gmail.com",
+                                             "M1P 3B2", LEGAL_SERVICES, creationDate);
+
     //Map<String, String> organizationMap = dbi.insertUser(Roles.ORGANIZATION.name(), "FGH@gmail.com", "123");
     AuthenticateImpl user = new AuthenticateImpl(organizationId);
 

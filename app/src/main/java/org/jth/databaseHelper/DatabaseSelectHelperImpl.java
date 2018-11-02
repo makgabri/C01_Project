@@ -29,9 +29,11 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 			if (rs.next()) {
 				String roleName = getRoleName(rs.getInt("ROLEID"));
 				if (roleName.equals(Roles.ORGANIZATION.name())) {
-					user = new Organization(roleName, rs.getString("ID"), rs.getString("EMAIL"), roleName, null);
+					user = new Organization(roleName, rs.getString("ID"), rs.getString("EMAIL"), roleName, null,
+							getCreationDate(rs.getString("ID")));
 				} else if (roleName.equals(Roles.TEQ.name())) {
-					user = new TEQStaff(roleName, roleName, Roles.TEQ, rs.getString("ID"), rs.getString("EMAIL"));
+					user = new TEQStaff(roleName, roleName, Roles.TEQ, rs.getString("ID"), rs.getString("EMAIL"),
+							getCreationDate(rs.getString("ID")));
 				} else if (roleName.equals(Roles.UTSC.name())) {
 					user = new UTSCStaff(roleName, roleName, rs.getString("ID"), rs.getString("EMAIL"));
 				}
@@ -62,9 +64,11 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 			while (rs.next()) {
 				String roleName = getRoleName(rs.getInt("ROLEID"));
 				if (roleName.equals(Roles.ORGANIZATION.name())) {
-					user = new Organization(roleName, rs.getString("ID"), rs.getString("EMAIL"), roleName, null);
+					user = new Organization(roleName, rs.getString("ID"), rs.getString("EMAIL"), roleName, null,
+							getCreationDate(rs.getString("ID")));
 				} else if (roleName.equals(Roles.TEQ.name())) {
-					user = new TEQStaff(roleName, roleName, null, rs.getString("ID"), roleName);
+					user = new TEQStaff(roleName, roleName, null, rs.getString("ID"), roleName,
+							getCreationDate(rs.getString("ID")));
 				} else if (roleName.equals(Roles.UTSC.name())) {
 					user = new UTSCStaff(roleName, roleName, rs.getString("ID"), roleName);
 				}

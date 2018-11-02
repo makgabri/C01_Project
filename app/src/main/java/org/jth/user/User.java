@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public abstract class User {
-    protected Date creationDate;
+    protected String creationDate;
     protected Boolean uploaded = false;
     protected Roles role;
     protected String userId;
@@ -52,7 +52,7 @@ public abstract class User {
      * add creation data.
      * @return Date class of the account
      */
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
