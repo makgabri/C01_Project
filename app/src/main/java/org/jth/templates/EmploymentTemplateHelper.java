@@ -8,7 +8,7 @@ public interface EmploymentTemplateHelper {
     public int insertUser(String uniqueIV);
     
     public Map<String, String> insertData(String processing_detail,
-                                          Integer email,
+                                          Integer update_record_id,
                                           String unique_identifier,
                                           Date dateofbirth,
                                           String postalcode,
