@@ -65,12 +65,11 @@ public class TEQStaff extends User {
     public Organization createOrganizationAccount(String name, String userId, String email,
                                                   String postalCode,
                                                   SupportType supportType) {
-        //return new Organization(name, userId, email, postalCode, supportType);
+        //return new Organization(name, userId, email, postalCode, supportType, date?);
         return null;
     }
 
     // TODO parameters depend on how the templates store in the database
-    // TODO
     /**
      * add fields into the templates.
      * @return true add success false otherwise.
