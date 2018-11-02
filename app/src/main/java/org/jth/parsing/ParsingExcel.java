@@ -1,8 +1,5 @@
 package org.jth.parsing;
 
-import jxl.*;
-import org.apache.poi.*;
-
 import java.io.*;
 import java.math.RoundingMode;
 import java.text.*;
@@ -13,13 +10,10 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jth.exceptions.CloseExcelFailException;
 import org.jth.exceptions.NotExcelException;
-import org.jth.exceptions.ParsingExcelVersionFailException;
 
 
 public class ParsingExcel {
@@ -39,7 +33,6 @@ public class ParsingExcel {
      * get file type and decide which type of Excel is going to use.
      *
      * @param filename the template file path
-     * @throws ParsingExcelVersionFailException - if parsing Excel type fail throw it.
      */
     public void getFromExcel(String filename) throws CloseExcelFailException, NotExcelException, IOException {
         InputStream is = new FileInputStream(new File(filename));
