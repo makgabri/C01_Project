@@ -21,9 +21,10 @@ public class ParsingExcel {
 
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
+
     /*
-    public static void main(String[] args) throws CloseExcelFailException, NotExcelException, IOException {
-        //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
+    public static void main(String[] args) throws NotExcelException, IOException {
+        String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
         //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
@@ -35,7 +36,7 @@ public class ParsingExcel {
      *
      * @param filename the template file path
      */
-    public void getFromExcel(String filename) throws CloseExcelFailException, NotExcelException, IOException {
+    public void getFromExcel(String filename) throws NotExcelException, IOException {
         InputStream is = new FileInputStream(new File(filename));
         String type = filename.substring(filename.lastIndexOf(".") + 1);
         if (type.equals("xls")) {
@@ -47,12 +48,14 @@ public class ParsingExcel {
         } else {
             throw new NotExcelException();
         }
-        try {
-            is.close();
+        //try {
+        is.close();
+            /*
         } catch (IOException e) {
             e.printStackTrace();
             throw new CloseExcelFailException();
-        }
+        }*/
+        //System.out.println(getSpecificTemplatesWithSpecificLine(3, 3));
     }
 
     /**
