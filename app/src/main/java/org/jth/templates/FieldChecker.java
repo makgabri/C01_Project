@@ -29,6 +29,9 @@ public class FieldChecker {
         }
       }
     }
-    return null;
+    if (result.equals("Result:")) {
+      result += "There are no issues in the map";
+    }
+    return result;
   }
 }
