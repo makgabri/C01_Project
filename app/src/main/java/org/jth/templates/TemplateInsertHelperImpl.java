@@ -52,7 +52,7 @@ public class TemplateInsertHelperImpl implements TemplateInsertHelper {
   // TODO Add methods to check key in item map corresponds to field as well
   //      as check the type of in field
   public boolean insertTemplateItems(Integer uniqueidentifiervalue,
-      Map<String, Object> itemmap) {
+      Map<String, String> itemmap) {
     Connection conn = DatabaseDriver.connectOrCreateDatabase();
     Statement stmt = null;
     try {

@@ -7,6 +7,6 @@ public interface TemplateInsertHelper {
     public boolean insertUniqueIV(Integer UniqueIdentifierValue);
     
     public boolean insertTemplateItems(Integer uniqueidentifiervalue,
-        Map<String, Object> itemmap);
+        Map<String, String> itemmap);
     
 }
