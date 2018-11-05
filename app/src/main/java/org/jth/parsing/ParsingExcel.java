@@ -15,26 +15,42 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jth.exceptions.CloseExcelFailException;
 import org.jth.exceptions.NotExcelException;
+import org.jth.templates.fieldoptions.*;
 
 
 public class ParsingExcel {
 
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
+    private static Fields fields;
+    private static InstitutionType institutionType;
+    private static MandatoryFields mandatoryFields;
+    private static ReferredOptions referredOptions;
+    private static UniqueIdentifiers uniqueIdentifiers;
 
 
-    /*
+
     public static void main(String[] args) throws NotExcelException, IOException {
+        /*
         String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
         //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
-        e.getFromExcel(file);
-    }*/
+        e.getFromExcel(file);*/
+        ParsingExcel e = new ParsingExcel();
+        String line = e.removeBrackets("Referral Date (YYYY-MM-DD)");
+        System.out.println(line);
+        System.out.println(Fields.valueOf(e.capitalizeAndReplaceSpaceWithUnderline(line)));
+        e.checkFieldType("Referral Date");
+        System.out.println(Fields.valueOf(e.checkFieldType("D:ate of/Bir:th (YYYY-MM-DD)?")));
+
+    }
 
     /**
      * get file type and decide which type of Excel is going to use.
      *
      * @param filename the template file path
+     * @throws NotExcelException if input file is not an Excel type.
+     * @throws IOException if cannot open or close a file.
      */
     public void getFromExcel(String filename) throws NotExcelException, IOException {
         InputStream is = new FileInputStream(new File(filename));
@@ -56,13 +72,14 @@ public class ParsingExcel {
             throw new CloseExcelFailException();
         }*/
         //System.out.println(getSpecificTemplatesWithSpecificLine(3, 3));
+        printTemplate();
     }
 
     /**
      * @param wb:excel文件对象
      */
     private void readXls(Workbook wb) {
-        for(int s = 0; s < wb.getNumberOfSheets(); s ++) {
+        for(int s = 2; s < wb.getNumberOfSheets(); s ++) {
             Sheet sheet = wb.getSheetAt(s);
             templates.add(new ArrayList<>());
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
@@ -93,7 +110,7 @@ public class ParsingExcel {
      * @param wb the templates that wants to read.
      */
     private void readXlsx(Workbook wb) {
-        for (int s = 0; s < wb.getNumberOfSheets(); s++) {
+        for (int s = 2; s < wb.getNumberOfSheets(); s++) {
             Sheet sheet = wb.getSheetAt(s);
             // add a new template
             templates.add(new ArrayList<ArrayList<String>>());
@@ -227,13 +244,13 @@ public class ParsingExcel {
             System.out.println("Templates " + (i + 1));
             for(int j = 0; j < templates.get(i).size(); j ++) {
                 System.out.println("*********************************************************************************");
-                System.out.println("Row Number: " + (j + 1));
+                //System.out.println("Row Number: " + (j + 1));
                 if(j == 0) {
                     System.out.println("Title : ");
                 }
                 for (int k = 0; k < templates.get(i).get(j).size(); k++) {
                     if(!templates.get(i).get(j).get(k).equals("")) {
-                        System.out.println("Column Number: " + (k + 1) + " " + templates.get(i).get(j).get(k));
+                        System.out.println(templates.get(i).get(j).get(k));
                     }
                 }
             }
@@ -281,6 +298,48 @@ public class ParsingExcel {
             System.out.println("Template index is out of range!");
             return null;
         }
+    }
+
+    public void parsingFieldType(int templateIndex) {
+        ArrayList<String> fieldType = getSpecificTemplatesWithSpecificLine(templateIndex, 3);
+        for (int i = 0; i < fieldType.size(); i ++) {
+            checkFieldType(fieldType.get(i));
+        }
+    }
+
+    private String checkFieldType(String line) {
+        if(line.matches("^[ A-Za-z]+$")) {
+            return capitalizeAndReplaceSpaceWithUnderline(line);
+        } else {
+            if(line.contains(":")) {
+                line = line.replaceAll(":", "");
+            }
+            if(line.contains("?") || line.contains("/")) {
+                line = line.replaceAll("\\?", "")
+                        .replaceAll("/", "_");
+            }
+            if(line.contains("(")){
+                line = line.replaceAll("\\(.*\\)", "").trim();
+            }
+            if(line.contains("'")) {
+                line = line.replaceAll("'.", "").trim();
+            }
+            return capitalizeAndReplaceSpaceWithUnderline(line);
+        }
+    }
+
+    private String removeBrackets(String line) {
+        return line.replaceAll("\\(.*\\)", "").trim();
+    }
+
+    private String removeQuestionMarkSlash(String line) {
+        return line.replaceAll("\\?", "")
+                .replaceAll("/", "");
+    }
+
+    private String capitalizeAndReplaceSpaceWithUnderline(String line) {
+        line = line.toUpperCase();
+        return line.replaceAll(" ", "_");
     }
 }
 
