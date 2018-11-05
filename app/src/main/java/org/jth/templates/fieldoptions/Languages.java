@@ -1,4 +1,4 @@
-package org.jth.templates;
+package org.jth.templates.fieldoptions;
 
 public enum Languages {
     ENGLISH,
@@ -131,7 +131,7 @@ public enum Languages {
     KOREAN,
     KRIO,
     KURDISH,
-    LA_LANGUE_DES_SIGNES_QUÃ‰BÃ‰COISE_LSQ,
+    LA_LANGUE_DES_SIGNES_QUÉBÉCOISE_LSQ,
     LAOTIAN,
     LATVIAN,
     LEBANESE,

@@ -1,4 +1,4 @@
-package org.jth.templates;
+package org.jth.templates.fieldoptions;
 
 public enum UniqueIdentifiers {
     FOSS_GCMS_CLIENT_ID,

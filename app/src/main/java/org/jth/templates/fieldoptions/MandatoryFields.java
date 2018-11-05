@@ -1,8 +1,8 @@
-package org.jth.templates;
+package org.jth.templates.fieldoptions;
 
 public enum MandatoryFields {
-    UNIQUE_ID,
-    UNIQUE_ID_VALUE,
+    UNIQUE_IDENTIFIER,
+    UNIQUEIV,
     DATE_OF_BIRTH,
     POSTAL_CODE_OF_SERVICE,
     LANGUAGE_OF_SERVICE,
