@@ -30,18 +30,19 @@ public class ParsingExcel {
 
 
     public static void main(String[] args) throws NotExcelException, IOException {
-        /*
         String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
         //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
-        e.getFromExcel(file);*/
-        ParsingExcel e = new ParsingExcel();
+        e.getFromExcel(file);
+        System.out.println(e.getSpecificTemplatesWithSpecificLine(5, 3));
+        e.parsingFieldType(5);
+        /*
         String line = e.removeBrackets("Referral Date (YYYY-MM-DD)");
         System.out.println(line);
         System.out.println(Fields.valueOf(e.capitalizeAndReplaceSpaceWithUnderline(line)));
         e.checkFieldType("Referral Date");
-        System.out.println(Fields.valueOf(e.checkFieldType("D:ate of/Bir:th (YYYY-MM-DD)?")));
+        System.out.println(Fields.valueOf(e.checkFieldType("D:ate of/Bir:th (YYYY-MM-DD)?")));*/
 
     }
 
@@ -72,7 +73,7 @@ public class ParsingExcel {
             throw new CloseExcelFailException();
         }*/
         //System.out.println(getSpecificTemplatesWithSpecificLine(3, 3));
-        printTemplate();
+        //printTemplate();
     }
 
     /**
@@ -300,11 +301,15 @@ public class ParsingExcel {
         }
     }
 
-    public void parsingFieldType(int templateIndex) {
+    public ArrayList<Enum<Fields>> parsingFieldType(int templateIndex) {
+        System.out.println(getSpecificTemplates(templateIndex).get(0).get(0));
         ArrayList<String> fieldType = getSpecificTemplatesWithSpecificLine(templateIndex, 3);
+        ArrayList<Enum<Fields>> parsedFieldType = new ArrayList<>();
         for (int i = 0; i < fieldType.size(); i ++) {
-            checkFieldType(fieldType.get(i));
+            parsedFieldType.add(Fields.valueOf(checkFieldType(fieldType.get(i))));
         }
+        System.out.println("Parsing complete!");
+        return parsedFieldType;
     }
 
     private String checkFieldType(String line) {
