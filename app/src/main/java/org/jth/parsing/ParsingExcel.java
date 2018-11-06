@@ -8,6 +8,7 @@ import java.util.*;
 import java.lang.System;
 
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 
@@ -21,30 +22,27 @@ import org.jth.templates.fieldoptions.*;
 public class ParsingExcel {
 
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
-    private static Fields fields;
-    private static InstitutionType institutionType;
-    private static MandatoryFields mandatoryFields;
-    private static ReferredOptions referredOptions;
-    private static UniqueIdentifiers uniqueIdentifiers;
 
 
-
+    /*
     public static void main(String[] args) throws NotExcelException, IOException {
         String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
         //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
-        e.getFromExcel(file);
-        System.out.println(e.getSpecificTemplatesWithSpecificLine(5, 3));
-        e.parsingFieldType(5);
-        /*
-        String line = e.removeBrackets("Referral Date (YYYY-MM-DD)");
-        System.out.println(line);
-        System.out.println(Fields.valueOf(e.capitalizeAndReplaceSpaceWithUnderline(line)));
-        e.checkFieldType("Referral Date");
-        System.out.println(Fields.valueOf(e.checkFieldType("D:ate of/Bir:th (YYYY-MM-DD)?")));*/
+        e.getFromExcel(file);*/
 
-    }
+
+
+
+        /*******************************************************************************
+         * testing insertion for database.                                             *
+         *******************************************************************************/
+    /*
+        Tuple<Integer, Map<String, ArrayList<String>>> tuple = e.insertTemplatesConverter(5);
+        System.out.println(tuple.getX());
+        System.out.println(tuple.getY().get("REGISTRATION_IN_AN_EMPLOYMENT_INTERVENTION"));
+    }*/
 
     /**
      * get file type and decide which type of Excel is going to use.
@@ -301,17 +299,43 @@ public class ParsingExcel {
         }
     }
 
-    public ArrayList<Enum<Fields>> parsingFieldType(int templateIndex) {
-        System.out.println(getSpecificTemplates(templateIndex).get(0).get(0));
+
+    /*******************************************************************************
+     * Methods below help insertion of template database.                          *
+     *******************************************************************************/
+
+    /**
+     * parse into Fields enum class.
+     * @param templateIndex get specific template.
+     * @return ArrayList contain Fields enum.
+     */
+    private ArrayList<String> parsingFieldType(int templateIndex) {
+        //System.out.println(getSpecificTemplates(templateIndex).get(0).get(0));
         ArrayList<String> fieldType = getSpecificTemplatesWithSpecificLine(templateIndex, 3);
-        ArrayList<Enum<Fields>> parsedFieldType = new ArrayList<>();
         for (int i = 0; i < fieldType.size(); i ++) {
-            parsedFieldType.add(Fields.valueOf(checkFieldType(fieldType.get(i))));
+            fieldType.set(i, checkFieldType(fieldType.get(i)));
         }
-        System.out.println("Parsing complete!");
-        return parsedFieldType;
+
+        return fieldType;
     }
 
+    /**
+     * this is a test function that it tests the field value matches the Enum value.
+     * @param templateIndex
+     */
+    public void checkParsingFieldType(int templateIndex) {
+        ArrayList<String> field = parsingFieldType(templateIndex);
+        for (String s: field) {
+            Fields.valueOf(s);
+        }
+        System.out.println("Parsing success!");
+    }
+
+    /**
+     * check every String to match to Field enum
+     * @param line input String
+     * @return a String that proper formed.
+     */
     private String checkFieldType(String line) {
         if(line.matches("^[ A-Za-z]+$")) {
             return capitalizeAndReplaceSpaceWithUnderline(line);
@@ -333,18 +357,36 @@ public class ParsingExcel {
         }
     }
 
-    private String removeBrackets(String line) {
-        return line.replaceAll("\\(.*\\)", "").trim();
-    }
-
-    private String removeQuestionMarkSlash(String line) {
-        return line.replaceAll("\\?", "")
-                .replaceAll("/", "");
-    }
-
+    /**
+     * capitalize all the letter and replace the space with underline
+     * @param line input String
+     * @return a String that is proper formed.
+     */
     private String capitalizeAndReplaceSpaceWithUnderline(String line) {
         line = line.toUpperCase();
         return line.replaceAll(" ", "_");
+    }
+
+    /**
+     * convert into database friendly type.
+     * @param templateIndex specific templates
+     * @return a Tuple contain all information.
+     */
+    public Tuple<Integer, Map<String, ArrayList<String>>> insertTemplatesConverter(int templateIndex) {
+        ArrayList<ArrayList<String>> template = getSpecificTemplates(templateIndex);
+        HashMap<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
+        for (String fields: parsingFieldType(templateIndex)) {
+            itemMap.put(fields, new ArrayList<>());
+        }
+        for(int i = 3; i < template.size(); i ++) {
+            int j = 0;
+            for (String fields: parsingFieldType(templateIndex)) {
+                itemMap.get(fields).add(template.get(i).get(j));
+                j ++;
+            }
+        }
+        Integer uniqueIdentifierValue = Integer.parseInt(itemMap.get("UNIQUE_IDENTIFIER_VALUE").get(0));
+        return new Tuple<Integer, Map<String, ArrayList<String>>>(uniqueIdentifierValue, itemMap);
     }
 }
 
