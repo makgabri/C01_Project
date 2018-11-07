@@ -1,9 +1,6 @@
 package org.jth.templates;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
+import java.sql.*;
 import org.jth.exceptions.ConnectionFailedException;
 
 public class TemplateDriver {
@@ -13,7 +10,7 @@ public class TemplateDriver {
     Connection connection = null;
     try {
       Class.forName("org.sqlite.JDBC");
-      connection = DriverManager.getConnection("jdbc:sqlite:app.db");
+      connection = DriverManager.getConnection("jdbc:sqlite:template.db");
     } catch (Exception e) {
       System.out.println("Something went wrong with your connection! see below details: ");
       e.printStackTrace();
