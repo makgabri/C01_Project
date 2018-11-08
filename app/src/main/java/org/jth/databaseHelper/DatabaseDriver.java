@@ -101,6 +101,11 @@ public class DatabaseDriver {
 		      e.printStackTrace();
 		    }
 		    return false;
-		  }
+	  }
+	  
+	  public static boolean doesTableExists(Connection connection, String table) {
+	    DatabaseMetaData dbm = connection.getMetaData();
+        return false;
+	  }
 
 }

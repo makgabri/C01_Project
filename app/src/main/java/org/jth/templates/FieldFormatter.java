@@ -3,8 +3,10 @@ package org.jth.templates;
 import java.util.Map;
 import org.jth.templates.fieldoptions.*;
 
-public class FieldChecker {
+//Any field formatting operations will be in this class
+public class FieldFormatter {
 
+  //TODO: Complete method to check each field is correct
   public String fieldCheck(Map<String, Object> itemmap) {
     String result = "Result:" + System.lineSeparator();
     for (String key : itemmap.keySet()) {
@@ -34,4 +36,6 @@ public class FieldChecker {
     }
     return result;
   }
+  
+  //TODO: Turn map into an array corresponding to the template type
 }

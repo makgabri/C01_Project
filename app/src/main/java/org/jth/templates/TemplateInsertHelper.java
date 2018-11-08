@@ -1,12 +1,11 @@
 package org.jth.templates;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public interface TemplateInsertHelper {
 
-    public boolean insertUniqueIV(Integer UniqueIdentifierValue);
-    
     public boolean insertTemplateItems(Integer uniqueidentifiervalue,
-        Map<String, String> itemmap);
+        Map<String, String> itemmap) throws Exception, SQLException;
     
 }

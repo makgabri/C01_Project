@@ -30,4 +30,23 @@ public class TemplateSelectHelperImpl implements TemplateSelectHelper {
     return result;
   }
 
+  @Override
+  public Boolean updateValue(Integer uniqueiv, String field, Object value) {
+    Connection conn = DatabaseDriver.connectOrCreateDatabase();
+    Statement stmt = null;
+    try {
+      stmt = conn.createStatement();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    String sql = "UPDATE TEMPLATE SET " + field + "='" + value+ "' WHERE "
+        + "UNIQUEIV = '" + uniqueiv + "'";
+    try {
+      stmt.execute(sql);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return true;
+  }
+
 }
