@@ -379,6 +379,7 @@ public class ParsingExcel {
             return Integer.valueOf(
                     getSpecificTemplatesWithSpecificLine(templateIndex, lineIndex).get(identifierPosition));
         } else {
+            System.out.println("Line index must greater then 3");
             return -1;
         }
     }
