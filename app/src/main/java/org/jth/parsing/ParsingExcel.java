@@ -8,7 +8,6 @@ import java.util.*;
 import java.lang.System;
 
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 
@@ -16,6 +15,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jth.exceptions.CloseExcelFailException;
 import org.jth.exceptions.NotExcelException;
+import org.jth.exceptions.TemplateIndexOutOfRange;
+import org.jth.exceptions.TemplateLineIndexOutOfRange;
 import org.jth.templates.fieldoptions.*;
 
 
@@ -26,7 +27,8 @@ public class ParsingExcel {
 
     /*
     public static void main(String[] args) throws NotExcelException, IOException {
-        String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
+        String file =
+        "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
         //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
@@ -237,7 +239,7 @@ public class ParsingExcel {
     /**
      * print the templates
      */
-    private void printTemplate() {
+    public void printTemplate() {
         for(int i = 0; i < templates.size(); i ++) {
             System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             System.out.println("Templates " + (i + 1));
@@ -261,7 +263,7 @@ public class ParsingExcel {
      * get all the templates.
      * @return templates contain all 10
      */
-    public ArrayList<ArrayList<ArrayList<String>>> getTemplates() {
+    private ArrayList<ArrayList<ArrayList<String>>> getTemplates() {
         return templates;
     }
 
@@ -269,13 +271,13 @@ public class ParsingExcel {
      * get specific template.
      * @param index the specific templates want to get.
      * @return the specific templates.
+     * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    public ArrayList<ArrayList<String>> getSpecificTemplates(int index) {
+    private ArrayList<ArrayList<String>> getSpecificTemplates(int index) throws TemplateIndexOutOfRange{
         if(index <= templates.size()){
             return templates.get(index - 1);
         } else {
-            System.out.println("Index is out of range!");
-            return null;
+            throw new TemplateIndexOutOfRange();
         }
     }
 
@@ -284,18 +286,16 @@ public class ParsingExcel {
      * @param templateIndex index of template.
      * @param lineIndex index of line.
      * @return the line.
+     * @throws TemplateLineIndexOutOfRange line index is out of range.
+     * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    public ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex) {
-        if(templateIndex <= templates.size()) {
-            if(lineIndex <= templates.get(templateIndex - 1).size()) {
-                return templates.get(templateIndex - 1).get(lineIndex - 1);
-            } else {
-                System.out.println("Line Index is out of range!");
-                return null;
-            }
+    private ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex)
+            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
+        ArrayList<ArrayList<String>> template = getSpecificTemplates(templateIndex);
+        if(lineIndex <= template.size()) {
+            return template.get(lineIndex - 1);
         } else {
-            System.out.println("Template index is out of range!");
-            return null;
+            throw new TemplateLineIndexOutOfRange();
         }
     }
 
@@ -308,8 +308,11 @@ public class ParsingExcel {
      * parse into Fields enum class.
      * @param templateIndex get specific template.
      * @return ArrayList contain Fields enum.
+     * @throws TemplateLineIndexOutOfRange line index is out of range.
+     * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    private ArrayList<String> parsingFieldType(int templateIndex) {
+    public ArrayList<String> parsingFieldType(int templateIndex)
+            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
         //System.out.println(getSpecificTemplates(templateIndex).get(0).get(0));
         ArrayList<String> fieldType = getSpecificTemplatesWithSpecificLine(templateIndex, 3);
         for (int i = 0; i < fieldType.size(); i ++) {
@@ -317,18 +320,6 @@ public class ParsingExcel {
         }
 
         return fieldType;
-    }
-
-    /**
-     * this is a test function that it tests the field value matches the Enum value.
-     * @param templateIndex
-     */
-    public void checkParsingFieldType(int templateIndex) {
-        ArrayList<String> field = parsingFieldType(templateIndex);
-        for (String s: field) {
-            Fields.valueOf(s);
-        }
-        System.out.println("Parsing success!");
     }
 
     /**
@@ -368,10 +359,56 @@ public class ParsingExcel {
     }
 
     /**
+     * get the unique identifier value in a specific template and line.
+     * @param templateIndex index of a template.
+     * @param lineIndex index of a line.
+     * @return Integer contain unique identifier value.
+     * @throws TemplateLineIndexOutOfRange line index is out of range.
+     * @throws TemplateIndexOutOfRange template index is out of range.
+     */
+    public Integer getUniqueIdentifierValue(int templateIndex, int lineIndex)
+            throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange{
+        int identifierPosition = 0;
+        if(lineIndex > 3) {
+            for (String fields : parsingFieldType(templateIndex)) {
+                if (fields.equals("UNIQUE_IDENTIFIER_VALUE")) {
+                    break;
+                }
+                identifierPosition++;
+            }
+            return Integer.valueOf(
+                    getSpecificTemplatesWithSpecificLine(templateIndex, lineIndex).get(identifierPosition));
+        } else {
+            return -1;
+        }
+    }
+    /*
+    public Tuple<Integer, ArrayList<String>> insertTemplatesConverter(int templateIndex) {
+        ArrayList<String> fieldType = parsingFieldType(templateIndex);
+
+        Tuple<Integer, ArrayList<String>> tuple = new Tuple<>();
+
+        //HashMap<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
+        for (String fields: parsingFieldType(templateIndex)) {
+            itemMap.put(fields, new ArrayList<>());
+        }
+        for(int i = 3; i < template.size(); i ++) {
+            int j = 0;
+            for (String fields: parsingFieldType(templateIndex)) {
+                itemMap.get(fields).add(template.get(i).get(j));
+                j ++;
+            }
+        }
+        Integer uniqueIdentifierValue = Integer.parseInt(itemMap.get().get(0));
+        return new Tuple<Integer, Map<String, ArrayList<String>>>(uniqueIdentifierValue, itemMap);
+    }*/
+
+    /**
      * convert into database friendly type.
      * @param templateIndex specific templates
      * @return a Tuple contain all information.
      */
+    /*
     public Tuple<Integer, Map<String, ArrayList<String>>> insertTemplatesConverter(int templateIndex) {
         ArrayList<ArrayList<String>> template = getSpecificTemplates(templateIndex);
         HashMap<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
@@ -387,7 +424,7 @@ public class ParsingExcel {
         }
         Integer uniqueIdentifierValue = Integer.parseInt(itemMap.get("UNIQUE_IDENTIFIER_VALUE").get(0));
         return new Tuple<Integer, Map<String, ArrayList<String>>>(uniqueIdentifierValue, itemMap);
-    }
+    }*/
 }
 
 
