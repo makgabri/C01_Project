@@ -25,23 +25,18 @@ public class ParsingExcel {
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
 
-    /*
-    public static void main(String[] args) throws NotExcelException, IOException {
+
+    public static void main(String[] args)
+            throws NotExcelException, IOException, TemplateLineIndexOutOfRange, TemplateIndexOutOfRange {
         String file =
-        "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
+                "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
         //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
-        e.getFromExcel(file);*/
-
-        /*******************************************************************************
-         * testing insertion for database.                                             *
-         *******************************************************************************/
-    /*
-        Tuple<Integer, Map<String, ArrayList<String>>> tuple = e.insertTemplatesConverter(5);
-        System.out.println(tuple.getX());
-        System.out.println(tuple.getY().get("REGISTRATION_IN_AN_EMPLOYMENT_INTERVENTION"));
-    }*/
+        e.getFromExcel(file);
+        ArrayList<String> line = e.getSpecificTemplatesWithSpecificLine(1, 4);
+        System.out.println(line.get(3));
+    }
 
     /**
      * get file type and decide which type of Excel is going to use.
@@ -62,22 +57,14 @@ public class ParsingExcel {
         } else {
             throw new NotExcelException();
         }
-        //try {
         is.close();
-            /*
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new CloseExcelFailException();
-        }*/
-        //System.out.println(getSpecificTemplatesWithSpecificLine(3, 3));
-        //printTemplate();
     }
 
     /**
      * @param wb:excel文件对象
      */
     private void readXls(Workbook wb) {
-        for(int s = 2; s < wb.getNumberOfSheets(); s ++) {
+        for(int s = 0; s < wb.getNumberOfSheets(); s ++) {
             Sheet sheet = wb.getSheetAt(s);
             templates.add(new ArrayList<>());
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
@@ -111,7 +98,7 @@ public class ParsingExcel {
         for (int s = 2; s < wb.getNumberOfSheets(); s++) {
             Sheet sheet = wb.getSheetAt(s);
             // add a new template
-            templates.add(new ArrayList<ArrayList<String>>());
+            templates.add(new ArrayList<>());
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
                 boolean lineEmpty = true;
                 ArrayList<String> line = new ArrayList<>();
@@ -146,31 +133,15 @@ public class ParsingExcel {
         switch (cell.getCellType()) {
 
             case XSSFCell.CELL_TYPE_NUMERIC:
-                if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                    SimpleDateFormat sdf = null;
-                    if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("h:mm")) {
-                        sdf = new SimpleDateFormat("HH:mm");
-                    } else {
-                        sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    }
-                    Date date = cell.getDateCellValue();
-                    result = sdf.format(date);
-                } else if (cell.getCellStyle().getDataFormat() == 58) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    double value = cell.getNumericCellValue();
-                    Date date = org.apache.poi.ss.usermodel.DateUtil
-                            .getJavaDate(value);
-                    result = sdf.format(date);
-                } else {
-                    double value = cell.getNumericCellValue();
-                    CellStyle style = cell.getCellStyle();
-                    DecimalFormat format = new DecimalFormat();
-                    String temp = style.getDataFormatString();
-                    if (temp.equals("General")) {
-                        format.setRoundingMode(RoundingMode.DOWN);
-                    }
-                    result = format.format(value);
+                double value = cell.getNumericCellValue();
+                CellStyle style = cell.getCellStyle();
+                DecimalFormat format = new DecimalFormat();
+                String temp = style.getDataFormatString();
+                if (temp.equals("General")) {
+                    format.setRoundingMode(RoundingMode.DOWN);
                 }
+                result = format.format(value);
+                //}
                 break;
             case XSSFCell.CELL_TYPE_STRING:// String类型
                 result = cell.getRichStringCellValue().toString();
@@ -194,32 +165,15 @@ public class ParsingExcel {
         String result;
         switch (cell.getCellType()) {
             case HSSFCell.CELL_TYPE_NUMERIC:
-                // progressing the
-                if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                    SimpleDateFormat sdf = null;
-                    if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("h:mm")) {
-                        sdf = new SimpleDateFormat("HH:mm");
-                    } else {
-                        sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    }
-                    Date date = cell.getDateCellValue();
-                    result = sdf.format(date);
-                } else if (cell.getCellStyle().getDataFormat() == 58) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    double value = cell.getNumericCellValue();
-                    Date date = org.apache.poi.ss.usermodel.DateUtil
-                            .getJavaDate(value);
-                    result = sdf.format(date);
-                } else {
-                    double value = cell.getNumericCellValue();
-                    CellStyle style = cell.getCellStyle();
-                    DecimalFormat format = new DecimalFormat();
-                    String temp = style.getDataFormatString();
-                    if (temp.equals("General")) {
-                        format.setRoundingMode(RoundingMode.DOWN);
-                    }
-                    result = format.format(value);
+                double value = cell.getNumericCellValue();
+                CellStyle style = cell.getCellStyle();
+                DecimalFormat format = new DecimalFormat();
+                String temp = style.getDataFormatString();
+                if (temp.equals("General")) {
+                    format.setRoundingMode(RoundingMode.DOWN);
                 }
+                result = format.format(value);
+                //}
                 break;
             case HSSFCell.CELL_TYPE_STRING:
                 result = cell.getRichStringCellValue().toString();
@@ -257,11 +211,11 @@ public class ParsingExcel {
     }
 
     /**
-     * get all the templates.
-     * @return templates contain all 10
+     * get the number of templates.
+     * @return number of templates
      */
-    private ArrayList<ArrayList<ArrayList<String>>> getTemplates() {
-        return templates;
+    public int getemplatesSize() {
+        return templates.size();
     }
 
     /**
@@ -270,7 +224,7 @@ public class ParsingExcel {
      * @return the specific templates.
      * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    private ArrayList<ArrayList<String>> getSpecificTemplates(int index) throws TemplateIndexOutOfRange{
+    public ArrayList<ArrayList<String>> getSpecificTemplates(int index) throws TemplateIndexOutOfRange{
         if(index <= templates.size()){
             return templates.get(index - 1);
         } else {
@@ -286,7 +240,7 @@ public class ParsingExcel {
      * @throws TemplateLineIndexOutOfRange line index is out of range.
      * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    private ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex)
+    public ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex)
             throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
         ArrayList<ArrayList<String>> template = getSpecificTemplates(templateIndex);
         if(lineIndex <= template.size()) {
@@ -295,7 +249,6 @@ public class ParsingExcel {
             throw new TemplateLineIndexOutOfRange();
         }
     }
-
 
     /*******************************************************************************
      * Methods below help insertion of template database.                          *
@@ -310,7 +263,6 @@ public class ParsingExcel {
      */
     public ArrayList<String> parsingFieldType(int templateIndex)
             throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
-        //System.out.println(getSpecificTemplates(templateIndex).get(0).get(0));
         ArrayList<String> fieldType = getSpecificTemplatesWithSpecificLine(templateIndex, 3);
         for (int i = 0; i < fieldType.size(); i ++) {
             fieldType.set(i, checkFieldType(fieldType.get(i)));
@@ -354,76 +306,4 @@ public class ParsingExcel {
         line = line.toUpperCase();
         return line.replaceAll(" ", "_");
     }
-
-    /**
-     * get the unique identifier value in a specific template and line.
-     * @param templateIndex index of a template.
-     * @param lineIndex index of a line.
-     * @return Integer contain unique identifier value.
-     * @throws TemplateLineIndexOutOfRange line index is out of range.
-     * @throws TemplateIndexOutOfRange template index is out of range.
-     */
-    /*
-    public Integer getUniqueIdentifierValue(int templateIndex, int lineIndex)
-            throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange{
-        int identifierPosition = 0;
-        if(lineIndex > 3) {
-            for (String fields : parsingFieldType(templateIndex)) {
-                if (fields.equals("UNIQUE_IDENTIFIER_VALUE")) {
-                    break;
-                }
-                identifierPosition++;
-            }
-            return Integer.valueOf(
-                    getSpecificTemplatesWithSpecificLine(templateIndex, lineIndex).get(identifierPosition));
-        } else {
-            System.out.println("Line index must greater then 3");
-            return -1;
-        }
-    }*/
-    /*
-    public Tuple<Integer, ArrayList<String>> insertTemplatesConverter(int templateIndex) {
-        ArrayList<String> fieldType = parsingFieldType(templateIndex);
-
-        Tuple<Integer, ArrayList<String>> tuple = new Tuple<>();
-
-        //HashMap<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
-        for (String fields: parsingFieldType(templateIndex)) {
-            itemMap.put(fields, new ArrayList<>());
-        }
-        for(int i = 3; i < template.size(); i ++) {
-            int j = 0;
-            for (String fields: parsingFieldType(templateIndex)) {
-                itemMap.get(fields).add(template.get(i).get(j));
-                j ++;
-            }
-        }
-        Integer uniqueIdentifierValue = Integer.parseInt(itemMap.get().get(0));
-        return new Tuple<Integer, Map<String, ArrayList<String>>>(uniqueIdentifierValue, itemMap);
-    }*/
-
-    /**
-     * convert into database friendly type.
-     * @param templateIndex specific templates
-     * @return a Tuple contain all information.
-     */
-    /*
-    public Tuple<Integer, Map<String, ArrayList<String>>> insertTemplatesConverter(int templateIndex) {
-        ArrayList<ArrayList<String>> template = getSpecificTemplates(templateIndex);
-        HashMap<String, ArrayList<String>> itemMap = new HashMap<String, ArrayList<String>>();
-        for (String fields: parsingFieldType(templateIndex)) {
-            itemMap.put(fields, new ArrayList<>());
-        }
-        for(int i = 3; i < template.size(); i ++) {
-            int j = 0;
-            for (String fields: parsingFieldType(templateIndex)) {
-                itemMap.get(fields).add(template.get(i).get(j));
-                j ++;
-            }
-        }
-        Integer uniqueIdentifierValue = Integer.parseInt(itemMap.get("UNIQUE_IDENTIFIER_VALUE").get(0));
-        return new Tuple<Integer, Map<String, ArrayList<String>>>(uniqueIdentifierValue, itemMap);
-    }*/
 }
-
-
