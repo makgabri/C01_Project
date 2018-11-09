@@ -10,9 +10,9 @@ import org.jth.databaseHelper.DatabaseDriver;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TemplateInsertHelperImpl implements TemplateInsertHelper {
+public class TemplateInsertHelperImpl {
 
-  @Override
+  
   /**
    * @param
    * @param itemmap - a map object containing the field as the key and th
@@ -20,8 +20,6 @@ public class TemplateInsertHelperImpl implements TemplateInsertHelper {
    * @return true if successfully inserted and false otherwise due to wrong
    *          field name
    */
-  // TODO Add methods to check key in item map corresponds to field as well
-  //      as check the type of in field
   public boolean insertTemplateItems(Integer uniqueidentifiervalue,
       Map<String, String> itemmap) throws Exception, SQLException {
     Connection conn = TemplateDriver.connectOrCreateDatabase();

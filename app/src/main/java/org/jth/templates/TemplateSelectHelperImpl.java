@@ -3,9 +3,8 @@ package org.jth.templates;
 import java.sql.*;
 import org.jth.databaseHelper.DatabaseDriver;
 
-public class TemplateSelectHelperImpl implements TemplateSelectHelper {
+public class TemplateSelectHelperImpl {
 
-  @Override
   public Object getValueFromField(Integer uniqueiv, String field) {
     Connection conn = DatabaseDriver.connectOrCreateDatabase();
     Statement stmt;
@@ -30,7 +29,6 @@ public class TemplateSelectHelperImpl implements TemplateSelectHelper {
     return result;
   }
 
-  @Override
   public Boolean updateValue(Integer uniqueiv, String field, Object value) {
     Connection conn = DatabaseDriver.connectOrCreateDatabase();
     Statement stmt = null;
