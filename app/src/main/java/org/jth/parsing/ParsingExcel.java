@@ -34,9 +34,6 @@ public class ParsingExcel {
         System.out.println("读取xlsx格式excel结果：");
         e.getFromExcel(file);*/
 
-
-
-
         /*******************************************************************************
          * testing insertion for database.                                             *
          *******************************************************************************/
@@ -366,6 +363,7 @@ public class ParsingExcel {
      * @throws TemplateLineIndexOutOfRange line index is out of range.
      * @throws TemplateIndexOutOfRange template index is out of range.
      */
+    /*
     public Integer getUniqueIdentifierValue(int templateIndex, int lineIndex)
             throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange{
         int identifierPosition = 0;
@@ -382,7 +380,7 @@ public class ParsingExcel {
             System.out.println("Line index must greater then 3");
             return -1;
         }
-    }
+    }*/
     /*
     public Tuple<Integer, ArrayList<String>> insertTemplatesConverter(int templateIndex) {
         ArrayList<String> fieldType = parsingFieldType(templateIndex);
