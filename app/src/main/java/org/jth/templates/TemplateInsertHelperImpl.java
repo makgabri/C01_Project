@@ -62,14 +62,6 @@ public class TemplateInsertHelperImpl {
         + "NUMERACY,"
         + "SHORT_TERM_INTERVENTION_SERVICE_RECIEVED,"
         + "SHORT_TERM_INTERVENTION_DATE,"
-        + "SHORT_TERM_INTERVENTION_SERVICE_RECIEVED2,"
-        + "SHORT_TERM_INTERVENTION_DATE2,"
-        + "SHORT_TERM_INTERVENTION_SERVICE_RECIEVED3,"
-        + "SHORT_TERM_INTERVENTION_DATE3,"
-        + "SHORT_TERM_INTERVENTION_SERVICE_RECIEVED4,"
-        + "SHORT_TERM_INTERVENTION_DATE4,"
-        + "SHORT_TERM_INTERVENTION_SERVICE_RECIEVED5,"
-        + "SHORT_TERM_INTERVENTION_DATE5,"
         + "SUPPORT_SERVICES_RECIEVED,"
         + "CARE_FOR_NEWCOMER_CHILDREN,"
         + "CHILD_1_AGE,"
@@ -96,7 +88,7 @@ public class TemplateInsertHelperImpl {
         + "REASON_FOR_UPDATE) "
         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
         + "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
-        + "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        + "?,?,?,?,?,?,?,?,?,?,?)";
     try {
       stmt = conn.prepareStatement(sql);
     } catch (SQLException e) {
@@ -140,38 +132,30 @@ public class TemplateInsertHelperImpl {
     stmt.setBoolean(35, Boolean.parseBoolean(itemmap.get("NUMERACY")));
     stmt.setString(36, itemmap.get("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED"));
     stmt.setDate(37, java.sql.Date.valueOf(itemmap.get("SHORT_TERM_INTERVENTION_DATE")));
-    stmt.setString(38, itemmap.get("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED2"));
-    stmt.setDate(39, java.sql.Date.valueOf(itemmap.get("SHORT_TERM_INTERVENTION_DATE2")));
-    stmt.setString(40, itemmap.get("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED3"));
-    stmt.setDate(41, java.sql.Date.valueOf(itemmap.get("SHORT_TERM_INTERVENTION_DATE3")));
-    stmt.setString(42, itemmap.get("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED4"));
-    stmt.setDate(43, java.sql.Date.valueOf(itemmap.get("SHORT_TERM_INTERVENTION_DATE4")));
-    stmt.setString(44, itemmap.get("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED5"));
-    stmt.setDate(45, java.sql.Date.valueOf(itemmap.get("SHORT_TERM_INTERVENTION_DATE5")));
-    stmt.setBoolean(46, Boolean.parseBoolean(itemmap.get("SUPPORT_SERVICES_RECIEVED")));
-    stmt.setBoolean(47, Boolean.parseBoolean(itemmap.get("CARE_FOR_NEWCOMER_CHILDREN")));
-    stmt.setString(48, itemmap.get("CHILD_1_AGE"));
-    stmt.setString(49, itemmap.get("CHILD_1_TYPE_OF_CARE"));
-    stmt.setString(50, itemmap.get("CHILD_2_AGE"));
-    stmt.setString(51, itemmap.get("CHILD_2_TYPE_OF_CARE"));
-    stmt.setString(52, itemmap.get("CHILD_3_AGE"));
-    stmt.setString(53, itemmap.get("CHILD_3_TYPE_OF_CARE"));
-    stmt.setString(54, itemmap.get("CHILD_4_AGE"));
-    stmt.setString(55, itemmap.get("CHILD_4_TYPE_OF_CARE"));
-    stmt.setString(56, itemmap.get("CHILD_5_AGE"));
-    stmt.setString(57, itemmap.get("CHILD_5_TYPE_OF_CARE"));
-    stmt.setBoolean(58, Boolean.parseBoolean(itemmap.get("TRANSPORTATION")));
-    stmt.setBoolean(59, Boolean.parseBoolean(itemmap.get("PROVISION_FOR_DISABILITIES")));
-    stmt.setBoolean(60, Boolean.parseBoolean(itemmap.get("TRANSLATION")));
-    stmt.setString(61, itemmap.get("BETWEEN1"));
-    stmt.setString(62, itemmap.get("AND1"));
-    stmt.setBoolean(63, Boolean.parseBoolean(itemmap.get("INTERPRETATION")));
-    stmt.setString(64, itemmap.get("BETWEEN2"));
-    stmt.setString(65, itemmap.get("AND2"));
-    stmt.setBoolean(66, Boolean.parseBoolean(itemmap.get("CRISIS_COUNSELLING")));
-    stmt.setInt(67, Integer.parseInt(itemmap.get("TIME_SPENT_WITH_CLIENT_ADDRESSING_CLIENT_EMPLOYMENT_NEEDS_HOURS")));
-    stmt.setInt(68, Integer.parseInt(itemmap.get("TIME_SPENT_WITH_CLIENT_ADDRESSING_CLIENT_EMPLOYMENT_NEEDS_MINUTES")));
-    stmt.setString(69, itemmap.get("REASON_FOR_UPDATE"));
+    stmt.setBoolean(38, Boolean.parseBoolean(itemmap.get("SUPPORT_SERVICES_RECIEVED")));
+    stmt.setBoolean(39, Boolean.parseBoolean(itemmap.get("CARE_FOR_NEWCOMER_CHILDREN")));
+    stmt.setString(40, itemmap.get("CHILD_1_AGE"));
+    stmt.setString(41, itemmap.get("CHILD_1_TYPE_OF_CARE"));
+    stmt.setString(42, itemmap.get("CHILD_2_AGE"));
+    stmt.setString(43, itemmap.get("CHILD_2_TYPE_OF_CARE"));
+    stmt.setString(44, itemmap.get("CHILD_3_AGE"));
+    stmt.setString(45, itemmap.get("CHILD_3_TYPE_OF_CARE"));
+    stmt.setString(46, itemmap.get("CHILD_4_AGE"));
+    stmt.setString(47, itemmap.get("CHILD_4_TYPE_OF_CARE"));
+    stmt.setString(48, itemmap.get("CHILD_5_AGE"));
+    stmt.setString(49, itemmap.get("CHILD_5_TYPE_OF_CARE"));
+    stmt.setBoolean(50, Boolean.parseBoolean(itemmap.get("TRANSPORTATION")));
+    stmt.setBoolean(51, Boolean.parseBoolean(itemmap.get("PROVISION_FOR_DISABILITIES")));
+    stmt.setBoolean(52, Boolean.parseBoolean(itemmap.get("TRANSLATION")));
+    stmt.setString(53, itemmap.get("BETWEEN1"));
+    stmt.setString(54, itemmap.get("AND1"));
+    stmt.setBoolean(55, Boolean.parseBoolean(itemmap.get("INTERPRETATION")));
+    stmt.setString(56, itemmap.get("BETWEEN2"));
+    stmt.setString(57, itemmap.get("AND2"));
+    stmt.setBoolean(58, Boolean.parseBoolean(itemmap.get("CRISIS_COUNSELLING")));
+    stmt.setInt(59, Integer.parseInt(itemmap.get("TIME_SPENT_WITH_CLIENT_ADDRESSING_CLIENT_EMPLOYMENT_NEEDS_HOURS")));
+    stmt.setInt(60, Integer.parseInt(itemmap.get("TIME_SPENT_WITH_CLIENT_ADDRESSING_CLIENT_EMPLOYMENT_NEEDS_MINUTES")));
+    stmt.setString(61, itemmap.get("REASON_FOR_UPDATE"));
     
     try {
       stmt.executeUpdate();

@@ -71,14 +71,6 @@ public class TemplateDatabaseTest {
       map.put("NUMERACY", null);
       map.put("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED", null);
       map.put("SHORT_TERM_INTERVENTION_DATE", "1978-05-20");
-      map.put("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED2", null);
-      map.put("SHORT_TERM_INTERVENTION_DATE2", "1978-05-20");
-      map.put("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED3", null);
-      map.put("SHORT_TERM_INTERVENTION_DATE3", "1978-05-20");
-      map.put("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED4", null);
-      map.put("SHORT_TERM_INTERVENTION_DATE4", "1978-05-20");
-      map.put("SHORT_TERM_INTERVENTION_SERVICE_RECIEVED5", null);
-      map.put("SHORT_TERM_INTERVENTION_DATE5", "1978-05-20");
       map.put("SUPPORT_SERVICES_RECIEVED", null);
       map.put("CARE_FOR_NEWCOMER_CHILDREN", null);
       map.put("CHILD_1_AGE", null);
