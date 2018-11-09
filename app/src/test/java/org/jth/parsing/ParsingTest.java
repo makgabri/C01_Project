@@ -30,7 +30,7 @@ public class ParsingTest {
             parsingExcel.getFromExcel(nonExcelFilePath);
         }, "exception was thrown for an Non Excel file");
     }
-
+    /*
     @Test
     @DisplayName("Get a unique identifier value from a specific line")
     public void testGetUniqueIdentifierValue() {
@@ -41,7 +41,7 @@ public class ParsingTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Test
     @DisplayName("Get a field type from a specific template.")

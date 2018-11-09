@@ -55,10 +55,6 @@ public class cmdTerminal{
             parsed.getFromExcel(filename);
         }
         // Error catching
-        catch (CloseExcelFailException e)
-        {
-            System.out.println("Fail to close excel file. Please restart the program");
-        }
         catch (NotExcelException e)
         {
             System.out.println("Not an excel file. Unable to open");
