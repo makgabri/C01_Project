@@ -1,6 +1,7 @@
 package org.jth.parsing;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.math.RoundingMode;
 import java.text.*;
 import java.util.*;
@@ -20,10 +21,11 @@ public class ParsingExcel {
 
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
+
     /*
-    public static void main(String[] args) throws CloseExcelFailException, NotExcelException, IOException {
-        //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
-        String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
+    public static void main(String[] args) throws NotExcelException, IOException {
+        String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
+        //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
         e.getFromExcel(file);
@@ -34,7 +36,7 @@ public class ParsingExcel {
      *
      * @param filename the template file path
      */
-    public void getFromExcel(String filename) throws CloseExcelFailException, NotExcelException, IOException {
+    public void getFromExcel(String filename) throws NotExcelException, IOException {
         InputStream is = new FileInputStream(new File(filename));
         String type = filename.substring(filename.lastIndexOf(".") + 1);
         if (type.equals("xls")) {
@@ -46,13 +48,14 @@ public class ParsingExcel {
         } else {
             throw new NotExcelException();
         }
-        try {
-            is.close();
+        //try {
+        is.close();
+            /*
         } catch (IOException e) {
             e.printStackTrace();
             throw new CloseExcelFailException();
-        }
-        //printTemplate();
+        }*/
+        //System.out.println(getSpecificTemplatesWithSpecificLine(3, 3));
     }
 
     /**
@@ -239,11 +242,46 @@ public class ParsingExcel {
     }
 
     /**
-     * get templates.
+     * get all the templates.
      * @return templates contain all 10
      */
     public ArrayList<ArrayList<ArrayList<String>>> getTemplates() {
         return templates;
     }
+
+    /**
+     * get specific template.
+     * @param index the specific templates want to get.
+     * @return the specific templates.
+     */
+    public ArrayList<ArrayList<String>> getSpecificTemplates(int index) {
+        if(index <= templates.size()){
+            return templates.get(index - 1);
+        } else {
+            System.out.println("Index is out of range!");
+            return null;
+        }
+    }
+
+    /**
+     * get the specific line in the specific template.
+     * @param templateIndex index of template.
+     * @param lineIndex index of line.
+     * @return the line.
+     */
+    public ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex) {
+        if(templateIndex <= templates.size()) {
+            if(lineIndex <= templates.get(templateIndex - 1).size()) {
+                return templates.get(templateIndex - 1).get(lineIndex - 1);
+            } else {
+                System.out.println("Line Index is out of range!");
+                return null;
+            }
+        } else {
+            System.out.println("Template index is out of range!");
+            return null;
+        }
+    }
 }
+
 
