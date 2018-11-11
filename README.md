@@ -17,7 +17,10 @@ Our project will be written in Java. Maven will be used for managing dependencie
 All that is required for running the project is the appropriate Java version for your machine. All dependencies will be installed via Maven given that a internet connection is available.
 
 1. Clone the project to your local machine
-2. Use the maven command line tools to compile and run the project
+2. Run the project in eclipse using one of the following command line options:
+	* -2 to clear all the tables from the database
+	* -1 to initialize the database so that the project is ready to be used
+	* No command line argument for regular use (after initial database setup)
 
 ## Progress
 Our team is currently in design and preparation phase of the first sprint
