@@ -3,72 +3,75 @@ package org.jth.templates;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Map;
 import org.jth.databaseHelper.DatabaseDriver;
+import java.util.ArrayList;
 
-public class TemplateInsertHelperImpl implements TemplateInsertHelper {
+public class TemplateInsertHelperImpl {
 
-  @Override
+  
   /**
-   * @param UniqueIdentifierValue - the records unique identifier value
-   * @return roleid - IDK ask mohammad
+   * @param templateType - the type of template to be created(i.e EMPLOYEE)
+   * @param fieldData - an array of all the data
+   * @return true if successfully inserted and false otherwise 
    */
-  public boolean insertUniqueIV(Integer uniqueidentifiervalue) {
+  public boolean insertTemplateItems(String templateType,
+      ArrayList<String> fieldData) throws Exception, SQLException {
+    // Create Connection and prepared statement
     Connection conn = DatabaseDriver.connectOrCreateDatabase();
     PreparedStatement stmt = null;
-
-    try {
-      String sql = "INSERT INTO TEMPLATE VALUES (?);";
-      stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-      stmt.setInt(1, uniqueidentifiervalue);
-      stmt.executeUpdate();
-    } catch (SQLException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    } finally {
-        try {
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    
+    // Get template for requested template type
+    Template template = TemplateFormat.getTemplate(templateType);
+    // If no such template exists, return false
+    if (template == null) {
+      return false;
     }
-    return true;
-  }
-
-  @Override
-  /**
-   * @param
-   * @param itemmap - a map object containing the field as the key and th
-   *         value of that field
-   * @return true if successfully inserted and false otherwise due to wrong
-   *          field name
-   */
-  // TODO Add methods to check key in item map corresponds to field as well
-  //      as check the type of in field
-  public boolean insertTemplateItems(Integer uniqueidentifiervalue,
-      Map<String, String> itemmap) {
-    Connection conn = DatabaseDriver.connectOrCreateDatabase();
-    Statement stmt = null;
+    
+    // Get array type from template
+    ArrayList<String> fieldType = template.getFieldTypeList();
+    
+    // Setup prepare statement
+    String sql = "INSERT INTO "+ templateType + " VALUES (";
+    for (int i = 0; i < fieldData.size(); i++) {
+      sql += "?, ";
+    }
+    sql = sql.substring(0, sql.length() - 2) + ")";
+    
+    // Execute prepared statement
     try {
-      stmt = conn.createStatement();
+      stmt = conn.prepareStatement(sql);
     } catch (SQLException e) {
       e.printStackTrace();
     }
     
-    for (String key : itemmap.keySet()) {
-      String sql = "UPDATE TEMPLATE SET " + key + "='" + itemmap.get(key)
-                  + "' WHERE UNIQUEIV = '" + uniqueidentifiervalue + "'";
-      try {
-        stmt.execute(sql);
-      } catch (SQLException e) {
-        e.printStackTrace();
+    for (int i = 1; i <= fieldData.size(); i++) {
+      if (fieldType.get(i-1).equals("INTEGER")) {
+        if (fieldData.get(i-1).equals("")) {
+          stmt.setInt(i, 0);
+        } else {
+          stmt.setInt(i, Integer.parseInt(fieldData.get(i-1)));
+        }
+      } else if (fieldType.get(i-1).equals("BOOLEAN")) {
+        if (fieldData.get(i-1).equals("")) {
+          stmt.setBoolean(i, false);
+        } else {
+          stmt.setBoolean(i, Boolean.parseBoolean(fieldData.get(i-1)));
+        }
+      } else if (fieldType.get(i-1).equals("LONGVARCHAR")) {
+        stmt.setString(i, fieldData.get(i-1));
+      } else if(fieldType.get(i-1).equals("DATE")) {
+        if (fieldData.get(i-1).equals("")) {
+          stmt.setNull(i, java.sql.Types.DATE);
+        } else {
+          stmt.setDate(i, java.sql.Date.valueOf(fieldData.get(i-1)));
+        }
       }
+    }
+    
+    try {
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
     return true;
   }
