@@ -39,26 +39,26 @@ public class TemplateInsertHelperImpl {
       e.printStackTrace();
     }
     
-    for (int i = 1; i < fieldData.size(); i++) {
-      if (fieldType.get(i).equals("INTEGER")) {
-        if (fieldData.get(i).equals("")) {
+    for (int i = 1; i <= fieldData.size(); i++) {
+      if (fieldType.get(i-1).equals("INTEGER")) {
+        if (fieldData.get(i-1).equals("")) {
           stmt.setInt(i, 0);
         } else {
-          stmt.setInt(i, Integer.parseInt(fieldData.get(i)));
+          stmt.setInt(i, Integer.parseInt(fieldData.get(i-1)));
         }
-      } else if (fieldType.get(i).equals("BOOLEAN")) {
-        if (fieldData.get(i).equals("")) {
+      } else if (fieldType.get(i-1).equals("BOOLEAN")) {
+        if (fieldData.get(i-1).equals("")) {
           stmt.setBoolean(i, false);
         } else {
-          stmt.setBoolean(i, Boolean.parseBoolean(fieldData.get(i)));
+          stmt.setBoolean(i, Boolean.parseBoolean(fieldData.get(i-1)));
         }
-      } else if (fieldType.get(i).equals("LONGVARCHAR")) {
-        stmt.setString(i, fieldData.get(i));
-      } else if(fieldType.get(i).equals("DATE")) {
-        if (fieldData.get(i).equals("")) {
+      } else if (fieldType.get(i-1).equals("LONGVARCHAR")) {
+        stmt.setString(i, fieldData.get(i-1));
+      } else if(fieldType.get(i-1).equals("DATE")) {
+        if (fieldData.get(i-1).equals("")) {
           stmt.setNull(i, java.sql.Types.DATE);
         } else {
-          stmt.setDate(i, java.sql.Date.valueOf(fieldData.get(i)));
+          stmt.setDate(i, java.sql.Date.valueOf(fieldData.get(i-1)));
         }
       }
     }

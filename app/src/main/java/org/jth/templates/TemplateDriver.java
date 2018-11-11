@@ -1,7 +1,6 @@
 package org.jth.templates;
 
 import java.sql.*;
-import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.exceptions.ConnectionFailedException;
 
 public class TemplateDriver {

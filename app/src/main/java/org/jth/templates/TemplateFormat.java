@@ -21,7 +21,7 @@ public class TemplateFormat {
     result.insertField(new Field("UNIQUE_IDENTIFIER_VALUE", "INTEGER", true, true, true));
     result.insertField(new Field("DATE_OF_BIRTH", "DATE", false, true, false));
     result.insertField(new Field("POSTAL_CODE_WHERE_THE_SERVICE_WAS_RECEIVED", "LONGVARCHAR", false, true, false));
-    result.insertField(new Field("REGISTRATION_IN_AN_EMPLOYMENT_INTERVENTION", "LONGVARCHAR", false, true, false));
+    result.insertField(new Field("REGISTRATION_IN_AN_EMPLOYMENT_INTERVENTION", "BOOLEAN", false, true, false));
     result.insertField(new Field("A_REFERRAL_TO", "LONGVARCHAR", false, false, false));
     result.insertField(new Field("LANGUAGE_OF_SERVICE", "LONGVARCHAR", false, true, false));
     result.insertField(new Field("OFFICIAL_LANGUAGE_OF_PREFERENCE", "LONGVARCHAR", false, true, false));
