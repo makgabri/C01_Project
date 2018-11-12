@@ -15,7 +15,7 @@ public class TemplateTest {
   void testFieldName() {
     Field field = new Field("UNIQUE_IDENTIFIER_VALUE",
         "INTEGER", true, true, true);
-    assertEquals(field.toStringInsert(), "UNIQUE_IDENTIFIER_VALUE");
+    assertEquals(field.toString(), "UNIQUE_IDENTIFIER_VALUE");
   }
   
   @Test
@@ -51,7 +51,7 @@ public class TemplateTest {
     Template template = new Template("EMPLOYEE");
     template.insertField(new Field("UNIQUE_IDENTIFIER_VALUE", "INTEGER", true,
         true, true));
-    assertEquals(template.toStringInsert(), "UNIQUE_IDENTIFIER_VALUE");
+    assertEquals(template.toString(), "UNIQUE_IDENTIFIER_VALUE");
     assertEquals(template.toStringCreate(),
         "UNIQUE_IDENTIFIER_VALUE INTEGER PRIMARY KEY NOT NULL UNIQUE");
   }
@@ -63,7 +63,7 @@ public class TemplateTest {
         true, true));
     template.insertField(new Field("UPDATE_RECORD_ID", "INTEGER", false,
         false, false));
-    assertEquals(template.toStringInsert(),
+    assertEquals(template.toString(),
         "UNIQUE_IDENTIFIER_VALUE,UPDATE_RECORD_ID");
     assertEquals(template.toStringCreate(),
         "UNIQUE_IDENTIFIER_VALUE INTEGER PRIMARY KEY NOT NULL UNIQUE,"

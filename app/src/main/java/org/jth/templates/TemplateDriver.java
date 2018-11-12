@@ -47,9 +47,9 @@ public class TemplateDriver {
     try {
       statement = connection.createStatement();
       
-      Template employee = TemplateFormat.Employee();
-      String sql = "CREATE TABLE " + employee.getName()
-          + " (" + employee.toStringCreate() + ")";
+      Template template = TemplateFormat.getTemplate(templateType);
+      String sql = "CREATE TABLE " + template.getName()
+          + " (" + template.toStringCreate() + ")";
       statement.executeUpdate(sql);
       
       statement.close();
