@@ -8,6 +8,10 @@ import org.jth.exceptions.ConnectionFailedException;
 
 public class DatabaseDriver {
 	
+	/**
+	 * Connects to the database if it is already set up.
+	 * @return Connection to the database
+	 */
 	public static Connection connectOrCreateDatabase() {
 	    Connection connection = null;
 	    try {
@@ -34,6 +38,12 @@ public class DatabaseDriver {
 	    return connection;
 	  }
 	  
+	  /**
+	   * Drops all the tables that are in the database.
+	   * @param connection - a connection to the database.
+	   * @return A Connection object that is the same as the parameter connection.
+	   * @throws ConnectionFailedException if the database cannot be connected to
+	   */
 	  public static Connection clear(Connection connection) throws ConnectionFailedException {
 	    if (!clearDatabase(connection)) {
 	      throw new ConnectionFailedException();
@@ -41,6 +51,11 @@ public class DatabaseDriver {
 	    return connection;
 	  }
 	  
+	  /**
+	   * Creates all the database tables that will be needed.
+	   * @param connection - a connection to the database where the tables will be created.
+	   * @return A boolean for whether or not the tables were successfully created.
+	   */
 	  private static boolean initializeDatabase(Connection connection) {
 	    Statement statement = null;
 	    
@@ -78,6 +93,11 @@ public class DatabaseDriver {
 	    return false;
 	  }
 	  
+	  /**
+	   * Drops the tables in the database.
+	   * @param connection - a connection to the database
+	   * @return True or false depending on whether the table dropping was successful
+	   */
 	  private static boolean clearDatabase(Connection connection) {
 		    Statement statement = null;
 		    
