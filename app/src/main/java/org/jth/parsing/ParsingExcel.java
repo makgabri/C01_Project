@@ -34,8 +34,8 @@ public class ParsingExcel {
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
         e.getFromExcel(file);
-        ArrayList<String> line = e.getSpecificTemplatesWithSpecificLine(1, 4);
-        System.out.println(line.get(3));
+        System.out.println(e.parsingTitle(5));
+        e.getSpecificTemplates(5).size();
     }
 
     /**
@@ -214,7 +214,7 @@ public class ParsingExcel {
      * get the number of templates.
      * @return number of templates
      */
-    public int getemplatesSize() {
+    public int getTemplatesSize() {
         return templates.size();
     }
 
@@ -271,6 +271,11 @@ public class ParsingExcel {
         return fieldType;
     }
 
+    public String parsingTitle(int templateIndex) throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange {
+        ArrayList<String> line = getSpecificTemplatesWithSpecificLine(5, 1);
+        return checkFieldType(line.get(0));
+    }
+
     /**
      * check every String to match to Field enum
      * @param line input String
@@ -292,6 +297,12 @@ public class ParsingExcel {
             }
             if(line.contains("'")) {
                 line = line.replaceAll("'.", "").trim();
+            }
+            if(line.contains(",")) {
+                line = line.replaceAll(",", "");
+            }
+            if(line.contains("-")) {
+                line = line.replaceAll("-.", "").trim();
             }
             return capitalizeAndReplaceSpaceWithUnderline(line);
         }

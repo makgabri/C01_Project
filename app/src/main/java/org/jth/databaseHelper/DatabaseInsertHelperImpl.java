@@ -17,7 +17,6 @@ import org.jth.security.PasswordHelpers;
 
 public class DatabaseInsertHelperImpl implements DatabaseInsertHelper {
 	
-	
 	/**
 	 * Inserts a new role into the database.
 	 * @param roleName - the role you'd like to insert.
