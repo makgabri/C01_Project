@@ -4,15 +4,31 @@ import java.util.HashMap;
 
 public class TemplateFormat {
   
+  /**
+   * templateMap is a Hashmap of all possible templates with the
+   * template name as the key and the template object as the value
+   */
   public static HashMap<String, Template> templateMap = new HashMap<>();
   
+  /**
+   * gets the template object of a certain template
+   * @param templateType - String of the template name
+   * @return - the template object of the template wanted
+   */
+  // To improve or come up with a way to create new templates or modify current templates
   public static Template getTemplate(String templateType) {
+    // This is meant to initialize the hashmap without having to initialize the
+    // actual object, we should come up with a better method to initalize hashmap
     if (!templateMap.containsKey("EMPLOYEE")) {
       templateMap.put("EMPLOYEE", Employee());
     }
     return templateMap.get(templateType);
   }
   
+  /**
+   * Function creates a template for Employee
+   * @return - the template object for Employee 
+   */
   public static Template Employee() {
     Template result = new Template("EMPLOYEE");
     result.insertField(new Field("PROCESSING_DETAILS", "LONGVARCHAR", false, false, false));
