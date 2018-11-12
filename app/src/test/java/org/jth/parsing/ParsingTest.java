@@ -54,7 +54,7 @@ public class ParsingTest {
     @DisplayName("test if parsing read all templates")
     public void testReadAllTemplates() {
         try {
-            assertEquals(8, parsingExcel.getemplatesSize());
+            assertEquals(8, parsingExcel.getTemplatesSize());
         } catch (Exception e) {
             e.printStackTrace();
         }
