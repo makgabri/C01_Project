@@ -14,20 +14,24 @@ import org.jth.databaseHelper.*;
 // User neccessity imports
 import java.util.HashMap;
 import java.util.Map;
+// Login neccessity imports
+import org.jth.security.*;
 
 
 public class cmdTerminal{
     // Global variable to store recent credential
-    private String username;
+    private String usermail;
     private String password;
     // Global variable to store parsed excel file
     private ParsingExcel parsed = new ParsingExcel();
     private DatabaseInsertHelper dbi = new DatabaseInsertHelperImpl();
 	private DatabaseUpdateHelper dbu = new DatabaseUpdateHelperImpl();
     private DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
+    private AuthenticateImpl auth;
     
     private void initialize()
     {
+        // Creating 3 default users
         dbi.insertUser("UTSC","alice@utsc.ca","123456");
         System.out.println("Email alice@utsc.ca created");
         System.out.println("Role set to UTSC");
@@ -45,18 +49,41 @@ public class cmdTerminal{
     // Function for logging in
     private void logIn()
     {
-        System.out.println("Enter username");
+        System.out.println("Enter email");
         Scanner scanner = new Scanner(System.in);
-        username = scanner.nextLine();
+        usermail = scanner.nextLine();
         System.out.println("Enter password");
         password = scanner.nextLine();
+        // Creating an instance of logging in
+        auth = new AuthenticateImpl(dbs.getUserId(usermail));
+        // Logging in
+        try{
+            if(auth.authenticate(password))
+            {
+                System.out.println("Log in successful");
+            }
+            else
+            {
+                System.out.println("Log in fail");
+            }
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            System.out.println("Check algorithm file and restart the program");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            System.out.println("Encoding failed. Check system file and restart the program");
+        }
+
     }
 
     // Function for logging out
     private void logOut()
     {
-        username = null;
+        usermail = null;
         password = null;
+        auth.deauthenticate();
     }
 
     // Function for parsing an excel file
@@ -109,6 +136,7 @@ public class cmdTerminal{
         int cmdNum = 1;
         // Instance of cmd terminal
         cmdTerminal terminalInstance = new cmdTerminal();
+        terminalInstance.initialize();
         while(cmdNum != 0)
         {
             terminalInstance.printCmdMenu();
