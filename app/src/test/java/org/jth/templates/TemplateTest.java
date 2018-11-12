@@ -1,12 +1,6 @@
 package org.jth.templates;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.sql.SQLException;
-import java.util.HashMap;
-import org.jth.exceptions.ConnectionFailedException;
-import org.jth.templates.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TemplateTest {
