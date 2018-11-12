@@ -23,4 +23,25 @@ All that is required for running the project is the appropriate Java version for
 	* No command line argument for regular use (after initial database setup)
 
 ## Progress
-Our team is currently in design and preparation phase of the first sprint
+Our team is currently in design and preparationg phase of the third sprint.
+In the first sprint we completed:
+
+1. Database Setup
+2. User Objects
+3. Security Objects
+
+In the second sprint we completed:
+
+1. Various test cases for the database
+2. Various test cases for user objects
+3. Various test cases for secutiry
+4. Started design of templates with database
+5. Started design of parsing with excel files
+
+In the third sprint we completed:
+
+1. Template Objects
+2. Parsing Excel files
+3. Command Line
+
+From these sprints we have completed the following user stories:
