@@ -18,21 +18,28 @@ public class TemplateInsertHelperImpl {
    */
   public boolean insertTemplateItems(String templateType,
       ArrayList<String> fieldData) throws Exception, SQLException {
+    // Create Connection and prepared statement
     Connection conn = DatabaseDriver.connectOrCreateDatabase();
     PreparedStatement stmt = null;
     
+    // Get template for requested template type
     Template template = TemplateFormat.getTemplate(templateType);
+    // If no such template exists, return false
     if (template == null) {
       return false;
     }
+    
+    // Get array type from template
     ArrayList<String> fieldType = template.getFieldTypeList();
     
+    // Setup prepare statement
     String sql = "INSERT INTO "+ templateType + " VALUES (";
     for (int i = 0; i < fieldData.size(); i++) {
       sql += "?, ";
     }
     sql = sql.substring(0, sql.length() - 2) + ")";
-
+    
+    // Execute prepared statement
     try {
       stmt = conn.prepareStatement(sql);
     } catch (SQLException e) {
