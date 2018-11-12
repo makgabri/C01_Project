@@ -1,5 +1,6 @@
 package org.jth.templates;
 
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class TemplateFormat {
@@ -9,7 +10,13 @@ public class TemplateFormat {
    * template name as the key and the template object as the value
    */
   public static HashMap<String, Template> templateMap = new HashMap<>();
+  public static boolean initialized;
   
+  public TemplateFormat() {
+    if (!initialized) {
+      InputStream is = TemplateFormat.class.getResourceAsStream("fieldformat");
+    }
+  }
   /**
    * gets the template object of a certain template
    * @param templateType - String of the template name

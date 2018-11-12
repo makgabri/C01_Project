@@ -35,7 +35,7 @@ public class ParsingExcel {
         System.out.println("读取xlsx格式excel结果：");
         e.getFromExcel(file);
         System.out.println(e.parsingTitle(5));
-        e.getSpecificTemplates(5).size();
+        //e.getSpecificTemplates(5).size();
     }
 
     /**
@@ -272,8 +272,10 @@ public class ParsingExcel {
     }
 
     public String parsingTitle(int templateIndex) throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange {
-        ArrayList<String> line = getSpecificTemplatesWithSpecificLine(5, 1);
-        return checkFieldType(line.get(0));
+        ArrayList<String> line = getSpecificTemplatesWithSpecificLine(templateIndex, 1);
+        String title = line.get(0);
+        String [] a = title.split("\n");
+        return checkFieldType(a[a.length - 1]);
     }
 
     /**
@@ -317,4 +319,6 @@ public class ParsingExcel {
         line = line.toUpperCase();
         return line.replaceAll(" ", "_");
     }
+
+
 }
