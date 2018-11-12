@@ -36,7 +36,6 @@ public class Execution {
       } catch (ConnectionFailedException e) {
         e.printStackTrace();
       }
-      System.out.println(templateName);
       try {
         for (int j = 4; j < pe.getSpecificTemplates(5).size(); j++) {
           try {
