@@ -23,7 +23,39 @@ public class Execution {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      
+
+      String templateName = null;
+      try {
+        templateName = pe.getSpecificTemplatesWithSpecificLine(5, 1).get(0);
+      } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e) {
+        e.printStackTrace();
+      }
+      try {
+        TemplateDriver.initialize(DatabaseDriver.connectOrCreateDatabase(),
+            templateName);
+      } catch (ConnectionFailedException e) {
+        e.printStackTrace();
+      }
+      System.out.println(templateName);
+      try {
+        for (int j = 4; j < pe.getSpecificTemplates(5).size(); j++) {
+          try {
+            tih.insertTemplateItems(templateName,
+                pe.getSpecificTemplatesWithSpecificLine(5, j));
+          } catch (SQLException e) {
+            e.printStackTrace();
+          } catch (TemplateIndexOutOfRange e) {
+            e.printStackTrace();
+          } catch (TemplateLineIndexOutOfRange e) {
+            e.printStackTrace();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      } catch (TemplateIndexOutOfRange e) {
+        e.printStackTrace();
+      }
+      /** CODE TO ITERATE THROUGH ALL TEMPLATES
       for  (int i = 2; i < pe.getTemplatesSize(); i++) {
         // Get Template Name
         String templateName = null;
@@ -59,6 +91,7 @@ public class Execution {
           e.printStackTrace();
         }
       }
+      */
     }
     
 }

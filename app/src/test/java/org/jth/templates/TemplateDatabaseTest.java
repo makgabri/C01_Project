@@ -11,12 +11,33 @@ import org.junit.jupiter.api.Test;
 
 public class TemplateDatabaseTest {
     TemplateInsertHelperImpl dbi = new TemplateInsertHelperImpl();
+    TemplateSelectHelperImpl dbs = new TemplateSelectHelperImpl();
     Connection connection = DatabaseDriver.connectOrCreateDatabase();
     
     @BeforeEach
     public void setUp() throws SQLException {
       try {
         TemplateDriver.initialize(connection, "EMPLOYEE");
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(""); list.add(""); list.add("FOSS/GCMS Client ID");
+        list.add("123123123");
+        list.add("1978-05-20"); list.add("A1A 2B2"); list.add("true");
+        list.add(""); list.add("English"); list.add("English");
+        list.add("University"); list.add("Le bron"); list.add("1978-05-20");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add("1978-05-20"); list.add("1978-05-20"); list.add("");
+        list.add(""); list.add(""); list.add(""); list.add("1");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add("1978-05-20"); list.add(""); list.add(""); list.add("");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add(""); list.add(""); list.add(""); list.add("");
+        list.add(""); list.add(""); list.add("2"); list.add("89");
+        list.add("");
+        dbi.insertTemplateItems("EMPLOYEE", list);
       } catch (Exception e) {
         fail("Should not throw any exception");
       }
@@ -33,27 +54,9 @@ public class TemplateDatabaseTest {
     
     @Test
     void testInsertUniqueIV() throws Exception {
-      ArrayList<String> list = new ArrayList<String>();
-      list.add(""); list.add(""); list.add("FOSS/GCMS Client ID");
-      list.add("123123123");
-      list.add("1978-05-20"); list.add("A1A 2B2"); list.add("true");
-      list.add(""); list.add("English"); list.add("English");
-      list.add("University"); list.add("Le bron"); list.add("1978-05-20");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add("1978-05-20"); list.add("1978-05-20"); list.add("");
-      list.add(""); list.add(""); list.add(""); list.add("1");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add("1978-05-20"); list.add(""); list.add(""); list.add("");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add(""); list.add(""); list.add(""); list.add("");
-      list.add(""); list.add(""); list.add("2"); list.add("89");
-      list.add("");
-      dbi.insertTemplateItems("EMPLOYEE", list);
       try {
+        assertEquals("A1A 2B2", dbs.getValueFromField(123123123, "EMPLOYEE",
+            "POSTAL_CODE_WHERE_THE_SERVICE_WAS_RECEIVED"));
       } catch (Exception e) {
         fail("Could not insert a field");
       }

@@ -11,14 +11,15 @@ public class TemplateSelectHelperImpl {
    * @param field - the column of data that is to be retrieved
    * @return - the data from the column 
    */
-  public Object getValueFromField(Integer uniqueiv, String field) {
+  public Object getValueFromField(Integer uniqueiv, String templateName,
+      String field) {
     Connection conn = DatabaseDriver.connectOrCreateDatabase();
     Statement stmt;
     String sql;
     ResultSet rs;
     Object result = null;
     
-    sql = "SELECT * FROM TEMPLATE WHERE UNIQUE_IDENTIFIER_VALUE="
+    sql = "SELECT * FROM "+ templateName +" WHERE UNIQUE_IDENTIFIER_VALUE="
         + uniqueiv + ";";
     try {
       stmt = conn.createStatement();
