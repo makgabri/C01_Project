@@ -221,7 +221,7 @@ public class ParsingExcel {
     /**
      * print the templates
      */
-    private void printTemplate() {
+    public void printTemplate() {
         for(int i = 0; i < templates.size(); i ++) {
             System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             System.out.println("Templates " + (i + 1));

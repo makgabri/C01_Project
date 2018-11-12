@@ -26,6 +26,22 @@ public class cmdTerminal{
 	private DatabaseUpdateHelper dbu = new DatabaseUpdateHelperImpl();
     private DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
     
+    private void initialize()
+    {
+        dbi.insertUser("UTSC","alice@utsc.ca","123456");
+        System.out.println("Email alice@utsc.ca created");
+        System.out.println("Role set to UTSC");
+        System.out.println("Password: 123456");
+        dbi.insertUser("TEQ","bob@teq.ca","123456");
+        System.out.println("Email bob@teq.ca created");
+        System.out.println("Role set to TEQ");
+        System.out.println("Password: 123456");
+        dbi.insertUser("ORGANIZATION","charl@teq.ca","123456");
+        System.out.println("Email charl@teq.ca created");
+        System.out.println("Role set to ORGANIZATION");
+        System.out.println("Password: 123456");
+    }
+
     // Function for logging in
     private void logIn()
     {
@@ -55,10 +71,6 @@ public class cmdTerminal{
             parsed.getFromExcel(filename);
         }
         // Error catching
-        catch (CloseExcelFailException e)
-        {
-            System.out.println("Fail to close excel file. Please restart the program");
-        }
         catch (NotExcelException e)
         {
             System.out.println("Not an excel file. Unable to open");
