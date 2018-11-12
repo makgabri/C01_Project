@@ -45,3 +45,6 @@ In the third sprint we completed:
 3. Command Line
 
 From these sprints we have completed the following user stories:
+
+1. <U1> - As Sumit Kapal (a UTSC Sta), I would like to be able to create accounts for TEQ staff and organizations, so that they can access the system
+2. <U3> - As Ravjeet (a organization member), I would like to be able to see if I have uploaded data or not
