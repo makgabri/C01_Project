@@ -34,6 +34,12 @@ public class TemplateDriver {
     return connection;
   }
   
+  /**
+   * 
+   * @param connection - the connection of the database
+   * @param templateType - the template that is to be created (i.e EMPLOYEE)
+   * @return true if successfully created
+   */
   private static boolean initializeTemplate(Connection connection,
       String templateType) {
     Statement statement = null;
@@ -55,6 +61,12 @@ public class TemplateDriver {
     return false;
   }
   
+  /**
+   * 
+   * @param connection - the connection of the database
+   * @param templateType - the template that is to be dropped (i.e EMPLOYEE)
+   * @return true if successfully dropped
+   */
   private static boolean clearDatabase(Connection connection,
       String templateType) {
         Statement statement = null;

@@ -10,11 +10,9 @@ public class TemplateInsertHelperImpl {
 
   
   /**
-   * @param
-   * @param itemmap - a map object containing the field as the key and th
-   *         value of that field
-   * @return true if successfully inserted and false otherwise due to wrong
-   *          field name
+   * @param templateType - the type of template to be created(i.e EMPLOYEE)
+   * @param fieldData - an array of all the data
+   * @return true if successfully inserted and false otherwise 
    */
   public boolean insertTemplateItems(String templateType,
       ArrayList<String> fieldData) throws Exception, SQLException {
