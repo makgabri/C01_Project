@@ -19,8 +19,8 @@ public class TemplateFormat {
   public static Template getTemplate(String templateType) {
     // This is meant to initialize the hashmap without having to initialize the
     // actual object, we should come up with a better method to initalize hashmap
-    if (!templateMap.containsKey("EMPLOYEE")) {
-      templateMap.put("EMPLOYEE", Employee());
+    if (!templateMap.containsKey("EMPLOYMENT_RELATED_SERVICES")) {
+      templateMap.put("EMPLOYMENT_RELATED_SERVICES", Employee());
     }
     return templateMap.get(templateType);
   }
@@ -30,7 +30,7 @@ public class TemplateFormat {
    * @return - the template object for Employee 
    */
   public static Template Employee() {
-    Template result = new Template("EMPLOYEE");
+    Template result = new Template("EMPLOYMENT_RELATED_SERVICES");
     result.insertField(new Field("PROCESSING_DETAILS", "LONGVARCHAR", false, false, false));
     result.insertField(new Field("UPDATE_RECORD_ID", "INTEGER", false, false, false));
     result.insertField(new Field("UNIQUE_IDENTIFIER", "LONGVARCHAR", false, true, false));

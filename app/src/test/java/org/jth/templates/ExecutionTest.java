@@ -1,13 +1,20 @@
 package org.jth.templates;
 
-import org.junit.jupiter.api.AfterEach;
+import org.jth.databaseHelper.DatabaseDriver;
+import org.jth.exceptions.ConnectionFailedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.sql.SQLException;
 
 public class ExecutionTest {
 
+    @BeforeEach
+    public void setUp() throws SQLException, ConnectionFailedException {
+      TemplateDriver.clear(DatabaseDriver.connectOrCreateDatabase(), "EMPLOYMENT_RELATED_SERVICES");
+    }
+    
     @Test
     @DisplayName("Testing at first to see that no errors occur")
     public void testEmployee() {

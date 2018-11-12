@@ -26,7 +26,7 @@ public class Execution {
 
       String templateName = null;
       try {
-        templateName = pe.getSpecificTemplatesWithSpecificLine(5, 1).get(0);
+        templateName = pe.parsingTitle(5).split("\r?\n")[2];
       } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e) {
         e.printStackTrace();
       }
@@ -37,7 +37,7 @@ public class Execution {
         e.printStackTrace();
       }
       try {
-        for (int j = 4; j < pe.getSpecificTemplates(5).size(); j++) {
+        for (int j = 4; j <=pe.getSpecificTemplates(5).size(); j++) {
           try {
             tih.insertTemplateItems(templateName,
                 pe.getSpecificTemplatesWithSpecificLine(5, j));
