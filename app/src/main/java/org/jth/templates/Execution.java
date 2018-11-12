@@ -26,7 +26,7 @@ public class Execution {
 
       String templateName = null;
       try {
-        templateName = pe.parsingTitle(5).split("\r?\n")[2];
+        templateName = pe.parsingTitle(5);
       } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e) {
         e.printStackTrace();
       }

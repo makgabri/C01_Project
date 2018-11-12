@@ -12,7 +12,7 @@ public class ExecutionTest {
 
     @BeforeEach
     public void setUp() throws SQLException, ConnectionFailedException {
-      TemplateDriver.clear(DatabaseDriver.connectOrCreateDatabase(), "EMPLOYMENT_RELATED_SERVICES");
+      //TemplateDriver.clear(DatabaseDriver.connectOrCreateDatabase(), "EMPLOYMENT_RELATED_SERVICES");
     }
     
     @Test
@@ -20,7 +20,7 @@ public class ExecutionTest {
     public void testEmployee() {
       try {
         Execution exe = new Execution();
-        exe.execute("/Users/User/Documents/GitHub/Team1/app/src/test/java/org/jth/templates/New_iCARE_Template_Comb_with_Examples.xlsx");
+        exe.execute("/home/gabrian/University/CSCC01/Team1/app/src/test/java/org/jth/templates/New_iCARE_Template_Comb_with_Examples.xlsx");
       } catch (Exception e) {
         fail("Should not throw any exception");
       }

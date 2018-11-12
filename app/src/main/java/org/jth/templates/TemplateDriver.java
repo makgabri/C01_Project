@@ -13,9 +13,9 @@ public class TemplateDriver {
    * @throws ConnectionFailedException If the tables couldn't be initialized, throw
    */
   public static Connection initialize(Connection connection,
-      String templateType, ArrayList<String> fieldType)
+      String templateType)
           throws ConnectionFailedException {
-    if (!initializeTemplate(connection, templateType, fieldType)) {
+    if (!initializeTemplate(connection, templateType)) {
       throw new ConnectionFailedException();
     }
     return connection;
@@ -43,7 +43,7 @@ public class TemplateDriver {
    * @return true if successfully created
    */
   private static boolean initializeTemplate(Connection connection,
-      String templateType, ArrayList<String> fieldType) {
+      String templateType) {
     Statement statement = null;
     
     try {
