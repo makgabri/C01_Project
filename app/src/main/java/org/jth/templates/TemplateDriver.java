@@ -1,6 +1,7 @@
 package org.jth.templates;
 
 import java.sql.*;
+import java.util.ArrayList;
 import org.jth.exceptions.ConnectionFailedException;
 
 public class TemplateDriver {
@@ -12,8 +13,9 @@ public class TemplateDriver {
    * @throws ConnectionFailedException If the tables couldn't be initialized, throw
    */
   public static Connection initialize(Connection connection,
-      String templateType) throws ConnectionFailedException {
-    if (!initializeTemplate(connection, templateType)) {
+      String templateType, ArrayList<String> fieldType)
+          throws ConnectionFailedException {
+    if (!initializeTemplate(connection, templateType, fieldType)) {
       throw new ConnectionFailedException();
     }
     return connection;
@@ -41,7 +43,7 @@ public class TemplateDriver {
    * @return true if successfully created
    */
   private static boolean initializeTemplate(Connection connection,
-      String templateType) {
+      String templateType, ArrayList<String> fieldType) {
     Statement statement = null;
     
     try {
