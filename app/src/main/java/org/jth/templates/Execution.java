@@ -14,7 +14,6 @@ public class Execution {
     public void execute(String filename) {
       TemplateInsertHelperImpl tih = new TemplateInsertHelperImpl();
       
-      // Parsing Data
       ParsingExcel pe = new ParsingExcel();
       try {
         pe.getFromExcel(filename);

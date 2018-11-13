@@ -72,7 +72,9 @@ public class TemplateDriver {
   private static boolean clearDatabase(Connection connection,
       String templateType) {
         Statement statement = null;
-        
+        if (doesTableExist(connection, templateType)) {
+          return true;
+        }
         try {
           statement = connection.createStatement();
           
@@ -88,5 +90,28 @@ public class TemplateDriver {
         }
         return false;
       }
+  
+  private static boolean doesTableExist(Connection connection, String templateType) {
+    DatabaseMetaData dbm = null;
+    try {
+      dbm = connection.getMetaData();
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
+    ResultSet tables = null;
+    try {
+      tables = dbm.getTables(null, null, templateType, null);
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
+    try {
+      if (tables.next()) {
+        return true;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
   
 }

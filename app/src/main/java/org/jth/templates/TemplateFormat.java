@@ -1,22 +1,47 @@
 package org.jth.templates;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 public class TemplateFormat {
   
   /**
    * templateMap is a Hashmap of all possible templates with the
-   * template name as the key and the template object as the value
+   *    template name as the key and the template object as the value
+   * fieldMap is a HashMap of all possible fields predefined in file fieldformat
+   * initialized states whether fieldMap has been initialized
    */
   public static HashMap<String, Template> templateMap = new HashMap<>();
-  public static boolean initialized;
+  public static HashMap<String, Field> fieldMap = new HashMap<>();
+  public static boolean initialized = false;;
   
   public TemplateFormat() {
     if (!initialized) {
+      Properties props = new Properties();
       InputStream is = TemplateFormat.class.getResourceAsStream("fieldformat");
+      try {
+        props.load(is);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      Field temp;
+      for (Object keys : props.keySet()) {
+        String[] param = props.getProperty((String) keys).split(";");
+        temp = new Field((String) keys, param[0], Boolean.valueOf(param[1]),
+            Boolean.valueOf(param[2]), Boolean.valueOf(param[3]));
+        fieldMap.put((String) keys, temp);
+      }
+      initialized = true;
     }
   }
+  
+  public void insertTemplat(String tempateType, ArrayList<String> fieldList) {
+    //startup
+  }
+  
   /**
    * gets the template object of a certain template
    * @param templateType - String of the template name
