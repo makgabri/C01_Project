@@ -38,8 +38,15 @@ public class TemplateFormat {
     }
   }
   
-  public void insertTemplat(String tempateType, ArrayList<String> fieldList) {
-    //startup
+  public boolean doesTemplateExist(String templateType) {
+    return (templateMap.get(templateType) != null);
+  }
+  
+  public void insertTemplate(String templateType, ArrayList<String> fieldList) {
+   Template template = new Template(templateType);
+   for (String field : fieldList) {
+     template.insertField(fieldMap.get(field));
+   }
   }
   
   /**
@@ -47,13 +54,7 @@ public class TemplateFormat {
    * @param templateType - String of the template name
    * @return - the template object of the template wanted
    */
-  // To improve or come up with a way to create new templates or modify current templates
   public static Template getTemplate(String templateType) {
-    // This is meant to initialize the hashmap without having to initialize the
-    // actual object, we should come up with a better method to initalize hashmap
-    if (!templateMap.containsKey("EMPLOYMENT_RELATED_SERVICES")) {
-      templateMap.put("EMPLOYMENT_RELATED_SERVICES", Employee());
-    }
     return templateMap.get(templateType);
   }
   
