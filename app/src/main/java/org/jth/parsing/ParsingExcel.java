@@ -304,7 +304,7 @@ public class ParsingExcel {
                 line = line.replaceAll(",", "");
             }
             if(line.contains("-")) {
-                line = line.replaceAll("-.", "").trim();
+                line = line.replaceAll("-", "").trim();
             }
             return capitalizeAndReplaceSpaceWithUnderline(line);
         }

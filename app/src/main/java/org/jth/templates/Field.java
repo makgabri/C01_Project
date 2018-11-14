@@ -58,4 +58,8 @@ public class Field {
   public String getType() {
     return this.fieldType;
   }
+  
+  public String getParam() {
+    return this.key + ";" + this.notEmpty + ";" + this.unique;
+  }
 }

@@ -1,6 +1,7 @@
 package org.jth.templates;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.exceptions.ConnectionFailedException;
@@ -13,8 +14,10 @@ public class Execution {
 
     public void execute(String filename) {
       TemplateInsertHelperImpl tih = new TemplateInsertHelperImpl();
-      
+      TemplateFormat tf = new TemplateFormat();  
       ParsingExcel pe = new ParsingExcel();
+      Connection connection = null;
+
       try {
         pe.getFromExcel(filename);
       } catch (NotExcelException e) {
@@ -22,58 +25,38 @@ public class Execution {
       } catch (IOException e) {
         e.printStackTrace();
       }
-
-      String templateName = null;
-      try {
-        templateName = pe.parsingTitle(5);
-      } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e) {
-        e.printStackTrace();
-      }
-      try {
-        TemplateDriver.initialize(DatabaseDriver.connectOrCreateDatabase(),
-            templateName);
-      } catch (ConnectionFailedException e) {
-        e.printStackTrace();
-      }
-      try {
-        for (int j = 4; j <=pe.getSpecificTemplates(5).size(); j++) {
-          try {
-            tih.insertTemplateItems(templateName,
-                pe.getSpecificTemplatesWithSpecificLine(5, j));
-          } catch (SQLException e) {
-            e.printStackTrace();
-          } catch (TemplateIndexOutOfRange e) {
-            e.printStackTrace();
-          } catch (TemplateLineIndexOutOfRange e) {
-            e.printStackTrace();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }
-      } catch (TemplateIndexOutOfRange e) {
-        e.printStackTrace();
-      }
-      /** CODE TO ITERATE THROUGH ALL TEMPLATES
+      
+      connection = DatabaseDriver.connectOrCreateDatabase();
+      
       for  (int i = 2; i < pe.getTemplatesSize(); i++) {
         // Get Template Name
-        String templateName = null;
+        String templateType = null;
         try {
-          templateName = pe.getSpecificTemplatesWithSpecificLine(i, 1).get(0);
+          templateType = pe.parsingTitle(i);
         } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e1) {
           e1.printStackTrace();
         }
+        // Initialize template as an object first
+        System.out.println("TEMPLATE TITLE:" + templateType);
+        if (!tf.doesTemplateExist(templateType)) {
+          try {
+            tf.insertTemplate(templateType, pe.parsingFieldType(i));
+          } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e1) {
+            e1.printStackTrace();
+          }
+        }
+        System.out.println("Past initializing template object");
         //Attempt to initialize Table in database
         try {
-          TemplateDriver.initialize(DatabaseDriver.connectOrCreateDatabase(),
-              templateName);
+          TemplateDriver.initialize(connection, templateType);
         } catch (ConnectionFailedException e) {
           e.printStackTrace();
         }
         // Insert items into table
         try {
-          for (int j = 0; j < pe.getSpecificTemplates(5).size(); j++) {
+          for (int j = 4; j <= pe.getSpecificTemplates(i).size(); j++) {
             try {
-              tih.insertTemplateItems(templateName,
+              tih.insertTemplateItems(connection, templateType,
                   pe.getSpecificTemplatesWithSpecificLine(i, j));
             } catch (SQLException e) {
               e.printStackTrace();
@@ -89,7 +72,6 @@ public class Execution {
           e.printStackTrace();
         }
       }
-      */
     }
     
 }

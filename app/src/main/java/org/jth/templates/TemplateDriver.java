@@ -1,7 +1,6 @@
 package org.jth.templates;
 
 import java.sql.*;
-import java.util.ArrayList;
 import org.jth.exceptions.ConnectionFailedException;
 
 public class TemplateDriver {
@@ -28,9 +27,9 @@ public class TemplateDriver {
    * @return the connection passed in to continue if needed
    * @throws ConnectionFailedException If the table doesnt exist
    */
-  public static Connection clear(Connection connection, String templateType)
+  public static Connection clear(Connection connection)
       throws ConnectionFailedException {
-    if (!clearDatabase(connection, templateType)) {
+    if (!clearDatabase(connection)) {
       throw new ConnectionFailedException();
     }
     return connection;
@@ -45,6 +44,10 @@ public class TemplateDriver {
   private static boolean initializeTemplate(Connection connection,
       String templateType) {
     Statement statement = null;
+    
+    if (doesTableExist(connection, templateType)) {
+      return true;
+    }
     
     try {
       statement = connection.createStatement();
@@ -69,18 +72,15 @@ public class TemplateDriver {
    * @param templateType - the template that is to be dropped (i.e EMPLOYEE)
    * @return true if successfully dropped
    */
-  private static boolean clearDatabase(Connection connection,
-      String templateType) {
+  private static boolean clearDatabase(Connection connection) {
         Statement statement = null;
-        if (doesTableExist(connection, templateType)) {
-          return true;
-        }
         try {
           statement = connection.createStatement();
           
-          
-          String sql = "DROP TABLE "+ templateType +";";
-          statement.executeUpdate(sql);
+          for (String templateType : TemplateFormat.getTemplateList()) {
+            String sql = "DROP TABLE "+ templateType +";";
+            statement.executeUpdate(sql);
+          }
           
           statement.close();
           return true;

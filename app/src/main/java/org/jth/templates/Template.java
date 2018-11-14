@@ -6,6 +6,7 @@ public class Template {
   
   private String templateName;
   private ArrayList<Field> fieldHolder;
+  private ArrayList<String> fieldOrder;
 
   /**
    * An object representing a template
@@ -14,6 +15,7 @@ public class Template {
   public Template(String templateName) {
     this.templateName = templateName;
     this.fieldHolder = new ArrayList<Field>();
+    this.fieldOrder = new ArrayList<String>();
   }
   
   /**
@@ -22,6 +24,7 @@ public class Template {
    */
   public void insertField(Field field) {
     fieldHolder.add(field);
+    fieldOrder.add(field.toString());
   }
   
   /**
@@ -67,5 +70,9 @@ public class Template {
       result.add(field.getType());
     }
     return result;
+  }
+  
+  public ArrayList<String> getFieldOrder() {
+    return this.fieldOrder;
   }
 }

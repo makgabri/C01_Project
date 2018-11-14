@@ -16,7 +16,7 @@ public class TemplateFormatTest {
     @Test
     @DisplayName("Initializing FieldList")
     public void testFieldList() {
-      String path = new File("app/src/test/java/org/jth/templates/New_iCARE_Template_Comb_with_Examples.xlsx").getAbsolutePath();
+      String path = new File("test/java/org/jth/templates/New_iCARE_Template_Comb_with_Examples.xlsx").getAbsolutePath();
       if (!tf.doesTemplateExist("EMPLOYMENT_RELATED_SERVICES")) {
         try {
           pe.getFromExcel(path);
@@ -30,7 +30,6 @@ public class TemplateFormatTest {
         } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e) {
           e.printStackTrace();
         }
-        System.out.println(tf.getTemplate("parsingFieldType").toString());
       }
     }
 }

@@ -3,7 +3,6 @@ package org.jth.templates;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.jth.databaseHelper.DatabaseDriver;
 import java.util.ArrayList;
 
 public class TemplateInsertHelperImpl {
@@ -14,10 +13,9 @@ public class TemplateInsertHelperImpl {
    * @param fieldData - an array of all the data
    * @return true if successfully inserted and false otherwise 
    */
-  public boolean insertTemplateItems(String templateType,
+  public boolean insertTemplateItems(Connection connection, String templateType,
       ArrayList<String> fieldData) throws Exception, SQLException {
-    // Create Connection and prepared statement
-    Connection conn = DatabaseDriver.connectOrCreateDatabase();
+    // Create prepared statement
     PreparedStatement stmt = null;
     
     // Get template for requested template type
@@ -39,7 +37,7 @@ public class TemplateInsertHelperImpl {
     
     // Execute prepared statement
     try {
-      stmt = conn.prepareStatement(sql);
+      stmt = connection.prepareStatement(sql);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -47,13 +45,19 @@ public class TemplateInsertHelperImpl {
     for (int i = 1; i <= fieldData.size(); i++) {
       if (fieldType.get(i-1).equals("INTEGER")) {
         if (fieldData.get(i-1).equals("")) {
-          stmt.setInt(i, 0);
+          stmt.setNull(i, java.sql.Types.INTEGER);
         } else {
           stmt.setInt(i, Integer.parseInt(fieldData.get(i-1)));
         }
+      } else if (fieldType.get(i-1).equals("DOUBLE")) {
+        if (fieldData.get(i-1).equals("")) {
+          stmt.setNull(i, java.sql.Types.DOUBLE);
+        } else {
+          stmt.setDouble(i, Double.parseDouble(fieldData.get(i-1)));
+        }
       } else if (fieldType.get(i-1).equals("BOOLEAN")) {
         if (fieldData.get(i-1).equals("")) {
-          stmt.setBoolean(i, false);
+          stmt.setNull(i, java.sql.Types.BOOLEAN);
         } else {
           stmt.setBoolean(i, Boolean.parseBoolean(fieldData.get(i-1)));
         }
