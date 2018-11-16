@@ -53,6 +53,7 @@ public class Windows extends JFrame implements ActionListener {
 
         setVisible(true);
         setResizable(false);
+        this.setLocationRelativeTo(null);
     }
 
     private void setLayout() {

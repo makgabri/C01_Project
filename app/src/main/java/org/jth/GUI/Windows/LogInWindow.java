@@ -5,7 +5,11 @@ import java.awt.*;
 
 public class LogInWindow extends JFrame {
 
-    private JPanel texts = new JPanel(new GridLayout());
+    private JPanel buttonPanel = new JPanel(new FlowLayout());
+    private JPanel Texts = new JPanel();
+    private Container contentPane = getContentPane();
+
+    private JButton conformButton = new JButton("Log In");
 
     private JTextField idField = new JTextField(10);
     private JTextField passwordField = new JPasswordField(10);
@@ -16,30 +20,37 @@ public class LogInWindow extends JFrame {
         setSize(300, 250);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
+        this.setLocationRelativeTo(null);
         drawLoginWindow();
         setVisible(true);
+        contentPane.setLayout(new FlowLayout());
     }
 
     private void drawLoginWindow() {
-        Container contentPane = getContentPane();
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
-        getContentPane().setLayout(gridbag);
+        Texts.setLayout(gridbag);
 
         JLabel id = new JLabel("Id: ");
         JLabel password = new JLabel("Password: ");
 
-        getContentPane().add(id);
+        Texts.add(id);
 
         c.gridwidth = GridBagConstraints.REMAINDER;
         gridbag.setConstraints(idField, c);
-        getContentPane().add(idField);
+        Texts.add(idField);
 
 
-        getContentPane().add(password);
+        Texts.add(password);
 
         c.gridwidth = GridBagConstraints.REMAINDER;
         gridbag.setConstraints(passwordField, c);
-        getContentPane().add(passwordField);
+        Texts.add(passwordField);
+
+        buttonPanel.add(conformButton);
+
+        contentPane.add(Texts);
+        contentPane.add(buttonPanel);
+
     }
 }

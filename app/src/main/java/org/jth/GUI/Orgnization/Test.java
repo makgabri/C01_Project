@@ -31,7 +31,7 @@ public class Test extends JFrame implements ActionListener {
         // TODO Auto-generated method stub
         JFileChooser jfc = new JFileChooser();
         jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        jfc.showDialog(new JLabel(), "选择");
+        jfc.showDialog(new JLabel(), "Select");
         File file = jfc.getSelectedFile();
         if (file.isDirectory()) {
             System.out.println("文件夹:" + file.getAbsolutePath());
