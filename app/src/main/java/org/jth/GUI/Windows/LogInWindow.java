@@ -19,6 +19,7 @@ public class LogInWindow extends JFrame {
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
+        this.setLocationRelativeTo(null);
         drawLoginWindow();
         setVisible(true);
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
