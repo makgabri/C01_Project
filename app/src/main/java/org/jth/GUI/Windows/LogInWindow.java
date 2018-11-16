@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class LogInWindow extends JFrame {
 
-    private JPanel buttonPanel = new JPanel(new GridLayout());
+    private JPanel buttonPanel = new JPanel(new FlowLayout());
     private JPanel textPanel = new JPanel();
     private Container container = getContentPane();
 
@@ -51,5 +51,11 @@ public class LogInWindow extends JFrame {
 
         container.add(textPanel);
         container.add(logInButton);
+    }
+
+    private void checkLoginSuccessOrNot() {
+        String id = idField.getText();
+        String password = passwordField.getText();
+
     }
 }

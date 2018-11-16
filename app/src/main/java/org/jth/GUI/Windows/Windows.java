@@ -25,6 +25,8 @@ public class Windows extends JFrame implements ActionListener {
     private JButton signUp = new JButton("Sign Up");
     private JButton back = new JButton("Back");
 
+    private Boolean clickOrganization = false;
+
     //************************************************************
 
 
@@ -33,11 +35,17 @@ public class Windows extends JFrame implements ActionListener {
         if(e.getSource() == utsc || e.getSource() == teq || e.getSource() == organization) {
             cleanWindow();
             drawStarterWindow(2);
+        }
+        if(e.getSource() == organization) {
+            clickOrganization = true;
         } else if (e.getSource() == back) {
             cleanWindow();
+            clickOrganization = false;
             drawStarterWindow(1);
-        } else {
+        } else if(e.getSource() == logIn) {
             LogInWindow logInWindow = new LogInWindow();
+        } else if(clickOrganization && e.getSource() == signUp) {
+            System.out.println("good");
         }
     }
 
