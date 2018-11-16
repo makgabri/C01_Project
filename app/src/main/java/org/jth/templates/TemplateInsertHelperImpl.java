@@ -20,8 +20,7 @@ public class TemplateInsertHelperImpl {
    * @return true if successfully inserted and false otherwise due to wrong
    *          field name
    */
-  public boolean insertTemplateItems(Integer uniqueidentifiervalue,
-      Map<String, String> itemmap) throws Exception, SQLException {
+  public boolean insertTemplateItems(ArrayList<String> row) throws Exception, SQLException {
     Connection conn = TemplateDriver.connectOrCreateDatabase();
     PreparedStatement stmt = null;
     String sql = "INSERT INTO TEMPLATE"

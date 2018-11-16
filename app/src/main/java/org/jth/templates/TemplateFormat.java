@@ -1,6 +1,15 @@
 package org.jth.templates;
 
+import java.util.HashMap;
+
 public class TemplateFormat {
+  
+  private HashMap<String, Template> TemplateFormats;
+
+  public TemplateFormat() {
+    this.TemplateFormats = new HashMap<>();
+    this.TemplateFormats.put("EMPLOYEE", Employee());
+  }
   
   public static Template Employee() {
     Template result = new Template("EMPLOYEE");

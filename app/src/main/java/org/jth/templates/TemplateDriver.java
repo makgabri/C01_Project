@@ -1,6 +1,7 @@
 package org.jth.templates;
 
 import java.sql.*;
+import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.exceptions.ConnectionFailedException;
 
 public class TemplateDriver {
@@ -12,8 +13,7 @@ public class TemplateDriver {
   public static Connection connectOrCreateDatabase() {
     Connection connection = null;
     try {
-      Class.forName("org.sqlite.JDBC");
-      connection = DriverManager.getConnection("jdbc:sqlite:template.db");
+      connection = DatabaseDriver.connectOrCreateDatabase();
     } catch (Exception e) {
       System.out.println("Something went wrong with your connection! see below details: ");
       e.printStackTrace();
@@ -29,7 +29,7 @@ public class TemplateDriver {
    * @throws ConnectionFailedException If the tables couldn't be initialized, throw
    */
   public static Connection initialize(Connection connection) throws ConnectionFailedException {
-    if (!initializeDatabase(connection)) {
+    if (!initializeTemplate(connection)) {
       throw new ConnectionFailedException();
     }
     return connection;
@@ -48,7 +48,7 @@ public class TemplateDriver {
     return connection;
   }
   
-  private static boolean initializeDatabase(Connection connection) {
+  public static boolean initializeTemplate(Connection connection) {
     Statement statement = null;
     
     try {
@@ -86,15 +86,5 @@ public class TemplateDriver {
         }
         return false;
       }
-
-  public static boolean doesTableExists(Connection connection) throws SQLException {
-    DatabaseMetaData dbm = connection.getMetaData();
-    ResultSet tables = dbm.getTables(null, null, "TEMPLATE", null);
-    if (tables.next()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   
 }
