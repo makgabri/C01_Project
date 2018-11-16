@@ -1,6 +1,5 @@
 package org.jth.GUI.app;
-
-import com.userInterface.Windows.Windows;
+import org.jth.GUI.Windows.Windows;
 
 public class app {
     public static void main(String[] args) {
