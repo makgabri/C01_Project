@@ -36,14 +36,12 @@ public class LogInWindow extends JFrame {
         JLabel password = new JLabel("Password: ");
 
         textPanel.add(id);
-
         c.gridwidth = GridBagConstraints.REMAINDER;
         gridbag.setConstraints(idField, c);
         textPanel.add(idField);
 
 
         textPanel.add(password);
-
         c.gridwidth = GridBagConstraints.REMAINDER;
         gridbag.setConstraints(passwordField, c);
         textPanel.add(passwordField);

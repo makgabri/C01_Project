@@ -1,5 +1,7 @@
 package org.jth.GUI.Windows;
 
+import org.jth.GUI.Orgnization.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +47,7 @@ public class Windows extends JFrame implements ActionListener {
         } else if(e.getSource() == logIn) {
             LogInWindow logInWindow = new LogInWindow();
         } else if(clickOrganization && e.getSource() == signUp) {
-            System.out.println("good");
+            OrganizationSignUpWindow orgnizationSignUpWindow = new OrganizationSignUpWindow();
         }
     }
 
