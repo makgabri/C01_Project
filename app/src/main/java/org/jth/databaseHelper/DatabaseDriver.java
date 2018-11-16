@@ -102,10 +102,5 @@ public class DatabaseDriver {
 		    }
 		    return false;
 	  }
-	  
-	  public static boolean doesTableExists(Connection connection, String table) {
-	    DatabaseMetaData dbm = connection.getMetaData();
-        return false;
-	  }
 
 }
