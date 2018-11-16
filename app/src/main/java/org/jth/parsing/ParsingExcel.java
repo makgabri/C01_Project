@@ -15,6 +15,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jth.exceptions.CloseExcelFailException;
 import org.jth.exceptions.NotExcelException;
+import org.jth.exceptions.TemplateIndexOutOfRange;
+import org.jth.exceptions.TemplateLineIndexOutOfRange;
+import org.jth.templates.fieldoptions.*;
 
 
 public class ParsingExcel {
@@ -22,19 +25,25 @@ public class ParsingExcel {
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
 
-    /*
-    public static void main(String[] args) throws NotExcelException, IOException {
-        String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
+
+    public static void main(String[] args)
+            throws NotExcelException, IOException, TemplateLineIndexOutOfRange, TemplateIndexOutOfRange {
+        String file =
+                "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/New_iCARE_Template_Comb_with_Examples.xlsx";
         //String file = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/testingTemplates/SampleXLSFile_212kb.xls";
         ParsingExcel e = new ParsingExcel();
         System.out.println("读取xlsx格式excel结果：");
         e.getFromExcel(file);
-    }*/
+        System.out.println(e.parsingTitle(5));
+        //e.getSpecificTemplates(5).size();
+    }
 
     /**
      * get file type and decide which type of Excel is going to use.
      *
      * @param filename the template file path
+     * @throws NotExcelException if input file is not an Excel type.
+     * @throws IOException if cannot open or close a file.
      */
     public void getFromExcel(String filename) throws NotExcelException, IOException {
         InputStream is = new FileInputStream(new File(filename));
@@ -48,14 +57,7 @@ public class ParsingExcel {
         } else {
             throw new NotExcelException();
         }
-        //try {
         is.close();
-            /*
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new CloseExcelFailException();
-        }*/
-        //System.out.println(getSpecificTemplatesWithSpecificLine(3, 3));
     }
 
     /**
@@ -93,10 +95,10 @@ public class ParsingExcel {
      * @param wb the templates that wants to read.
      */
     private void readXlsx(Workbook wb) {
-        for (int s = 0; s < wb.getNumberOfSheets(); s++) {
+        for (int s = 2; s < wb.getNumberOfSheets(); s++) {
             Sheet sheet = wb.getSheetAt(s);
             // add a new template
-            templates.add(new ArrayList<ArrayList<String>>());
+            templates.add(new ArrayList<>());
             for (int i = 0; i <= sheet.getLastRowNum(); i++) {
                 boolean lineEmpty = true;
                 ArrayList<String> line = new ArrayList<>();
@@ -131,31 +133,15 @@ public class ParsingExcel {
         switch (cell.getCellType()) {
 
             case XSSFCell.CELL_TYPE_NUMERIC:
-                if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                    SimpleDateFormat sdf = null;
-                    if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("h:mm")) {
-                        sdf = new SimpleDateFormat("HH:mm");
-                    } else {
-                        sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    }
-                    Date date = cell.getDateCellValue();
-                    result = sdf.format(date);
-                } else if (cell.getCellStyle().getDataFormat() == 58) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    double value = cell.getNumericCellValue();
-                    Date date = org.apache.poi.ss.usermodel.DateUtil
-                            .getJavaDate(value);
-                    result = sdf.format(date);
-                } else {
-                    double value = cell.getNumericCellValue();
-                    CellStyle style = cell.getCellStyle();
-                    DecimalFormat format = new DecimalFormat();
-                    String temp = style.getDataFormatString();
-                    if (temp.equals("General")) {
-                        format.setRoundingMode(RoundingMode.DOWN);
-                    }
-                    result = format.format(value);
+                double value = cell.getNumericCellValue();
+                CellStyle style = cell.getCellStyle();
+                DecimalFormat format = new DecimalFormat();
+                String temp = style.getDataFormatString();
+                if (temp.equals("General")) {
+                    format.setRoundingMode(RoundingMode.DOWN);
                 }
+                result = format.format(value);
+                //}
                 break;
             case XSSFCell.CELL_TYPE_STRING:// String类型
                 result = cell.getRichStringCellValue().toString();
@@ -179,32 +165,15 @@ public class ParsingExcel {
         String result;
         switch (cell.getCellType()) {
             case HSSFCell.CELL_TYPE_NUMERIC:
-                // progressing the
-                if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                    SimpleDateFormat sdf = null;
-                    if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("h:mm")) {
-                        sdf = new SimpleDateFormat("HH:mm");
-                    } else {
-                        sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    }
-                    Date date = cell.getDateCellValue();
-                    result = sdf.format(date);
-                } else if (cell.getCellStyle().getDataFormat() == 58) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    double value = cell.getNumericCellValue();
-                    Date date = org.apache.poi.ss.usermodel.DateUtil
-                            .getJavaDate(value);
-                    result = sdf.format(date);
-                } else {
-                    double value = cell.getNumericCellValue();
-                    CellStyle style = cell.getCellStyle();
-                    DecimalFormat format = new DecimalFormat();
-                    String temp = style.getDataFormatString();
-                    if (temp.equals("General")) {
-                        format.setRoundingMode(RoundingMode.DOWN);
-                    }
-                    result = format.format(value);
+                double value = cell.getNumericCellValue();
+                CellStyle style = cell.getCellStyle();
+                DecimalFormat format = new DecimalFormat();
+                String temp = style.getDataFormatString();
+                if (temp.equals("General")) {
+                    format.setRoundingMode(RoundingMode.DOWN);
                 }
+                result = format.format(value);
+                //}
                 break;
             case HSSFCell.CELL_TYPE_STRING:
                 result = cell.getRichStringCellValue().toString();
@@ -227,13 +196,13 @@ public class ParsingExcel {
             System.out.println("Templates " + (i + 1));
             for(int j = 0; j < templates.get(i).size(); j ++) {
                 System.out.println("*********************************************************************************");
-                System.out.println("Row Number: " + (j + 1));
+                //System.out.println("Row Number: " + (j + 1));
                 if(j == 0) {
                     System.out.println("Title : ");
                 }
                 for (int k = 0; k < templates.get(i).get(j).size(); k++) {
                     if(!templates.get(i).get(j).get(k).equals("")) {
-                        System.out.println("Column Number: " + (k + 1) + " " + templates.get(i).get(j).get(k));
+                        System.out.println(templates.get(i).get(j).get(k));
                     }
                 }
             }
@@ -242,24 +211,24 @@ public class ParsingExcel {
     }
 
     /**
-     * get all the templates.
-     * @return templates contain all 10
+     * get the number of templates.
+     * @return number of templates
      */
-    public ArrayList<ArrayList<ArrayList<String>>> getTemplates() {
-        return templates;
+    public int getTemplatesSize() {
+        return templates.size();
     }
 
     /**
      * get specific template.
      * @param index the specific templates want to get.
      * @return the specific templates.
+     * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    public ArrayList<ArrayList<String>> getSpecificTemplates(int index) {
+    public ArrayList<ArrayList<String>> getSpecificTemplates(int index) throws TemplateIndexOutOfRange{
         if(index <= templates.size()){
             return templates.get(index - 1);
         } else {
-            System.out.println("Index is out of range!");
-            return null;
+            throw new TemplateIndexOutOfRange();
         }
     }
 
@@ -268,20 +237,88 @@ public class ParsingExcel {
      * @param templateIndex index of template.
      * @param lineIndex index of line.
      * @return the line.
+     * @throws TemplateLineIndexOutOfRange line index is out of range.
+     * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    public ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex) {
-        if(templateIndex <= templates.size()) {
-            if(lineIndex <= templates.get(templateIndex - 1).size()) {
-                return templates.get(templateIndex - 1).get(lineIndex - 1);
-            } else {
-                System.out.println("Line Index is out of range!");
-                return null;
-            }
+    public ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex)
+            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
+        ArrayList<ArrayList<String>> template = getSpecificTemplates(templateIndex);
+        if(lineIndex <= template.size()) {
+            return template.get(lineIndex - 1);
         } else {
-            System.out.println("Template index is out of range!");
-            return null;
+            throw new TemplateLineIndexOutOfRange();
         }
     }
+
+    /*******************************************************************************
+     * Methods below help insertion of template database.                          *
+     *******************************************************************************/
+
+    /**
+     * parse into Fields enum class.
+     * @param templateIndex get specific template.
+     * @return ArrayList contain Fields enum.
+     * @throws TemplateLineIndexOutOfRange line index is out of range.
+     * @throws TemplateIndexOutOfRange template index is out of range.
+     */
+    public ArrayList<String> parsingFieldType(int templateIndex)
+            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
+        ArrayList<String> fieldType = getSpecificTemplatesWithSpecificLine(templateIndex, 3);
+        for (int i = 0; i < fieldType.size(); i ++) {
+            fieldType.set(i, checkFieldType(fieldType.get(i)));
+        }
+
+        return fieldType;
+    }
+
+    public String parsingTitle(int templateIndex) throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange {
+        ArrayList<String> line = getSpecificTemplatesWithSpecificLine(templateIndex, 1);
+        String title = line.get(0);
+        String [] a = title.split("\n");
+        return checkFieldType(a[a.length - 1]);
+    }
+
+    /**
+     * check every String to match to Field enum
+     * @param line input String
+     * @return a String that proper formed.
+     */
+    private String checkFieldType(String line) {
+        if(line.matches("^[ A-Za-z]+$")) {
+            return capitalizeAndReplaceSpaceWithUnderline(line);
+        } else {
+            if(line.contains(":")) {
+                line = line.replaceAll(":", "");
+            }
+            if(line.contains("?") || line.contains("/")) {
+                line = line.replaceAll("\\?", "")
+                        .replaceAll("/", "_");
+            }
+            if(line.contains("(")){
+                line = line.replaceAll("\\(.*\\)", "").trim();
+            }
+            if(line.contains("'")) {
+                line = line.replaceAll("'.", "").trim();
+            }
+            if(line.contains(",")) {
+                line = line.replaceAll(",", "");
+            }
+            if(line.contains("-")) {
+                line = line.replaceAll("-", "").trim();
+            }
+            return capitalizeAndReplaceSpaceWithUnderline(line);
+        }
+    }
+
+    /**
+     * capitalize all the letter and replace the space with underline
+     * @param line input String
+     * @return a String that is proper formed.
+     */
+    private String capitalizeAndReplaceSpaceWithUnderline(String line) {
+        line = line.toUpperCase();
+        return line.replaceAll(" ", "_");
+    }
+
+
 }
-
-
