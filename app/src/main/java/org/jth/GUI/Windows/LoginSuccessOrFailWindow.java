@@ -57,8 +57,8 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
         loginSuccessButton.addActionListener(this);
         loginFailButton.addActionListener(this);
 
-        add(textPanel);
-        add(buttonPanel);
+        container.add(textPanel);
+        container.add(buttonPanel);
     }
 
 

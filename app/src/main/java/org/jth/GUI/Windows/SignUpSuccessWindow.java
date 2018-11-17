@@ -39,8 +39,8 @@ public class SignUpSuccessWindow extends JFrame implements ActionListener {
         //panel.add(exit);
 
         exit.addActionListener(this);
-        add(textPanel);
-        add(buttonPanel);
+        container.add(textPanel);
+        container.add(buttonPanel);
     }
 
     @Override

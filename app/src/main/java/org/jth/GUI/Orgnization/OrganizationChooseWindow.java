@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
 
-    private JButton upload = new JButton("Upload");
+    private JButton uploadButton = new JButton("Upload");
+    private JButton checkUploadedButton = new JButton("check Uploaded");
 
     public OrganizationChooseWindow() {
         super("Organization Main Menu");
         drawWindow();
-        container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
@@ -22,7 +22,17 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     }
 
     private void drawWindow() {
-        container.add(upload);
+        GridBagLayout gridbag = new GridBagLayout();
+        GridBagConstraints c = new GridBagConstraints();
+        container.setLayout(gridbag);
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        gridbag.setConstraints(uploadButton, c);
+        gridbag.setConstraints(checkUploadedButton, c);
+        container.add(uploadButton);
+        container.add(checkUploadedButton);
+
+        uploadButton.addActionListener(this);
+        checkUploadedButton.addActionListener(this);
     }
 
     @Override
