@@ -1,5 +1,6 @@
 package org.jth.GUI.app;
-import org.jth.GUI.Windows.Windows;
+import org.jth.GUI.Windows.LoginSuccessOrFailWindow;
+import org.jth.GUI.Windows.StarterWindow;
 
 public class app {
     public static void main(String[] args) {
@@ -7,6 +8,6 @@ public class app {
     }
 
     public static void displayStarterPage() {
-        Windows windowsPage = new Windows();
+        StarterWindow starterWindow = new StarterWindow();
     }
 }

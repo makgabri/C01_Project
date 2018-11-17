@@ -1,9 +1,14 @@
 package org.jth.GUI.Windows;
 
+import org.jth.user.Roles;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class LogInWindow extends JFrame {
+public class LogInWindow extends JFrame implements ActionListener {
+    private Roles roles;
 
     private JPanel buttonPanel = new JPanel(new FlowLayout());
     private JPanel textPanel = new JPanel();
@@ -13,8 +18,9 @@ public class LogInWindow extends JFrame {
     private JTextField idField = new JTextField(10);
     private JTextField passwordField = new JPasswordField(10);
 
-    public LogInWindow() {
-        super("User Choice");
+    public LogInWindow(Roles roles) {
+        super("Log In");
+        this.roles = roles;
         setLayout(new FlowLayout());
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -48,6 +54,8 @@ public class LogInWindow extends JFrame {
 
         buttonPanel.add(logInButton);
 
+        logInButton.addActionListener(this);
+
         container.add(textPanel);
         container.add(logInButton);
     }
@@ -56,5 +64,24 @@ public class LogInWindow extends JFrame {
         String id = idField.getText();
         String password = passwordField.getText();
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == logInButton) {
+            if(roles == Roles.ORGANIZATION) {
+                // TODO Organization Login uncomment the code below
+                // if(success)
+                //  dispose();
+                //  LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(1, roles);
+                // if(fail)
+                //  LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(0, roles);
+            } else if(roles == Roles.UTSC) {
+
+            } else {
+
+            }
+
+        }
     }
 }

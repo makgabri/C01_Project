@@ -1,7 +1,7 @@
 package org.jth.GUI.Orgnization;
 
-import org.jth.databaseHelper.DatabaseInsertHelperImpl;
-import org.jth.user.Roles;
+import org.jth.GUI.Windows.PasswordNotMatchWindow;
+import org.jth.GUI.Windows.SignUpSuccessWindow;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
 
 
     public OrganizationSignUpWindow() {
-
+        super("Organization Sign Up Menu");
         drawAllTextFields();
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
         setSize(400, 250);
@@ -89,6 +89,10 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
                     new String(conformPasswordField.getPassword()))) {
                 PasswordNotMatchWindow passwordNotMatchWindow = new PasswordNotMatchWindow();
             } else {
+                SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow();
+                this.dispose();
+
+                //TODO insert into database.
                 /*
                 DatabaseInsertHelperImpl databaseInsertHelper = new DatabaseInsertHelperImpl();
                 databaseInsertHelper.insertUser(Roles.ORGANIZATION.name(), emailField.getText(),

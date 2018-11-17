@@ -1,4 +1,4 @@
-package org.jth.GUI.Orgnization;
+package org.jth.GUI.Windows;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +12,7 @@ public class PasswordNotMatchWindow extends JFrame implements ActionListener {
     private JButton exit = new JButton("Back");
 
     public PasswordNotMatchWindow() {
+        super("Password Does Not Match!");
         drawWindow();
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
         setSize(400, 100);
