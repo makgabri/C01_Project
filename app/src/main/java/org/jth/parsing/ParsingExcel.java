@@ -24,8 +24,18 @@ public class ParsingExcel {
 
     private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
 
+    private static ParsingExcel parsingExcel;
 
+    private ParsingExcel() {}
 
+    public static ParsingExcel getInstance() {
+        if(parsingExcel == null) {
+            parsingExcel = new ParsingExcel();
+        }
+        return parsingExcel;
+    }
+
+    /*
     public static void main(String[] args)
             throws NotExcelException, IOException, TemplateLineIndexOutOfRange, TemplateIndexOutOfRange {
         String file =
@@ -36,7 +46,7 @@ public class ParsingExcel {
         e.getFromExcel(file);
         System.out.println(e.parsingTitle(5));
         //e.getSpecificTemplates(5).size();
-    }
+    }*/
 
     /**
      * get file type and decide which type of Excel is going to use.
@@ -248,6 +258,10 @@ public class ParsingExcel {
         } else {
             throw new TemplateLineIndexOutOfRange();
         }
+    }
+
+    public void dropAllTheTemplates() {
+        templates.clear();
     }
 
     /*******************************************************************************
