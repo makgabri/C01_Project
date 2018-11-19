@@ -37,7 +37,7 @@ public class TemplateDatabaseTest {
         list.add(""); list.add(""); list.add(""); list.add("");
         list.add(""); list.add(""); list.add("2"); list.add("89");
         list.add("");
-        dbi.insertTemplateItems("EMPLOYEE", list);
+        dbi.insertTemplateItems(connection, "EMPLOYEE", list, 3);
       } catch (Exception e) {
         fail("Should not throw any exception");
       }
@@ -46,7 +46,7 @@ public class TemplateDatabaseTest {
     @AfterEach
     public void cleanUp() {
       try {
-        TemplateDriver.clear(connection, "EMPLOYEE");
+        TemplateDriver.clear(connection);
       } catch (Exception e) {
         fail("Should not throw any exception");
       }

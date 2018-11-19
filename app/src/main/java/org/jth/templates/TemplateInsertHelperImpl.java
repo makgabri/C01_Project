@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.jth.exceptions.IncorrectDataFormatException;
 
 public class TemplateInsertHelperImpl {
 
@@ -14,7 +15,7 @@ public class TemplateInsertHelperImpl {
    * @return true if successfully inserted and false otherwise 
    */
   public boolean insertTemplateItems(Connection connection, String templateType,
-      ArrayList<String> fieldData) throws Exception, SQLException {
+      ArrayList<String> fieldData, Integer row) throws Exception, SQLException {
     // Create prepared statement
     PreparedStatement stmt = null;
     
@@ -43,32 +44,37 @@ public class TemplateInsertHelperImpl {
     }
     
     for (int i = 1; i <= fieldData.size(); i++) {
-      if (fieldType.get(i-1).equals("INTEGER")) {
-        if (fieldData.get(i-1).equals("")) {
-          stmt.setNull(i, java.sql.Types.INTEGER);
-        } else {
-          stmt.setInt(i, Integer.parseInt(fieldData.get(i-1)));
-        }
-      } else if (fieldType.get(i-1).equals("DOUBLE")) {
-        if (fieldData.get(i-1).equals("")) {
-          stmt.setNull(i, java.sql.Types.DOUBLE);
-        } else {
-          stmt.setDouble(i, Double.parseDouble(fieldData.get(i-1)));
-        }
-      } else if (fieldType.get(i-1).equals("BOOLEAN")) {
-        if (fieldData.get(i-1).equals("")) {
-          stmt.setNull(i, java.sql.Types.BOOLEAN);
-        } else {
-          stmt.setBoolean(i, Boolean.parseBoolean(fieldData.get(i-1)));
-        }
-      } else if (fieldType.get(i-1).equals("LONGVARCHAR")) {
-        stmt.setString(i, fieldData.get(i-1));
-      } else if(fieldType.get(i-1).equals("DATE")) {
-        if (fieldData.get(i-1).equals("")) {
-          stmt.setNull(i, java.sql.Types.DATE);
-        } else {
-          stmt.setDate(i, java.sql.Date.valueOf(fieldData.get(i-1)));
-        }
+      try {
+        if (fieldType.get(i-1).equals("INTEGER")) {
+          if (fieldData.get(i-1).equals("")) {
+            stmt.setNull(i, java.sql.Types.INTEGER);
+          } else {
+            stmt.setInt(i, Integer.parseInt(fieldData.get(i-1)));
+          }
+        } else if (fieldType.get(i-1).equals("DOUBLE")) {
+          if (fieldData.get(i-1).equals("")) {
+            stmt.setNull(i, java.sql.Types.DOUBLE);
+          } else {
+            stmt.setDouble(i, Double.parseDouble(fieldData.get(i-1)));
+          }
+        } else if (fieldType.get(i-1).equals("BOOLEAN")) {
+          if (fieldData.get(i-1).equals("")) {
+            stmt.setNull(i, java.sql.Types.BOOLEAN);
+          } else {
+            stmt.setBoolean(i, Boolean.parseBoolean(fieldData.get(i-1)));
+          }
+        } else if (fieldType.get(i-1).equals("LONGVARCHAR")) {
+          stmt.setString(i, fieldData.get(i-1));
+        } else if(fieldType.get(i-1).equals("DATE")) {
+          if (fieldData.get(i-1).equals("")) {
+            stmt.setNull(i, java.sql.Types.DATE);
+          } else {
+            stmt.setDate(i, java.sql.Date.valueOf(fieldData.get(i-1)));
+          }
+        } 
+      } catch(Exception e) {
+          // Throw an exception for this row if something wrong in cell
+          throw new IncorrectDataFormatException(templateType, row, i);
       }
     }
     

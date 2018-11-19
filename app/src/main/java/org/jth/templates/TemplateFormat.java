@@ -55,7 +55,6 @@ public class TemplateFormat {
        template.insertField(new Field(field+counter,
            fieldMap.get(field).getType(), Boolean.valueOf(temp[0]),
            Boolean.valueOf(temp[1]), Boolean.valueOf(temp[2]))); 
-       System.out.println(field + counter);
      } else if (field.equals("BETWEEN") || field.equals("AND")) {
        String[] param = fieldMap.get(field).getParam().split(";");
        int counter = 1;
@@ -65,9 +64,7 @@ public class TemplateFormat {
        template.insertField(new Field(field+counter,
            fieldMap.get(field).getType(), Boolean.valueOf(param[0]),
            Boolean.valueOf(param[1]), Boolean.valueOf(param[2])));
-       System.out.println(field+counter);
      } else {
-       System.out.println(field);
        template.insertField(fieldMap.get(field));
      }
    }
