@@ -55,8 +55,8 @@ public class TemplateDatabaseTest {
     @Test
     void testInsertUniqueIV() throws Exception {
       try {
-        assertEquals("A1A 2B2", dbs.getValueFromField(123123123, "EMPLOYEE",
-            "POSTAL_CODE_WHERE_THE_SERVICE_WAS_RECEIVED"));
+        assertEquals("A1A 2B2", dbs.getValueFromField(connection, 123123123,
+            "EMPLOYEE", "POSTAL_CODE_WHERE_THE_SERVICE_WAS_RECEIVED"));
       } catch (Exception e) {
         fail("Could not insert a field");
       }

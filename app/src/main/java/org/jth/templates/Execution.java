@@ -28,7 +28,7 @@ public class Execution {
       
       connection = DatabaseDriver.connectOrCreateDatabase();
       
-      for  (int i = 1; i < pe.getTemplatesSize(); i++) {
+      for  (int i = 1; i <= pe.getTemplatesSize(); i++) {
         // Get Template Name
         String templateType = null;
         try {

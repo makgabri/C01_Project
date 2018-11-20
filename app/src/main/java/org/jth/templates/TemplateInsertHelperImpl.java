@@ -44,6 +44,8 @@ public class TemplateInsertHelperImpl {
     }
     
     for (int i = 1; i <= fieldData.size(); i++) {
+      System.out.println(fieldData.get(i-1));
+      System.out.println(fieldType.get(i-1));
       try {
         if (fieldType.get(i-1).equals("INTEGER")) {
           if (fieldData.get(i-1).equals("")) {

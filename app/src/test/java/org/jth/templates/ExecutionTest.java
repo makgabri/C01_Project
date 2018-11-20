@@ -20,7 +20,7 @@ public class ExecutionTest {
     @DisplayName("Testing at first to see that no errors occur")
     public void testEmployee() {
       try {
-        String path = new File("app/src/test/java/org/jth/templates/New_iCARE_Template_Comb_with_Examples.xlsx").getAbsolutePath();
+        String path = new File("app/src/test/java/org/jth/templates/Template.xlsx").getAbsolutePath();
         Execution exe = new Execution();
         exe.execute(path);
       } catch (Exception e) {
