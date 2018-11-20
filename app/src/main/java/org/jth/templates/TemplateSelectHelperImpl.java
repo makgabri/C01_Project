@@ -7,58 +7,69 @@ public class TemplateSelectHelperImpl {
 
   /**
    * Gets an object by field and unique iv
+   * @param connection - connection to the database
    * @param uniqueiv - unique identifier value of the record to be looked at
+   * @param templateName - template to get data from
    * @param field - the column of data that is to be retrieved
    * @return - the data from the column 
    */
-  public Object getValueFromField(Integer uniqueiv, String templateName,
-      String field) {
-    Connection conn = DatabaseDriver.connectOrCreateDatabase();
+  public String getValueFromField(Connection connection,
+      Integer uniqueiv, String templateName, String field) {
+    Connection conn = connection;
     Statement stmt;
     String sql;
     ResultSet rs;
-    Object result = null;
+    Object item = null;
     
-    sql = "SELECT * FROM "+ templateName +" WHERE UNIQUE_IDENTIFIER_VALUE="
+    sql = "SELECT " + field + " FROM "+ templateName +" WHERE UNIQUE_IDENTIFIER_VALUE="
         + uniqueiv + ";";
     try {
       stmt = conn.createStatement();
       rs = stmt.executeQuery(sql);
       if (rs.next()) {
-        result = rs.getObject(field);
+        item = rs.getObject(field);
       }
       rs.close();
       stmt.close();
-      conn.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    String result = (item == null ? null : item.toString());
+    return result;
+  }
+
+  /**
+   * 
+   * @param connection - connection to database
+   * @param templateName - templteName to look in
+   * @param field - field item of field to be looked at
+   * @param condition - to compare to this value
+   * @return - total number of items in template name with condition in field
+   */
+  public int getTotalFromField(Connection connection, String templateName,
+      Field field, String condition) {
+    int result = 0;
+    Connection conn = connection;
+    Statement stmt;
+    String sql;
+    ResultSet rs;
+    Object item;
+    String temp;
+    
+    sql = "SELECT" + field.toString() + "FROM " + templateName;
+    try {
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        item = rs.getObject(field.toString());
+        temp = (item == null ? null : item.toString());
+        if (temp.equals(condition)) {
+          result += 1;
+        }
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
     return result;
   }
-
-  /**
-   * Updates the value in the table
-   * @param uniqueiv - unique identifier value of record to be updated
-   * @param field - column to be updated
-   * @param value - new value to be replaced
-   * @return - true if successfull changed, false otherwise
-   */
-  public Boolean updateValue(Integer uniqueiv, String field, Object value) {
-    Connection conn = DatabaseDriver.connectOrCreateDatabase();
-    Statement stmt = null;
-    try {
-      stmt = conn.createStatement();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    String sql = "UPDATE TEMPLATE SET " + field + "='" + value+ "' WHERE "
-        + "UNIQUEIV = '" + uniqueiv + "'";
-    try {
-      stmt.execute(sql);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return true;
-  }
-
 }

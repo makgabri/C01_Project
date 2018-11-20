@@ -28,7 +28,7 @@ public class Execution {
       
       connection = DatabaseDriver.connectOrCreateDatabase();
       
-      for  (int i = 2; i < pe.getTemplatesSize(); i++) {
+      for  (int i = 1; i < pe.getTemplatesSize(); i++) {
         // Get Template Name
         String templateType = null;
         try {
@@ -37,7 +37,8 @@ public class Execution {
           e1.printStackTrace();
         }
         // Initialize template as an object first
-        // Debug Message: System.out.println("TEMPLATE TITLE:" + templateType);
+        // Comment out below for debuging message
+        System.out.println("TEMPLATE TITLE:" + templateType);
         if (!tf.doesTemplateExist(templateType)) {
           try {
             tf.insertTemplate(templateType, pe.parsingFieldType(i));
