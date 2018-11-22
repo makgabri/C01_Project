@@ -13,16 +13,13 @@ import org.apache.poi.ss.usermodel.*;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.jth.exceptions.CloseExcelFailException;
-import org.jth.exceptions.NotExcelException;
-import org.jth.exceptions.TemplateIndexOutOfRange;
-import org.jth.exceptions.TemplateLineIndexOutOfRange;
+import org.jth.exceptions.*;
 import org.jth.templates.fieldoptions.*;
 
 
 public class ParsingExcel {
 
-    private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<ArrayList<ArrayList<String>>>();
+    private ArrayList<ArrayList<ArrayList<String>>> templates = new ArrayList<>();
 
     private static ParsingExcel parsingExcel;
 
@@ -55,7 +52,10 @@ public class ParsingExcel {
      * @throws NotExcelException if input file is not an Excel type.
      * @throws IOException if cannot open or close a file.
      */
-    public void getFromExcel(String filename) throws NotExcelException, IOException {
+    public void getFromExcel(String filename) throws NotExcelException, IOException, TemplateNullException {
+        if(templates == null) {
+            throw new TemplateNullException();
+        }
         InputStream is = new FileInputStream(new File(filename));
         String type = filename.substring(filename.lastIndexOf(".") + 1);
         if (type.equals("xls")) {
@@ -198,7 +198,7 @@ public class ParsingExcel {
     }
 
     /**
-     * print the templates
+     * print the templates just for testing !
      */
     public void printTemplate() {
         for(int i = 0; i < templates.size(); i ++) {
@@ -224,7 +224,10 @@ public class ParsingExcel {
      * get the number of templates.
      * @return number of templates
      */
-    public int getTemplatesSize() {
+    public int getTemplatesSize() throws TemplateNullException {
+        if(templates == null) {
+            throw new TemplateNullException();
+        }
         return templates.size();
     }
 
@@ -234,7 +237,11 @@ public class ParsingExcel {
      * @return the specific templates.
      * @throws TemplateIndexOutOfRange template index is out of range.
      */
-    public ArrayList<ArrayList<String>> getSpecificTemplates(int index) throws TemplateIndexOutOfRange{
+    public ArrayList<ArrayList<String>> getSpecificTemplates(int index)
+            throws TemplateIndexOutOfRange, TemplateNullException{
+        if(templates == null) {
+            throw new TemplateNullException();
+        }
         if(index <= templates.size()){
             return templates.get(index - 1);
         } else {
@@ -251,7 +258,10 @@ public class ParsingExcel {
      * @throws TemplateIndexOutOfRange template index is out of range.
      */
     public ArrayList<String> getSpecificTemplatesWithSpecificLine(int templateIndex, int lineIndex)
-            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
+            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange, TemplateNullException {
+        if(templates == null) {
+            throw new TemplateNullException();
+        }
         ArrayList<ArrayList<String>> template = getSpecificTemplates(templateIndex);
         if(lineIndex <= template.size()) {
             return template.get(lineIndex - 1);
@@ -262,6 +272,12 @@ public class ParsingExcel {
 
     public void dropAllTheTemplates() {
         templates.clear();
+    }
+
+    public void setUpTemplates() {
+        if(templates == null) {
+            templates = new ArrayList<>();
+        }
     }
 
     /*******************************************************************************
@@ -276,7 +292,7 @@ public class ParsingExcel {
      * @throws TemplateIndexOutOfRange template index is out of range.
      */
     public ArrayList<String> parsingFieldType(int templateIndex)
-            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange {
+            throws TemplateIndexOutOfRange, TemplateLineIndexOutOfRange, TemplateNullException {
         ArrayList<String> fieldType = getSpecificTemplatesWithSpecificLine(templateIndex, 3);
         for (int i = 0; i < fieldType.size(); i ++) {
             fieldType.set(i, checkFieldType(fieldType.get(i)));
@@ -285,7 +301,8 @@ public class ParsingExcel {
         return fieldType;
     }
 
-    public String parsingTitle(int templateIndex) throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange {
+    public String parsingTitle(int templateIndex)
+            throws TemplateLineIndexOutOfRange, TemplateIndexOutOfRange, TemplateNullException {
         ArrayList<String> line = getSpecificTemplatesWithSpecificLine(templateIndex, 1);
         String title = line.get(0);
         String [] a = title.split("\n");

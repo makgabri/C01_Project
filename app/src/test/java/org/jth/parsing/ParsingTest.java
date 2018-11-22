@@ -3,6 +3,7 @@ package org.jth.parsing;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateIndexOutOfRange;
 import org.jth.exceptions.TemplateLineIndexOutOfRange;
+import org.jth.exceptions.TemplateNullException;
 import org.jth.templates.fieldoptions.Fields;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,13 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParsingTest {
 
-    private static ParsingExcel parsingExcel = new ParsingExcel();
+    private static ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private static final String
             xlsxPath = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/Team1/app/src/test/java/org/jth/parsing/New_iCARE_Template_Comb_with_Examples.xlsx";
     private static final String
             xlsPath = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/Team1/app/src/test/java/org/jth/parsing/SampleXLSFile_212kb.xls";
 
-    private void readFromExcel() throws IOException, NotExcelException {
+    private void readFromExcel() throws IOException, NotExcelException, TemplateNullException {
+        parsingExcel.setUpTemplates();
         parsingExcel.getFromExcel(xlsxPath);
     }
 
@@ -31,6 +33,7 @@ public class ParsingTest {
     public void testReadNonExcelFile() {
         String nonExcelFilePath = "/Users/xingyuanzhu/Documents/UofT/CSCC01/pro/Team1/app/src/test/java/org/jth/parsing/NotExcel.txt";
         assertThrows(NotExcelException.class, () -> {
+            parsingExcel.setUpTemplates();
             parsingExcel.getFromExcel(nonExcelFilePath);
         }, "exception was thrown for an Non Excel file");
     }
@@ -96,8 +99,10 @@ public class ParsingTest {
     @DisplayName("test read xls file")
     public void testReadXlsFile() {
         try {
+            parsingExcel.dropAllTheTemplates();
+            parsingExcel.setUpTemplates();
             parsingExcel.getFromExcel(xlsPath);
-            assertEquals(1000, parsingExcel.getSpecificTemplates(9).size());
+            assertEquals(1000, parsingExcel.getSpecificTemplates(1).size());
         } catch (Exception e) {
             e.printStackTrace();
         }
