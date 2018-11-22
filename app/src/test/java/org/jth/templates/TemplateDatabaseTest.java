@@ -37,7 +37,7 @@ public class TemplateDatabaseTest {
         list.add(""); list.add(""); list.add(""); list.add("");
         list.add(""); list.add(""); list.add("2"); list.add("89");
         list.add("");
-        dbi.insertTemplateItems("EMPLOYEE", list);
+        dbi.insertTemplateItems(connection, "EMPLOYEE", list, 3);
       } catch (Exception e) {
         fail("Should not throw any exception");
       }
@@ -46,7 +46,7 @@ public class TemplateDatabaseTest {
     @AfterEach
     public void cleanUp() {
       try {
-        TemplateDriver.clear(connection, "EMPLOYEE");
+        TemplateDriver.clear(connection);
       } catch (Exception e) {
         fail("Should not throw any exception");
       }
@@ -55,8 +55,8 @@ public class TemplateDatabaseTest {
     @Test
     void testInsertUniqueIV() throws Exception {
       try {
-        assertEquals("A1A 2B2", dbs.getValueFromField(123123123, "EMPLOYEE",
-            "POSTAL_CODE_WHERE_THE_SERVICE_WAS_RECEIVED"));
+        assertEquals("A1A 2B2", dbs.getValueFromField(connection, 123123123,
+            "EMPLOYEE", "POSTAL_CODE_WHERE_THE_SERVICE_WAS_RECEIVED"));
       } catch (Exception e) {
         fail("Could not insert a field");
       }
