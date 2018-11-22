@@ -84,4 +84,7 @@ public class TemplateFormat {
     return templateMap.keySet();
   }
 
+  public static String[] getFieldList() {
+    return fieldMap.keySet().toArray(new String[fieldMap.size()]);
+  }
 }

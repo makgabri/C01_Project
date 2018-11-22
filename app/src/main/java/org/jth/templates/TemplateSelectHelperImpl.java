@@ -1,6 +1,7 @@
 package org.jth.templates;
 
 import java.sql.*;
+import java.util.ArrayList;
 import org.jth.databaseHelper.DatabaseDriver;
 
 public class TemplateSelectHelperImpl {
@@ -37,6 +38,32 @@ public class TemplateSelectHelperImpl {
     String result = (item == null ? null : item.toString());
     return result;
   }
+  
+  public ArrayList<String> getUniqueIV(Connection connection, String templateName,
+        String field, String condition) {
+      ArrayList<String> result = new ArrayList<String>();
+      Statement stmt;
+      String sql;
+      ResultSet rs;
+      
+      sql = "SELECT * FROM " + templateName;
+      try {
+        stmt = connection.createStatement();
+        rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+          if (rs.getString(field).equals(condition)) {
+            result.add(Integer.toString(rs.getInt("UNIQUE_IDENTIFIER_VALUE")));
+          }
+        }
+        rs.close();
+        stmt.close();
+      } catch (SQLException e) {
+          // Debug uncomment next line
+          // e.printStackTrace();
+          return result;
+      }
+      return result;
+  }
 
   /**
    * 
@@ -47,7 +74,7 @@ public class TemplateSelectHelperImpl {
    * @return - total number of items in template name with condition in field
    */
   public int getTotalFromField(Connection connection, String templateName,
-      Field field, String condition) {
+      String field, String condition) {
     int result = 0;
     Connection conn = connection;
     Statement stmt;
@@ -56,19 +83,21 @@ public class TemplateSelectHelperImpl {
     Object item;
     String temp;
     
-    sql = "SELECT" + field.toString() + "FROM " + templateName;
+    sql = "SELECT * FROM " + templateName;
     try {
       stmt = conn.createStatement();
       rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        item = rs.getObject(field.toString());
-        temp = (item == null ? null : item.toString());
-        if (temp.equals(condition)) {
+        if (rs.getString(field).equals(condition)) {
           result += 1;
         }
       }
+      rs.close();
+      stmt.close();
     } catch (SQLException e) {
-      e.printStackTrace();
+      // Debug uncomment next line
+      // e.printStackTrace();
+      return result;
     }
     return result;
   }
