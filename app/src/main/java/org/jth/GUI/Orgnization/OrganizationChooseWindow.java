@@ -1,6 +1,7 @@
 package org.jth.GUI.Orgnization;
 
 import org.jth.exceptions.NotExcelException;
+import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
 
 import javax.swing.*;
@@ -49,44 +50,6 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         removeUploadFileButton.addActionListener(this);
     }
 
-    private void performLoadingWindow(ActionEvent e, String filePath) {
-        SwingWorker<Void, Void> mySwingWorker = new SwingWorker<Void, Void>(){
-            @Override
-            protected Void doInBackground() throws Exception {
-                parsingExcel.setUpTemplates();
-                parsingExcel.getFromExcel(filePath);
-                Thread.sleep(SLEEP_TIME);
-                return null;
-            }
-        };
-
-        Window win = SwingUtilities.getWindowAncestor((AbstractButton)e.getSource());
-        final JDialog dialog = new JDialog(win, "Upload Window", Dialog.ModalityType.APPLICATION_MODAL);
-
-        mySwingWorker.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("state")) {
-                    if (evt.getNewValue() == SwingWorker.StateValue.DONE) {
-                        dialog.dispose();
-                    }
-                }
-            }
-        });
-        mySwingWorker.execute();
-
-        JProgressBar progressBar = new JProgressBar();
-        progressBar.setIndeterminate(true);
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(progressBar, BorderLayout.CENTER);
-        panel.add(new JLabel("Please wait......."), BorderLayout.PAGE_START);
-        dialog.add(panel);
-        dialog.pack();
-        dialog.setLocationRelativeTo(win);
-        dialog.setSize(300, 100);
-        dialog.setVisible(true);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == uploadButton) {
@@ -100,7 +63,8 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
                 try {
                     File file = jfc.getSelectedFile();
                     if (file.isFile()) {
-                        performLoadingWindow(e, jfc.getSelectedFile().getAbsolutePath());
+                        parsingExcel.setUpTemplates();
+                        parsingExcel.getFromExcel(jfc.getSelectedFile().getAbsolutePath());
                         UploadSuccessWindow uploadSuccessWindow = new UploadSuccessWindow();
                         parsingExcel.printTemplate();
                     } else {
@@ -110,6 +74,10 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
                     NotExcelWindow notExcelWindow = new NotExcelWindow();
                 } catch (NullPointerException nullPointer) {
                     System.out.println("User did not choice any file");
+                } catch (TemplateNullException NULLException) {
+                    NULLException.printStackTrace();
+                } catch (IOException IO) {
+                    IO.printStackTrace();
                 }
             } else {
                 AlreadyUploadWindow alreadyUploadWindow = new AlreadyUploadWindow();
