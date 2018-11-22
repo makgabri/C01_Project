@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Set;
 import javax.swing.*;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.templates.TemplateFormat;
@@ -16,7 +15,7 @@ public class QueryPage extends JFrame implements ActionListener {
     public static void main(String[] args) {
         TemplateFormat tf = new TemplateFormat();
         tf.insertTemplate("CLIENT_PROFILE", new ArrayList<>());
-        QueryPage queryPage = new QueryPage();
+        new QueryPage();
     }
   
     private static final long serialVersionUID = 1L;
@@ -43,7 +42,9 @@ public class QueryPage extends JFrame implements ActionListener {
     private JLabel fieldTypeHeader = new JLabel("Field Type:    ");
     private JLabel fieldSearchHeader = new JLabel("Search Item:    ");
     private JLabel result = new JLabel("");
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private JComboBox templateList = new JComboBox(TemplateFormat.getTemplateList().toArray());
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private JComboBox fieldList = new JComboBox(TemplateFormat.getFieldList());
     private JTextField searchTextBox = new JTextField("");
 

@@ -2,7 +2,6 @@ package org.jth.templates;
 
 import java.sql.*;
 import java.util.ArrayList;
-import org.jth.databaseHelper.DatabaseDriver;
 
 public class TemplateSelectHelperImpl {
 
@@ -39,6 +38,16 @@ public class TemplateSelectHelperImpl {
     return result;
   }
   
+  /**
+   * Searches for all Unique Identifier Values with condition in field in
+   * template name
+   * @param connection - connection to database
+   * @param templateName - templateName to look in
+   * @param field - field to be looked at 
+   * @param condition - to compare to this value
+   * @return - an array of all unique iv the contain condition in field in
+   *            template name
+   */
   public ArrayList<String> getUniqueIV(Connection connection, String templateName,
         String field, String condition) {
       ArrayList<String> result = new ArrayList<String>();
@@ -69,7 +78,7 @@ public class TemplateSelectHelperImpl {
    * 
    * @param connection - connection to database
    * @param templateName - templteName to look in
-   * @param field - field item of field to be looked at
+   * @param field - fieldto be looked at
    * @param condition - to compare to this value
    * @return - total number of items in template name with condition in field
    */
@@ -80,8 +89,6 @@ public class TemplateSelectHelperImpl {
     Statement stmt;
     String sql;
     ResultSet rs;
-    Object item;
-    String temp;
     
     sql = "SELECT * FROM " + templateName;
     try {

@@ -19,6 +19,9 @@ public class TemplateFormat {
   public static HashMap<String, Field> fieldMap = new HashMap<>();
   public static boolean initialized = false;;
   
+  // Initializes template format if it has not been initialized
+  // During initialization, class scans through fieldformat to initialize field
+  // objetcs
   public TemplateFormat() {
     if (!initialized) {
       Properties props = new Properties();
@@ -43,10 +46,19 @@ public class TemplateFormat {
     return (templateMap.get(templateType) != null);
   }
   
+  /**
+   * Creates a template object with information about the template and inserts
+   * it into the template Map
+   * @param templateType - name of template
+   * @param fieldList - list of all fields in the template
+   */
   public void insertTemplate(String templateType, ArrayList<String> fieldList) {
+    // Initialize template object
    Template template = new Template(templateType);
+   // Search through fieldList and compare with existing fields to get field object
    for (String field : fieldList) {
      if (template.getFieldOrder().contains(field)) {
+       // Perform actions if field exists to prevent sql error
        String[] temp = fieldMap.get(field).getParam().split(";");
        int counter = 2;
        while (template.getFieldOrder().contains(field + counter)) {
@@ -56,6 +68,8 @@ public class TemplateFormat {
            fieldMap.get(field).getType(), Boolean.valueOf(temp[0]),
            Boolean.valueOf(temp[1]), Boolean.valueOf(temp[2]))); 
      } else if (field.equals("BETWEEN") || field.equals("AND")) {
+       // Perform necessary actions if field is BETWEEN or AND cause it causes
+       // sql errors
        String[] param = fieldMap.get(field).getParam().split(";");
        int counter = 1;
        while (template.getFieldOrder().contains(field + counter)) {
@@ -80,10 +94,18 @@ public class TemplateFormat {
     return templateMap.get(templateType);
   }
   
+  /**
+   * Gets the list of all templates names as a Set
+   * @return - set of template names
+   */
   public static Set<String> getTemplateList() {
     return templateMap.keySet();
   }
 
+  /**
+   * gets string array of all fields defined
+   * @return - String array of all fields
+   */
   public static String[] getFieldList() {
     return fieldMap.keySet().toArray(new String[fieldMap.size()]);
   }
