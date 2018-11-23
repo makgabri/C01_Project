@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Target;
 import java.security.NoSuchAlgorithmException;
+
+import org.jth.GUI.Windows.StarterWindow;
 // Database neccesity imports
 import org.jth.databaseHelper.*;
 // User neccessity imports
@@ -23,7 +25,7 @@ public class cmdTerminal{
     private String usermail;
     private String password;
     // Global variable to store parsed excel file
-    private ParsingExcel parsed = new ParsingExcel();
+    private ParsingExcel parsed = ParsingExcel.getInstance();
     private DatabaseInsertHelper dbi = new DatabaseInsertHelperImpl();
 	private DatabaseUpdateHelper dbu = new DatabaseUpdateHelperImpl();
     private DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
@@ -97,6 +99,9 @@ public class cmdTerminal{
         try{
             parsed.getFromExcel(filename);
         }
+        catch (TemplateNullException e) {
+        	System.out.println("Template returned a null exception");
+        }
         // Error catching
         catch (NotExcelException e)
         {
@@ -127,10 +132,15 @@ public class cmdTerminal{
         System.out.println("Enter 4 to print out the recent parsed file");
         System.out.print("Your choice of command is : ");
     }
+    
+    public static void displayStarterPage() {
+        StarterWindow starterWindow = new StarterWindow();
+    }
 
     // Main method
     public static void main(String[] args)
     {
+    	displayStarterPage();
         System.out.println("Welcome to the management system");
         // Integer correspond to command menu
         int cmdNum = 1;

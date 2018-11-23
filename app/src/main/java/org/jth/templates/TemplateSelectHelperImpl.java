@@ -1,7 +1,7 @@
 package org.jth.templates;
 
 import java.sql.*;
-import org.jth.databaseHelper.DatabaseDriver;
+import java.util.ArrayList;
 
 public class TemplateSelectHelperImpl {
 
@@ -37,38 +37,74 @@ public class TemplateSelectHelperImpl {
     String result = (item == null ? null : item.toString());
     return result;
   }
+  
+  /**
+   * Searches for all Unique Identifier Values with condition in field in
+   * template name
+   * @param connection - connection to database
+   * @param templateName - templateName to look in
+   * @param field - field to be looked at 
+   * @param condition - to compare to this value
+   * @return - an array of all unique iv the contain condition in field in
+   *            template name
+   */
+  public ArrayList<String> getUniqueIV(Connection connection, String templateName,
+        String field, String condition) {
+      ArrayList<String> result = new ArrayList<String>();
+      Statement stmt;
+      String sql;
+      ResultSet rs;
+      
+      sql = "SELECT * FROM " + templateName;
+      try {
+        stmt = connection.createStatement();
+        rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+          if (rs.getString(field).equals(condition)) {
+            result.add(Integer.toString(rs.getInt("UNIQUE_IDENTIFIER_VALUE")));
+          }
+        }
+        rs.close();
+        stmt.close();
+      } catch (SQLException e) {
+          // Debug uncomment next line
+          // e.printStackTrace();
+          return result;
+      }
+      return result;
+  }
 
   /**
    * 
    * @param connection - connection to database
    * @param templateName - templteName to look in
-   * @param field - field item of field to be looked at
+   * @param field - fieldto be looked at
    * @param condition - to compare to this value
    * @return - total number of items in template name with condition in field
    */
   public int getTotalFromField(Connection connection, String templateName,
-      Field field, String condition) {
+      String field, String condition) {
     int result = 0;
     Connection conn = connection;
     Statement stmt;
     String sql;
     ResultSet rs;
-    Object item;
-    String temp;
     
-    sql = "SELECT" + field.toString() + "FROM " + templateName;
+    sql = "SELECT * FROM " + templateName;
     try {
       stmt = conn.createStatement();
       rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        item = rs.getObject(field.toString());
-        temp = (item == null ? null : item.toString());
-        if (temp.equals(condition)) {
+        if (rs.getString(field).equals(condition)) {
           result += 1;
         }
       }
+      rs.close();
+      stmt.close();
     } catch (SQLException e) {
-      e.printStackTrace();
+      // Debug uncomment next line
+      // e.printStackTrace();
+      return result;
     }
     return result;
   }

@@ -87,7 +87,7 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
         container.add(textPanel);
         container.add(signUpButton);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == signUpButton) {

@@ -3,7 +3,6 @@ package org.jth.templates;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.exceptions.ConnectionFailedException;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateIndexOutOfRange;
@@ -12,11 +11,10 @@ import org.jth.parsing.ParsingExcel;
 
 public class Execution {
 
-    public void execute(String filename) {
+    public void execute(Connection connection, String filename) {
       TemplateInsertHelperImpl tih = new TemplateInsertHelperImpl();
       TemplateFormat tf = new TemplateFormat();  
       ParsingExcel pe = new ParsingExcel();
-      Connection connection = null;
 
       try {
         pe.getFromExcel(filename);
@@ -25,8 +23,6 @@ public class Execution {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      
-      connection = DatabaseDriver.connectOrCreateDatabase();
       
       for  (int i = 1; i <= pe.getTemplatesSize(); i++) {
         // Get Template Name
@@ -38,7 +34,7 @@ public class Execution {
         }
         // Initialize template as an object first
         // Comment out below for debuging message
-        System.out.println("TEMPLATE TITLE:" + templateType);
+        // System.out.println("TEMPLATE TITLE:" + templateType);
         if (!tf.doesTemplateExist(templateType)) {
           try {
             tf.insertTemplate(templateType, pe.parsingFieldType(i));

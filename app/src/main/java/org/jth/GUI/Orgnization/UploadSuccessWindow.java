@@ -41,7 +41,7 @@ public class UploadSuccessWindow extends JFrame implements ActionListener {
         container.add(textPanel);
         container.add(buttonPanel);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == exit) {
