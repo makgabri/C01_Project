@@ -2,6 +2,10 @@ package org.jth.GUI.Orgnization;
 
 import org.jth.GUI.Windows.PasswordNotMatchWindow;
 import org.jth.GUI.Windows.SignUpSuccessWindow;
+import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.user.Organization;
+import org.jth.user.Roles;
+import org.jth.user.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +15,8 @@ import javax.swing.*;
 public class OrganizationSignUpWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
     private JPanel textPanel = new JPanel();
+
+    private User user;
 
     private JTextField nameField = new JTextField(15);
     private JTextField emailField = new JTextField(15);
@@ -89,14 +95,15 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
                     new String(conformPasswordField.getPassword()))) {
                 PasswordNotMatchWindow passwordNotMatchWindow = new PasswordNotMatchWindow();
             } else {
-                SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow();
-                this.dispose();
-
-                //TODO insert into database.
-                /*
                 DatabaseInsertHelperImpl databaseInsertHelper = new DatabaseInsertHelperImpl();
                 databaseInsertHelper.insertUser(Roles.ORGANIZATION.name(), emailField.getText(),
-                        new String(passwordField.getPassword()));*/
+                        new String(passwordField.getPassword()));
+
+                SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow();
+                this.dispose();
+                //TODO insert into database.
+
+
             }
         }
     }

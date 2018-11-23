@@ -2,6 +2,7 @@ package org.jth.GUI.Windows;
 
 import org.jth.GUI.Orgnization.OrganizationChooseWindow;
 import org.jth.user.Roles;
+import org.jth.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,9 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
     private JLabel loginSuccess = new JLabel("Sign in Success!");
     private JLabel loginfail = new JLabel("Sign in Failed!");
 
-    public LoginSuccessOrFailWindow(int success, Roles roles) {
+    private User user;
+
+    public LoginSuccessOrFailWindow(int success, Roles roles, User user) {
         super("Login State");
         this.roles = roles;
         drawWindow(success);
@@ -31,6 +34,7 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
         setVisible(true);
         setResizable(false);
         this.setLocationRelativeTo(null);
+        this.user = user;
     }
 
     private void drawWindow(int choice) {
@@ -69,7 +73,7 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
             if(roles == Roles.UTSC) {
 
             } else if(roles == Roles.ORGANIZATION){
-                OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow();
+                OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(user);
             } else {
 
             }

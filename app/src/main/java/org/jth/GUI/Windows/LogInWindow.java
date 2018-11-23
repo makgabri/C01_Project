@@ -1,21 +1,30 @@
 package org.jth.GUI.Windows;
 
+import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.databaseHelper.DatabaseSelectHelper;
+import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.user.Roles;
+import org.jth.user.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 public class LogInWindow extends JFrame implements ActionListener {
     private Roles roles;
+
+    private User user;
+    private DatabaseSelectHelper databaseSelectHelper = new DatabaseSelectHelperImpl();
 
     private JPanel buttonPanel = new JPanel(new FlowLayout());
     private JPanel textPanel = new JPanel();
     private Container container = getContentPane();
 
     private JButton logInButton = new JButton("Log In");
-    private JTextField idField = new JTextField(10);
+    private JTextField emailField = new JTextField(10);
     private JTextField passwordField = new JPasswordField(10);
 
     public LogInWindow(Roles roles) {
@@ -38,13 +47,13 @@ public class LogInWindow extends JFrame implements ActionListener {
         GridBagConstraints c = new GridBagConstraints();
         textPanel.setLayout(gridbag);
 
-        JLabel id = new JLabel("Id: ");
+        JLabel id = new JLabel("Email: ");
         JLabel password = new JLabel("Password: ");
 
         textPanel.add(id);
         c.gridwidth = GridBagConstraints.REMAINDER;
-        gridbag.setConstraints(idField, c);
-        textPanel.add(idField);
+        gridbag.setConstraints(emailField, c);
+        textPanel.add(emailField);
 
 
         textPanel.add(password);
@@ -60,16 +69,20 @@ public class LogInWindow extends JFrame implements ActionListener {
         container.add(logInButton);
     }
 
-    private void checkLoginSuccessOrNot() {
-        String id = idField.getText();
-        String password = passwordField.getText();
-
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == logInButton) {
             if(roles == Roles.ORGANIZATION) {
+                try {
+                    if (user.logIn(databaseSelectHelper.getUserId(emailField.getText()), passwordField.getText())) {
+                        user = databaseSelectHelper.getUser(databaseSelectHelper.getUserId(emailField.getText()));
+                        LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(1, roles, user);
+                    } else {
+                        LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(1, roles, user);
+                    }
+                } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                    ex.printStackTrace();
+                }
                 // TODO Organization Login uncomment the code below
                 // if(success)
                 //  dispose();

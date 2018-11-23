@@ -3,6 +3,7 @@ package org.jth.GUI.Orgnization;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
+import org.jth.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,8 +23,9 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private Boolean uploaded = false;
+    private User user;
 
-    public OrganizationChooseWindow() {
+    public OrganizationChooseWindow(User user) {
         super("Organization Main Menu");
         drawWindow();
         setSize(400, 200);
@@ -31,6 +33,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         setVisible(true);
         setResizable(false);
         this.setLocationRelativeTo(null);
+        this.user = user;
     }
 
     private void drawWindow() {
