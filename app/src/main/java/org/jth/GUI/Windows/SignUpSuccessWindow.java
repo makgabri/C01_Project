@@ -1,6 +1,7 @@
 package org.jth.GUI.Windows;
 
 import org.jth.GUI.Orgnization.OrganizationChooseWindow;
+import org.jth.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,9 @@ public class SignUpSuccessWindow extends JFrame implements ActionListener {
     private JPanel buttonPanel = new JPanel(new FlowLayout());
     private JButton exit = new JButton("Back");
 
-    public SignUpSuccessWindow() {
+    private User user;
+
+    public SignUpSuccessWindow(User user) {
         super("Sign Up Success!");
         drawWindow();
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
@@ -22,6 +25,7 @@ public class SignUpSuccessWindow extends JFrame implements ActionListener {
         setVisible(true);
         setResizable(false);
         this.setLocationRelativeTo(null);
+        this.user = user;
     }
 
     private void drawWindow() {
@@ -47,7 +51,7 @@ public class SignUpSuccessWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == exit) {
             this.dispose();
-            OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow();
+            OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(user);
         }
     }
 }
