@@ -10,6 +10,7 @@ import org.jth.user.User;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import javax.swing.*;
 
 public class OrganizationSignUpWindow extends JFrame implements ActionListener {
@@ -97,10 +98,11 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
                 PasswordNotMatchWindow passwordNotMatchWindow = new PasswordNotMatchWindow();
             } else {
                 DatabaseInsertHelperImpl databaseInsertHelper = new DatabaseInsertHelperImpl();
-                databaseInsertHelper.insertUser(Roles.ORGANIZATION.name(), emailField.getText(),
+                Map<String, String> userInfo = databaseInsertHelper.insertUser(Roles.ORGANIZATION.name(), emailField.getText(),
                         new String(passwordField.getPassword()));
-
-                SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow();
+                user = new Organization(nameField.getText(), userInfo.get("userId"), emailField.getText(),
+                        postalCodeField.getText(), supportTypeField.getText(), userInfo.get("creationDate"));
+                SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow(user);
                 this.dispose();
                 //TODO insert into database.
 

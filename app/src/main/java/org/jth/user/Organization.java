@@ -6,13 +6,13 @@ import java.util.Date;
 public class Organization extends User {
     private String name;
     private String postalCode;
-    private SupportType supportType;
+    private String supportType;
 
     public Organization(String name,
                         String userId,
                         String email,
                         String postalCode,
-                        SupportType supportType,
+                        String supportType,
                         String creationDate) {
         this.name = name;
         this.userId = userId;
