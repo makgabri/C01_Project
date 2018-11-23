@@ -214,4 +214,37 @@ public class DatabaseSelectHelperImpl implements DatabaseSelectHelper {
 		return creationDate;
 	}
 
+
+	public Boolean checkUploaded(String userId) {
+        Connection conn = DatabaseDriver.connectOrCreateDatabase();
+        Statement stmt;
+        String sql = "";
+        ResultSet rs;
+        int uploaded = -1;
+
+        sql = "SELECT UPLOADED FROM USERS WHERE ID='" + userId + "';";
+
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                uploaded = rs.getInt("UPLOADED");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if (uploaded == 0) {
+            return false;
+        } else if (uploaded == 1) {
+            return true;
+        } else {
+            return null;
+        }
+    }
+
 }

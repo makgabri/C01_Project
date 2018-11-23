@@ -1,9 +1,12 @@
 package org.jth.GUI.Orgnization;
 
+import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
 import org.jth.user.User;
+import org.jth.databaseHelper.DatabaseSelectHelper;
+import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +23,12 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private JButton uploadButton = new JButton("Upload");
     //private JButton checkUploadedButton = new JButton("Check Uploaded");
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
+    private JButton uploadStatusButton = new JButton("Check Upload Status");
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private Boolean uploaded = false;
     private User user;
+    private DatabaseSelectHelper dbs;
 
     public OrganizationChooseWindow(User user) {
         super("Organization Main Menu");
@@ -34,6 +39,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         setResizable(false);
         this.setLocationRelativeTo(null);
         this.user = user;
+        this.dbs = new DatabaseSelectHelperImpl();
     }
 
     private void drawWindow() {
@@ -43,14 +49,26 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         c.gridwidth = GridBagConstraints.REMAINDER;
         gridbag.setConstraints(uploadButton, c);
         gridbag.setConstraints(removeUploadFileButton, c);
+        gridbag.setConstraints(uploadStatusButton, c);
         //gridbag.setConstraints(checkUploadedButton, c);
         container.add(uploadButton);
         //container.add(checkUploadedButton);
         container.add(removeUploadFileButton);
+        container.add(uploadStatusButton);
 
         uploadButton.addActionListener(this);
         //checkUploadedButton.addActionListener(this);
         removeUploadFileButton.addActionListener(this);
+        uploadStatusButton.addActionListener(this::checkUpload);
+    }
+
+    private void checkUpload(ActionEvent e) {
+        Boolean uploaded  = dbs.checkUploaded(user.getUserId());
+        if (uploaded == null || !uploaded) {
+            JOptionPane.showMessageDialog(this, "You have not uploaded any data.");
+        } else {
+            JOptionPane.showMessageDialog(this,  "You have uploaded your data.");
+        }
     }
 
     @Override

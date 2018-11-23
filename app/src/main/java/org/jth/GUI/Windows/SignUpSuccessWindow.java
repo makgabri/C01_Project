@@ -47,7 +47,7 @@ public class SignUpSuccessWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == exit) {
             this.dispose();
-            OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow();
+            OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(null);
         }
     }
 }

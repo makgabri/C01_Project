@@ -74,8 +74,9 @@ public class LogInWindow extends JFrame implements ActionListener {
         if(e.getSource() == logInButton) {
             if(roles == Roles.ORGANIZATION) {
                 try {
+                    user = databaseSelectHelper.getUser(databaseSelectHelper.getUserId(emailField.getText()));
                     if (user.logIn(databaseSelectHelper.getUserId(emailField.getText()), passwordField.getText())) {
-                        user = databaseSelectHelper.getUser(databaseSelectHelper.getUserId(emailField.getText()));
+
                         LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(1, roles, user);
                     } else {
                         LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(1, roles, user);

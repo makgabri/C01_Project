@@ -91,6 +91,7 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == signUpButton) {
+            /*
             if(!new String(passwordField.getPassword()).equals(
                     new String(conformPasswordField.getPassword()))) {
                 PasswordNotMatchWindow passwordNotMatchWindow = new PasswordNotMatchWindow();
@@ -105,6 +106,9 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
 
 
             }
+            */
+            SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow();
+            this.dispose();
         }
     }
 }

@@ -20,4 +20,6 @@ public interface DatabaseSelectHelper {
 	
 	public String getCreationDate(String userId);
 
+	public Boolean checkUploaded(String userId);
+
 }

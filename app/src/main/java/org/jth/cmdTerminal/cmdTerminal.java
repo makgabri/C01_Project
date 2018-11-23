@@ -1,6 +1,8 @@
 package org.jth.cmdTerminal;
 //Parsing imports
 import org.jth.parsing.*;
+
+import java.sql.Connection;
 import java.util.Scanner;
 import org.jth.exceptions.*;
 
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 // Login neccessity imports
 import org.jth.security.*;
+import org.jth.user.Roles;
 
 
 public class cmdTerminal{
@@ -31,21 +34,36 @@ public class cmdTerminal{
     private DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
     private AuthenticateImpl auth;
     
-    private void initialize()
-    {
+    private void initialize(Connection connection) throws ConnectionFailedException {
+
+        DatabaseDriver.initialize(connection);
+        DatabaseInsertHelper dbInsert = new DatabaseInsertHelperImpl();
+        int orgRoleId = dbInsert.insertRole(Roles.ORGANIZATION.name());
+        if (orgRoleId < 0) {
+            System.out.println("Failed to insert ORGANIZATION role");
+        }
+        int teqRoleId = dbInsert.insertRole(Roles.TEQ.name());
+        if (teqRoleId < 0) {
+            System.out.println("Failed to insert TEQ role");
+        }
+        int utscRoleId = dbInsert.insertRole(Roles.UTSC.name());
+        if (utscRoleId < 0) {
+            System.out.println("Failed to insert UTSC role");
+        }
         // Creating 3 default users
-        dbi.insertUser("UTSC","alice@utsc.ca","123456");
+        dbi.insertUser("UTSC", "alice@utsc.ca", "123456");
         System.out.println("Email alice@utsc.ca created");
         System.out.println("Role set to UTSC");
         System.out.println("Password: 123456");
-        dbi.insertUser("TEQ","bob@teq.ca","123456");
+        dbi.insertUser("TEQ", "bob@teq.ca", "123456");
         System.out.println("Email bob@teq.ca created");
         System.out.println("Role set to TEQ");
         System.out.println("Password: 123456");
-        dbi.insertUser("ORGANIZATION","charl@teq.ca","123456");
+        dbi.insertUser("ORGANIZATION", "charl@teq.ca", "123456");
         System.out.println("Email charl@teq.ca created");
         System.out.println("Role set to ORGANIZATION");
         System.out.println("Password: 123456");
+
     }
 
     // Function for logging in
@@ -140,31 +158,60 @@ public class cmdTerminal{
     // Main method
     public static void main(String[] args)
     {
-    	displayStarterPage();
-        System.out.println("Welcome to the management system");
-        // Integer correspond to command menu
-        int cmdNum = 1;
-        // Instance of cmd terminal
+        Connection connection = DatabaseDriver.connectOrCreateDatabase();
         cmdTerminal terminalInstance = new cmdTerminal();
-        terminalInstance.initialize();
-        while(cmdNum != 0)
-        {
-            terminalInstance.printCmdMenu();
-            Scanner nextCommand = new Scanner(System.in);
-            cmdNum = nextCommand.nextInt();
-            System.out.println("-----------------------------------------------------------");
-            switch (cmdNum) {
-                case 1:  terminalInstance.logIn();;
-                         break;
-                case 2:  terminalInstance.logOut();;
-                         break;
-                case 3:  terminalInstance.parseFromFile();;
-                         break;
-                case 4:  terminalInstance.printRecentExcel();;
-                         break;
+        if (args.length > 0) {
+            if (args[0].equals("-2")) {
+                try {
+                    DatabaseDriver.clear(connection);
+                    System.out.println("All tables have been dropped");
+                } catch (ConnectionFailedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
+            else if (args[0].equals("-1")) {
+                // initialize database here (don't forget to add the first user, etc)
+                try {
+                    terminalInstance.initialize(connection);
+                    System.out.println("Database has been initialized");
+                } catch (ConnectionFailedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            displayStarterPage();
+            System.out.println("Welcome to the management system");
+            // Integer correspond to command menu
+            int cmdNum = 1;
+            // Instance of cmd terminal
+            while (cmdNum != 0) {
+                terminalInstance.printCmdMenu();
+                Scanner nextCommand = new Scanner(System.in);
+                cmdNum = nextCommand.nextInt();
+                System.out.println("-----------------------------------------------------------");
+                switch (cmdNum) {
+                    case 1:
+                        terminalInstance.logIn();
+                        ;
+                        break;
+                    case 2:
+                        terminalInstance.logOut();
+                        ;
+                        break;
+                    case 3:
+                        terminalInstance.parseFromFile();
+                        ;
+                        break;
+                    case 4:
+                        terminalInstance.printRecentExcel();
+                        ;
+                        break;
+                }
+            }
+            System.out.println("Thank you for using the system ");
         }
-        System.out.println("Thank you for using the system ");
     }
 
 }
