@@ -64,7 +64,6 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         final JDialog dialog = new JDialog(win, "Upload Window", Dialog.ModalityType.APPLICATION_MODAL);
 
         mySwingWorker.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("state")) {
                     if (evt.getNewValue() == SwingWorker.StateValue.DONE) {

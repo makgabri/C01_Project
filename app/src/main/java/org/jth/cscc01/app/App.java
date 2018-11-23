@@ -2,6 +2,7 @@ package org.jth.cscc01.app;
 
 import java.sql.Connection;
 
+import org.jth.GUI.Windows.StarterWindow;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
@@ -39,6 +40,11 @@ public class App {
 		dbInsert.insertUser(Roles.ORGANIZATION.name(),"charlie@random.io", "123");
 	}
 	
+	public static void displayStarterPage() {
+        StarterWindow starterWindow = new StarterWindow();
+    }
+	
+	/*
     public static void main( String[] args ) {
     	Connection connection = DatabaseDriver.connectOrCreateDatabase();
         if (args.length > 0) {
@@ -71,5 +77,7 @@ public class App {
         	System.out.println(dbs.getRoleId(Roles.TEQ.name()));
         	System.out.println(dbs.getUser(dbs.getUserId("alice@janitor.edu.ca")).getRole());
         }
+        displayStarterPage();
     }
+    */
 }
