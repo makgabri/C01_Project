@@ -76,9 +76,9 @@ public class TemplateDriver {
         Statement statement = null;
         try {
           statement = connection.createStatement();
-          
           for (String templateType : TemplateFormat.getTemplateList()) {
-            String sql = "DROP TABLE "+ templateType +";";
+            String sql = "DROP TABLE "+ templateType;
+            System.out.println(templateType);
             statement.executeUpdate(sql);
           }
           

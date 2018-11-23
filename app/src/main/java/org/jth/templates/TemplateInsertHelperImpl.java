@@ -44,8 +44,6 @@ public class TemplateInsertHelperImpl {
     }
     
     for (int i = 1; i <= fieldData.size(); i++) {
-      System.out.println(fieldData.get(i-1));
-      System.out.println(fieldType.get(i-1));
       try {
         if (fieldType.get(i-1).equals("INTEGER")) {
           if (fieldData.get(i-1).equals("")) {
@@ -63,7 +61,11 @@ public class TemplateInsertHelperImpl {
           if (fieldData.get(i-1).equals("")) {
             stmt.setNull(i, java.sql.Types.BOOLEAN);
           } else {
-            stmt.setBoolean(i, Boolean.parseBoolean(fieldData.get(i-1)));
+            if (fieldData.get(i-1).equals("Yes")) {
+              stmt.setBoolean(i, true);
+            } else {
+              stmt.setBoolean(i, false);
+            }
           }
         } else if (fieldType.get(i-1).equals("LONGVARCHAR")) {
           stmt.setString(i, fieldData.get(i-1));
@@ -85,6 +87,7 @@ public class TemplateInsertHelperImpl {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    stmt.close();
     return true;
   }
 
