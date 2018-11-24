@@ -7,14 +7,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.*;
 import org.jth.databaseHelper.DatabaseDriver;
-import org.jth.templates.TemplateFormat;
 import org.jth.templates.TemplateSelectHelperImpl;
 
 public class QueryPage extends JFrame implements ActionListener {
     
     public static void main(String[] args) {
-        TemplateFormat tf = new TemplateFormat();
-        tf.insertTemplate("CLIENT_PROFILE", new ArrayList<>());
         new QueryPage();
     }
   
@@ -43,9 +40,8 @@ public class QueryPage extends JFrame implements ActionListener {
     private JLabel fieldSearchHeader = new JLabel("Search Item:    ");
     private JLabel result = new JLabel("");
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private JComboBox templateList = new JComboBox(TemplateFormat.getTemplateList().toArray());
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private JComboBox fieldList = new JComboBox(TemplateFormat.getFieldList());
+    private JComboBox templateList = new JComboBox(tsh.getTables(conn));
+    private JComboBox<String> fieldList = new JComboBox<String>();
     private JTextField searchTextBox = new JTextField("");
 
     //************************************************************
@@ -93,6 +89,12 @@ public class QueryPage extends JFrame implements ActionListener {
             result.setText("");
             cleanWindow();
             drawStarterWindow(1);
+        } else if (e.getSource() == templateList) {
+            fieldList.removeAllItems();
+            for (String field : tsh.getColumnFromTable(conn,
+                (String) templateList.getSelectedItem())) {
+                  fieldList.addItem(field);
+            }
         }
     }
 

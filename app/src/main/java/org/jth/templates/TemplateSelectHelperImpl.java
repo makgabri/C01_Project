@@ -10,7 +10,7 @@ public class TemplateSelectHelperImpl {
    * @param connection - connection to database
    * @return arrayList of tables not found in DatabaseDriver
    */
-  public ArrayList<String> getTables(Connection connection) {
+  public String[] getTables(Connection connection) {
       ArrayList<String> result = new ArrayList<>();
       DatabaseMetaData md;
       try {
@@ -26,7 +26,7 @@ public class TemplateSelectHelperImpl {
       } catch (SQLException e) {
         e.printStackTrace();
       }
-      return result;
+      return result.toArray(new String[result.size()]);
   }
   
   /**
@@ -35,7 +35,7 @@ public class TemplateSelectHelperImpl {
    * @param templateType - table name
    * @return arrayList of columns from table
    */
-  public ArrayList<String> getColumnFromTable(Connection connection,
+  public String[] getColumnFromTable(Connection connection,
       String templateType) {
       ArrayList<String> result = new ArrayList<>();
       DatabaseMetaData md;
@@ -48,7 +48,7 @@ public class TemplateSelectHelperImpl {
       } catch (SQLException e) {
           e.printStackTrace();
       }
-      return result;
+      return result.toArray(new String[result.size()]);
   }
   /**
    * Gets an object by field and unique iv
