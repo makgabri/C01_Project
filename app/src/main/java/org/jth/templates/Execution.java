@@ -11,7 +11,7 @@ public class Execution {
 
     public void execute(Connection connection, String filename) {
       TemplateInsertHelperImpl tih = new TemplateInsertHelperImpl();
-      TemplateFormat tf = new TemplateFormat();  
+      TemplateFormat tf = TemplateFormat.getInstance();  
       ParsingExcel pe = ParsingExcel.getInstance();
 
       try {

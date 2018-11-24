@@ -17,13 +17,13 @@ public class TemplateFormat {
    */
   public static HashMap<String, Template> templateMap = new HashMap<>();
   public static HashMap<String, Field> fieldMap = new HashMap<>();
-  public static boolean initialized = false;;
+
+  private static TemplateFormat instance;
   
   // Initializes template format if it has not been initialized
   // During initialization, class scans through fieldformat to initialize field
   // objetcs
-  public TemplateFormat() {
-    if (!initialized) {
+  private TemplateFormat() {
       Properties props = new Properties();
       InputStream is = TemplateFormat.class.getResourceAsStream("fieldformat");
       try {
@@ -34,12 +34,16 @@ public class TemplateFormat {
       Field temp;
       for (Object keys : props.keySet()) {
         String[] param = props.getProperty((String) keys).split(";");
-        temp = new Field((String) keys, param[0], Boolean.valueOf(param[1]),
-            Boolean.valueOf(param[2]), Boolean.valueOf(param[3]));
+        temp = new Field((String) keys, param[0], Boolean.valueOf(param[1]));
         fieldMap.put((String) keys, temp);
       }
-      initialized = true;
-    }
+  }
+  
+  public static TemplateFormat getInstance() {
+      if (instance == null) {
+        instance = new TemplateFormat();
+      }
+      return instance;
   }
   
   public boolean doesTemplateExist(String templateType) {
@@ -57,27 +61,25 @@ public class TemplateFormat {
    Template template = new Template(templateType);
    // Search through fieldList and compare with existing fields to get field object
    for (String field : fieldList) {
-     if (template.getFieldOrder().contains(field)) {
+     if (template.contains(field)) {
        // Perform actions if field exists to prevent sql error
-       String[] temp = fieldMap.get(field).getParam().split(";");
+       boolean empty = fieldMap.get(field).getParam();
        int counter = 2;
        while (template.getFieldOrder().contains(field + counter)) {
          counter += 1;
        }
        template.insertField(new Field(field+counter,
-           fieldMap.get(field).getType(), Boolean.valueOf(temp[0]),
-           Boolean.valueOf(temp[1]), Boolean.valueOf(temp[2]))); 
+           fieldMap.get(field).getType(), empty)); 
      } else if (field.equals("BETWEEN") || field.equals("AND")) {
        // Perform necessary actions if field is BETWEEN or AND cause it causes
        // sql errors
-       String[] param = fieldMap.get(field).getParam().split(";");
+       boolean empty = fieldMap.get(field).getParam();
        int counter = 1;
        while (template.getFieldOrder().contains(field + counter)) {
          counter += 1;
        }
        template.insertField(new Field(field+counter,
-           fieldMap.get(field).getType(), Boolean.valueOf(param[0]),
-           Boolean.valueOf(param[1]), Boolean.valueOf(param[2])));
+           fieldMap.get(field).getType(), empty));
      } else {
        template.insertField(fieldMap.get(field));
      }

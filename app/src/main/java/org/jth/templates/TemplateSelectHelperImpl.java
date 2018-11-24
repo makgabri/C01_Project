@@ -6,6 +6,51 @@ import java.util.ArrayList;
 public class TemplateSelectHelperImpl {
 
   /**
+   * Get an array of the tables found in the excel file
+   * @param connection - connection to database
+   * @return arrayList of tables not found in DatabaseDriver
+   */
+  public ArrayList<String> getTables(Connection connection) {
+      ArrayList<String> result = new ArrayList<>();
+      DatabaseMetaData md;
+      try {
+        md = connection.getMetaData();
+        ResultSet rs = md.getTables(null, null, "%", null);
+        while (rs.next()) {
+          if (!rs.getString(3).equals("ROLETYPES") &&
+              !rs.getString(3).equals("USERPW") &&
+              !rs.getString(3).equals("USERS")) {
+            result.add(rs.getString(3));
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      return result;
+  }
+  
+  /**
+   * Get an array of the columns found in a table
+   * @param connection - connection to database
+   * @param templateType - table name
+   * @return arrayList of columns from table
+   */
+  public ArrayList<String> getColumnFromTable(Connection connection,
+      String templateType) {
+      ArrayList<String> result = new ArrayList<>();
+      DatabaseMetaData md;
+      try {
+          md = connection.getMetaData();
+          ResultSet rs = md.getColumns(null, null, templateType, null);
+          while (rs.next()) {
+              result.add(rs.getString("COLUMN_NAME"));
+          }
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+      return result;
+  }
+  /**
    * Gets an object by field and unique iv
    * @param connection - connection to the database
    * @param uniqueiv - unique identifier value of the record to be looked at

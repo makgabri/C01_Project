@@ -3,8 +3,10 @@ package org.jth.templates;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import org.jth.exceptions.IncorrectDataFormatException;
 
 public class TemplateInsertHelperImpl {
 
@@ -19,15 +21,10 @@ public class TemplateInsertHelperImpl {
     // Create prepared statement
     PreparedStatement stmt = null;
     
-    // Get template for requested template type
-    Template template = TemplateFormat.getTemplate(templateType);
     // If no such template exists, return false
-    if (template == null) {
+    if (TemplateFormat.getTemplate(templateType) == null) {
       return false;
     }
-    
-    // Get array type from template
-    ArrayList<String> fieldType = template.getFieldTypeList();
     
     // Setup prepare statement
     String sql = "INSERT INTO "+ templateType + " VALUES (";
@@ -44,42 +41,7 @@ public class TemplateInsertHelperImpl {
     }
     
     for (int i = 1; i <= fieldData.size(); i++) {
-      try {
-        if (fieldType.get(i-1).equals("INTEGER")) {
-          if (fieldData.get(i-1).equals("")) {
-            stmt.setNull(i, java.sql.Types.INTEGER);
-          } else {
-            stmt.setInt(i, Integer.parseInt(fieldData.get(i-1)));
-          }
-        } else if (fieldType.get(i-1).equals("DOUBLE")) {
-          if (fieldData.get(i-1).equals("")) {
-            stmt.setNull(i, java.sql.Types.DOUBLE);
-          } else {
-            stmt.setDouble(i, Double.parseDouble(fieldData.get(i-1)));
-          }
-        } else if (fieldType.get(i-1).equals("BOOLEAN")) {
-          if (fieldData.get(i-1).equals("")) {
-            stmt.setNull(i, java.sql.Types.BOOLEAN);
-          } else {
-            if (fieldData.get(i-1).equals("Yes")) {
-              stmt.setBoolean(i, true);
-            } else {
-              stmt.setBoolean(i, false);
-            }
-          }
-        } else if (fieldType.get(i-1).equals("LONGVARCHAR")) {
-          stmt.setString(i, fieldData.get(i-1));
-        } else if(fieldType.get(i-1).equals("DATE")) {
-          if (fieldData.get(i-1).equals("")) {
-            stmt.setNull(i, java.sql.Types.DATE);
-          } else {
-            stmt.setDate(i, java.sql.Date.valueOf(fieldData.get(i-1)));
-          }
-        } 
-      } catch(Exception e) {
-          // Throw an exception for this row if something wrong in cell
-          throw new IncorrectDataFormatException(templateType, row, i);
-      }
+        stmt.setString(i, fieldData.get(i-1));
     }
     
     try {
@@ -88,6 +50,44 @@ public class TemplateInsertHelperImpl {
       e.printStackTrace();
     }
     stmt.close();
+    return true;
+  }
+  
+  /**
+   * Given the necessary data, function checks if data is valid
+   * @param fieldType - type of field
+   * @param fieldData - data in field
+   * @return - true if valid, false otherwise
+   */
+  public boolean validateData(String fieldType, String fieldData,
+      boolean empty) {
+      if (!empty && fieldData.equals("")) {
+          return true;
+      }
+      if (fieldType.equals("INTEGER")) {
+          // check if integer
+          if (!fieldData.matches("\\d+") &&
+              !fieldData.matches("^\\d+(?:,\\d{3})*")) {
+              return false;
+          }
+      } else if (fieldType.equals("DOUBLE")) {
+          // check if double
+          try { Double.parseDouble(fieldData);}
+          catch (NumberFormatException e) { return false;}
+      } else if (fieldType.equals("BOOLEAN")) {
+          // check if boolean
+          if (!fieldData.equals("Yes") && !fieldData.equals("No")) {
+            return false;
+          }
+      } else if (fieldType.equals("DATE")) {
+          // Check if Date
+          DateFormat dtF = new SimpleDateFormat("YYYY-MM-DD");
+          try {
+              dtF.parse(fieldData);
+          } catch(ParseException e) {
+              return false;
+          }
+      }
     return true;
   }
 
