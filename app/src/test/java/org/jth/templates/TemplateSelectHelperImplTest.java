@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class TemplateSelectHelperImplTest {
     TemplateSelectHelperImpl tsh = new TemplateSelectHelperImpl();
-    TemplateFormat tf = new TemplateFormat();
+    TemplateFormat tf = TemplateFormat.getInstance();
     Connection conn = DatabaseDriver.connectOrCreateDatabase();
     
     @Test

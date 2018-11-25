@@ -5,13 +5,14 @@ import java.io.IOException;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateIndexOutOfRange;
 import org.jth.exceptions.TemplateLineIndexOutOfRange;
+import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 public class TemplateFormatTest {
-    ParsingExcel pe = new ParsingExcel();
-    TemplateFormat tf = new TemplateFormat();
+    ParsingExcel pe = ParsingExcel.getInstance();
+    TemplateFormat tf = TemplateFormat.getInstance();
 
     @Test
     @DisplayName("Initializing FieldList")
@@ -24,10 +25,15 @@ public class TemplateFormatTest {
           e.printStackTrace();
         } catch (IOException e) {
           e.printStackTrace();
+        } catch (TemplateNullException e) {
+          e.printStackTrace();
         }
         try {
           tf.insertTemplate("EMPLOYMENT_RELATED_SERVICES", pe.parsingFieldType(5));
         } catch (TemplateIndexOutOfRange | TemplateLineIndexOutOfRange e) {
+          e.printStackTrace();
+        } catch (TemplateNullException e) {
+          // TODO Auto-generated catch block
           e.printStackTrace();
         }
       }

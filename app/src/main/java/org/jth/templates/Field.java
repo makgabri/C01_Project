@@ -4,9 +4,7 @@ public class Field {
   
   private String fieldName;
   private String fieldType;
-  private Boolean key;
   private Boolean notEmpty;
-  private Boolean unique;
 
   /**
    * An object representing a field
@@ -16,13 +14,10 @@ public class Field {
    * @param notEmpty - whether cannot be empty
    * @param unique - whether this field is unique for each record
    */
-  public Field(String fieldName, String fieldType, Boolean key, Boolean notEmpty,
-                Boolean unique) {
+  public Field(String fieldName, String fieldType, Boolean notEmpty) {
     this.fieldName = fieldName;
     this.fieldType = fieldType;
-    this.key = key;
     this.notEmpty = notEmpty;
-    this.unique = unique;
   }
   
   /**
@@ -30,15 +25,9 @@ public class Field {
    * @return - string for sql to be parsed
    */
   public String toStringCreate() {
-    String result = this.fieldName + " " + this.fieldType;
-    if (this.key) {
-      result += " PRIMARY KEY";
-    }
+    String result = this.fieldName + " " + "LONGVARCHAR";
     if (this.notEmpty) {
       result += " NOT NULL";
-    }
-    if (this.unique) { 
-      result += " UNIQUE";
     }
     return result;
   }
@@ -59,7 +48,7 @@ public class Field {
     return this.fieldType;
   }
   
-  public String getParam() {
-    return this.key + ";" + this.notEmpty + ";" + this.unique;
+  public boolean getParam() {
+    return this.notEmpty;
   }
 }

@@ -72,7 +72,19 @@ public class Template {
     return result;
   }
   
+  public ArrayList<Boolean> getParam() {
+      ArrayList<Boolean> result = new ArrayList<>();
+      for (Field field : fieldHolder) {
+          result.add(field.getParam());
+      }
+      return result;
+  }
+  
   public ArrayList<String> getFieldOrder() {
     return this.fieldOrder;
+  }
+  
+  public boolean contains(String field) {
+    return this.fieldOrder.contains(field);
   }
 }
