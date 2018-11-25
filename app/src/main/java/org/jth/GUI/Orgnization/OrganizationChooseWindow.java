@@ -1,6 +1,7 @@
 package org.jth.GUI.Orgnization;
 
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
+import org.jth.databaseHelper.DatabaseUpdateHelperImpl;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
@@ -88,6 +89,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
                         parsingExcel.getFromExcel(jfc.getSelectedFile().getAbsolutePath());
                         UploadSuccessWindow uploadSuccessWindow = new UploadSuccessWindow();
                         parsingExcel.printTemplate();
+                        new DatabaseUpdateHelperImpl().updateUploadStatus(user.getUserId(), true);
                     } else {
                         throw new NotExcelException();
                     }
@@ -106,6 +108,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         } else {
             parsingExcel.dropAllTheTemplates();
             CancelUploadFileWindow cancelUploadFileWindow = new CancelUploadFileWindow();
+            new DatabaseUpdateHelperImpl().updateUploadStatus(user.getUserId(), false);
         }
     }
 }

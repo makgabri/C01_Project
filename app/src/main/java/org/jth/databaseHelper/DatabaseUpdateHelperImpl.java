@@ -39,4 +39,37 @@ public class DatabaseUpdateHelperImpl implements DatabaseUpdateHelper {
 		}
 	}
 
+	public void updateUploadStatus(String userId, Boolean status) {
+		Connection conn = DatabaseDriver.connectOrCreateDatabase();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int intStatus = (status) ? 1 : 0;
+
+		try {
+			String sql = "UPDATE USERS SET UPLOADED=? WHERE ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, intStatus);
+			stmt.setString(2, userId);
+
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
