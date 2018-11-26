@@ -1,15 +1,17 @@
 package org.jth.GUI.app;
-import org.jth.GUI.Windows.LoginSuccessOrFailWindow;
 import org.jth.GUI.Windows.StarterWindow;
 
 public class app {
-	/*
     public static void main(String[] args) {
-        displayStarterPage();
+        startApplication();
     }
-    */
 
-    public static void displayStarterPage() {
+    public static void startApplication() {
+        Tracker tracker = Tracker.getInstance();
         StarterWindow starterWindow = new StarterWindow();
+        tracker.addWindow("start", starterWindow);
+        while (tracker.getStatus()) {
+          break;
+        }
     }
 }

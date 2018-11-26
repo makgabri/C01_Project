@@ -22,6 +22,7 @@ import java.io.IOException;
 public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
 
+    private JLabel title = new JLabel("<html><b><font size=+1>Organization Menu</font></b></html>");
     private JButton uploadButton = new JButton("Upload");
     //private JButton checkUploadedButton = new JButton("Check Uploaded");
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
@@ -49,9 +50,13 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         GridBagConstraints c = new GridBagConstraints();
         container.setLayout(gridbag);
         c.gridwidth = GridBagConstraints.REMAINDER;
+        c.insets = new Insets(5,5,5,5);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(title, c);
         gridbag.setConstraints(uploadButton, c);
         gridbag.setConstraints(removeUploadFileButton, c);
         gridbag.setConstraints(uploadStatusButton, c);
+        container.add(title);
         //gridbag.setConstraints(checkUploadedButton, c);
         container.add(uploadButton);
         //container.add(checkUploadedButton);

@@ -24,6 +24,9 @@ public class StarterWindow extends JFrame implements ActionListener {
 
     private JPanel buttons = new JPanel(new GridBagLayout());
 
+    private JLabel title = new JLabel("<html><b><u><font size=+2>I-Care Template App</font></u></b></html>");
+    private JLabel creators = new JLabel("Application developed by: Jawa & The Hutts");
+
     private JButton utsc = new JButton("UTSC Staff");
     private JButton teq = new JButton("TEQ");
     private JButton organization = new JButton("Organization");
@@ -119,11 +122,13 @@ public class StarterWindow extends JFrame implements ActionListener {
      */
     private void drawStarterWindow(int choice) {
         if(choice == 1) {
+            buttons.add(title, gbc);
             buttons.add(utsc, gbc);
             buttons.add(teq, gbc);
             buttons.add(organization, gbc);
             buttons.add(initDB, gbc);
             buttons.add(clearDB, gbc);
+            buttons.add(creators, gbc);
         } else {
             buttons.add(logIn, gbc);
             buttons.add(signUp, gbc);
