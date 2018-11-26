@@ -29,7 +29,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     //private JButton checkUploadedButton = new JButton("Check Uploaded");
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
     private JButton uploadStatusButton = new JButton("Check Upload Status");
-    public JButton logout = new JButton("logout");
+    public JButton logout = new JButton("Logout");
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private Boolean uploaded = false;

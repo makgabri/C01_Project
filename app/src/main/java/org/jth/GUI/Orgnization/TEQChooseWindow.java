@@ -8,7 +8,9 @@ import org.jth.databaseHelper.DatabaseUpdateHelperImpl;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
+import org.jth.templates.Execution;
 import org.jth.user.User;
+import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseSelectHelper;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 
@@ -20,6 +22,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class TEQChooseWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
@@ -37,6 +41,7 @@ public class TEQChooseWindow extends JFrame implements ActionListener {
     private User user;
     private DatabaseSelectHelper dbs;
     private Tracker tracker = Tracker.getInstance();
+    private Execution execution = new Execution();
 
     public TEQChooseWindow(User user) {
         super("TEQ Main Menu");
@@ -112,6 +117,13 @@ public class TEQChooseWindow extends JFrame implements ActionListener {
                         UploadSuccessWindow uploadSuccessWindow = new UploadSuccessWindow();
                         parsingExcel.printTemplate();
                         new DatabaseUpdateHelperImpl().updateUploadStatus(user.getUserId(), true);
+                        Connection tempConn = DatabaseDriver.connectOrCreateDatabase();
+                        execution.execute(tempConn, jfc.getSelectedFile().getAbsolutePath());
+                        try {
+                          tempConn.close();
+                        } catch (SQLException e1) {
+                          e1.printStackTrace();
+                        }
                     } else {
                         throw new NotExcelException();
                     }

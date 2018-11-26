@@ -7,6 +7,7 @@ import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
 import org.jth.exceptions.ConnectionFailedException;
+import org.jth.templates.TemplateDriver;
 import org.jth.user.Roles;
 import org.jth.user.User;
 
@@ -14,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.SQLException;
 import javax.management.relation.Role;
 import javax.swing.*;
 
@@ -184,9 +186,15 @@ public class StarterWindow extends JFrame implements ActionListener {
         try {
             DatabaseDriver.clear(connection);
             System.out.println("Database has been cleared");
+            TemplateDriver.clear(connection);
         } catch (ConnectionFailedException e) {
             JOptionPane.showMessageDialog(this, "The database has not been initialized, " +
                     "so you cannot clear it");
+        }
+        try {
+          connection.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
         }
     }
 
