@@ -8,7 +8,9 @@ import org.jth.databaseHelper.DatabaseUpdateHelperImpl;
 import org.jth.exceptions.NotExcelException;
 import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
+import org.jth.templates.Execution;
 import org.jth.user.User;
+import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseSelectHelper;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 
@@ -20,15 +22,18 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-public class OrganizationChooseWindow extends JFrame implements ActionListener {
+public class TEQChooseWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
 
-    private JLabel title = new JLabel("<html><b><font size=+1>Organization Menu</font></b></html>");
+    private JLabel title = new JLabel("<html><b><font size=+1>TEQ Menu</font></b></html>");
     private JButton uploadButton = new JButton("Upload");
     //private JButton checkUploadedButton = new JButton("Check Uploaded");
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
     private JButton uploadStatusButton = new JButton("Check Upload Status");
+    private JButton queryButton = new JButton("Perform a Query");
     public JButton logout = new JButton("Logout");
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
@@ -36,11 +41,12 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private User user;
     private DatabaseSelectHelper dbs;
     private Tracker tracker = Tracker.getInstance();
+    private Execution execution = new Execution();
 
-    public OrganizationChooseWindow(User user) {
-        super("Organization Main Menu");
+    public TEQChooseWindow(User user) {
+        super("TEQ Main Menu");
         drawWindow();
-        setSize(400, 300);
+        setSize(400, 350);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -58,12 +64,14 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         c.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(title, c);
         gridbag.setConstraints(uploadButton, c);
+        gridbag.setConstraints(queryButton, c);
         gridbag.setConstraints(removeUploadFileButton, c);
         gridbag.setConstraints(uploadStatusButton, c);
         gridbag.setConstraints(logout, c);
-        container.add(title);
         //gridbag.setConstraints(checkUploadedButton, c);
+        container.add(title);
         container.add(uploadButton);
+        container.add(queryButton);
         //container.add(checkUploadedButton);
         container.add(removeUploadFileButton);
         container.add(uploadStatusButton);
@@ -73,7 +81,13 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         //checkUploadedButton.addActionListener(this);
         removeUploadFileButton.addActionListener(this);
         uploadStatusButton.addActionListener(this::checkUpload);
+        queryButton.addActionListener(this::openQueryWindow);
         logout.addActionListener(this);
+    }
+
+    private void openQueryWindow(ActionEvent e) {
+        QueryPage queryPage = new QueryPage();
+        setVisible(false);
     }
 
     private void checkUpload(ActionEvent e) {
@@ -103,6 +117,13 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
                         UploadSuccessWindow uploadSuccessWindow = new UploadSuccessWindow();
                         parsingExcel.printTemplate();
                         new DatabaseUpdateHelperImpl().updateUploadStatus(user.getUserId(), true);
+                        Connection tempConn = DatabaseDriver.connectOrCreateDatabase();
+                        execution.execute(tempConn, jfc.getSelectedFile().getAbsolutePath());
+                        try {
+                          tempConn.close();
+                        } catch (SQLException e1) {
+                          e1.printStackTrace();
+                        }
                     } else {
                         throw new NotExcelException();
                     }
@@ -127,5 +148,13 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
             CancelUploadFileWindow cancelUploadFileWindow = new CancelUploadFileWindow();
             new DatabaseUpdateHelperImpl().updateUploadStatus(user.getUserId(), false);
         }
+    }
+    
+    public void setInvisible() {
+       setVisible(false);
+    }
+    
+    public void setVisible() {
+      setVisible(true);
     }
 }

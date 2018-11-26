@@ -74,11 +74,12 @@ public class TemplateDriver {
    */
   private static boolean clearDatabase(Connection connection) {
         Statement statement = null;
+        TemplateSelectHelperImpl tsh = new TemplateSelectHelperImpl();
         try {
           statement = connection.createStatement();
-          for (String templateType : TemplateFormat.getTemplateList()) {
+          for (String templateType : tsh.getTables(connection)) {
             String sql = "DROP TABLE "+ templateType;
-            System.out.println(templateType);
+            System.out.println("Dropping " + templateType);
             statement.executeUpdate(sql);
           }
           

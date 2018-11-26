@@ -17,11 +17,8 @@ Our project will be written in Java. Maven will be used for managing dependencie
 All that is required for running the project is the appropriate Java version for your machine. All dependencies will be installed via Maven given that a internet connection is available.
 
 1. Clone the project to your local machine
-2. Open the project in your preferred IDE and run it with one of the following command line options:
-	* -2 to clear all the tables from the database
-	* -1 to initialize the database so that the project is ready to be used
-	* No command line argument for regular use. This will show the GUI for the application.
-    * There are also options in the GUI for wiping/initializing the database
+2. Open the project in your preferred IDE and run it as you would any Java project.
+3. A GUI will pop up allowing you to use the application. You can also clear and initialize the database through the GUI
 
 ## Progress
 Our team is currently in design and preparation phase of the third sprint.
@@ -44,6 +41,13 @@ In the third sprint we completed:
 1. Template Objects
 2. Parsing Excel files
 3. Command Line
+
+In the fourth spinrt we completed:
+
+1. Created a Main Menu GUI
+2. Implemented Login into our GUI
+3. Implemented upload to our GUI
+4. Implemented Queries to TEQ and UTSC Staff
 
 From these sprints we have completed the following user stories:
 

@@ -6,14 +6,13 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.*;
+import org.jth.GUI.Orgnization.TEQChooseWindow;
+import org.jth.GUI.Windows.StarterWindow;
+import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.templates.TemplateSelectHelperImpl;
 
 public class QueryPage extends JFrame implements ActionListener {
-    
-    public static void main(String[] args) {
-        new QueryPage();
-    }
   
     private static final long serialVersionUID = 1L;
     
@@ -34,6 +33,7 @@ public class QueryPage extends JFrame implements ActionListener {
     private JButton searchTotalAction = new JButton("Search Total");
     private JButton searchSpecificAction = new JButton("Search Specific");
     private JButton back = new JButton("Back");
+    private JButton exitQueries = new JButton("Exit Queries");
     
     private JLabel templateTypeHeader = new JLabel("Template Type:    ");
     private JLabel fieldTypeHeader = new JLabel("Field Type:    ");
@@ -46,6 +46,7 @@ public class QueryPage extends JFrame implements ActionListener {
 
     //************************************************************
 
+    private Tracker tracker = Tracker.getInstance();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -95,6 +96,10 @@ public class QueryPage extends JFrame implements ActionListener {
                 (String) templateList.getSelectedItem())) {
                   fieldList.addItem(field);
             }
+        } else if (e.getSource() == exitQueries) {
+            setVisible(false);
+            ((TEQChooseWindow) tracker.getWindow("teq")).setVisible();
+            dispose();
         }
     }
 
@@ -131,7 +136,7 @@ public class QueryPage extends JFrame implements ActionListener {
         if(choice == 1) {
             buttons.add(searchSpecific, gbc);
             buttons.add(searchTotalStats, gbc);
-            buttons.add(back, gbc);
+            buttons.add(exitQueries, gbc);
         } else if (choice == 2) {
             // Search Specific Row
             buttons.add(templateTypeHeader);
@@ -174,6 +179,7 @@ public class QueryPage extends JFrame implements ActionListener {
         fieldList.addActionListener(this);
         searchTextBox.addActionListener(this);
         back.addActionListener(this);
+        exitQueries.addActionListener(this);
     }
 
     private void cleanWindow() {
