@@ -108,7 +108,7 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
 
 
             }
-            
+
             SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow(user);
             this.dispose();
         }

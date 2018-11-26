@@ -1,12 +1,18 @@
 package org.jth.GUI.Windows;
 
+import jdk.nashorn.internal.scripts.JO;
 import org.jth.GUI.Orgnization.*;
+import org.jth.databaseHelper.DatabaseDriver;
+import org.jth.databaseHelper.DatabaseInsertHelper;
+import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.exceptions.ConnectionFailedException;
 import org.jth.user.Roles;
 import org.jth.user.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import javax.management.relation.Role;
 import javax.swing.*;
 
@@ -24,6 +30,8 @@ public class StarterWindow extends JFrame implements ActionListener {
 
     private JButton logIn = new JButton("Log In");
     private JButton signUp = new JButton("Sign Up");
+    private JButton clearDB = new JButton("Clear Database");
+    private JButton initDB = new JButton("Initialize Database");
     private JButton back = new JButton("Back");
 
     private Boolean clickOrganization = false;
@@ -114,6 +122,8 @@ public class StarterWindow extends JFrame implements ActionListener {
             buttons.add(utsc, gbc);
             buttons.add(teq, gbc);
             buttons.add(organization, gbc);
+            buttons.add(initDB, gbc);
+            buttons.add(clearDB, gbc);
         } else {
             buttons.add(logIn, gbc);
             buttons.add(signUp, gbc);
@@ -136,7 +146,58 @@ public class StarterWindow extends JFrame implements ActionListener {
         logIn.addActionListener(this);
         signUp.addActionListener(this);
         back.addActionListener(this);
+        initDB.addActionListener(this::initalizeDB);
+        clearDB.addActionListener(this::clearDB);
     }
+
+    private void clearDB(ActionEvent event) {
+        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        try {
+            DatabaseDriver.clear(connection);
+            System.out.println("Database has been cleared");
+        } catch (ConnectionFailedException e) {
+            JOptionPane.showMessageDialog(this, "The database has not been initialized, " +
+                    "so you cannot clear it");
+        }
+    }
+
+    private void initalizeDB(ActionEvent event) {
+        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        try {
+            DatabaseDriver.initialize(connection);
+        } catch (ConnectionFailedException e) {
+            e.printStackTrace();
+        }
+        DatabaseInsertHelper dbInsert = new DatabaseInsertHelperImpl();
+        int orgRoleId = dbInsert.insertRole(Roles.ORGANIZATION.name());
+        if (orgRoleId < 0) {
+            System.out.println("Failed to insert ORGANIZATION role");
+        }
+        int teqRoleId = dbInsert.insertRole(Roles.TEQ.name());
+        if (teqRoleId < 0) {
+            System.out.println("Failed to insert TEQ role");
+        }
+        int utscRoleId = dbInsert.insertRole(Roles.UTSC.name());
+        if (utscRoleId < 0) {
+            System.out.println("Failed to insert UTSC role");
+        }
+        // Creating 3 default users
+        dbInsert.insertUser("UTSC", "alice@utsc.ca", "123456");
+        System.out.println("Email alice@utsc.ca created");
+        System.out.println("Role set to UTSC");
+        System.out.println("Password: 123456");
+        dbInsert.insertUser("TEQ", "bob@teq.ca", "123456");
+        System.out.println("Email bob@teq.ca created");
+        System.out.println("Role set to TEQ");
+        System.out.println("Password: 123456");
+        dbInsert.insertUser("ORGANIZATION", "charl@teq.ca", "123456");
+        System.out.println("Email charl@teq.ca created");
+        System.out.println("Role set to ORGANIZATION");
+        System.out.println("Password: 123456");
+
+
+    }
+
 
     private void cleanWindow() {
         buttons.removeAll();
