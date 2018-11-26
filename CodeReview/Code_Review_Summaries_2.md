@@ -8,7 +8,7 @@ I reviewed part of the cmdTerminal.java as well as some of the GUI related code.
 
 ## Brian
 
-Stuff
+I reviewed TEQSignUpWindow.java, UTSCSignUpWindow.java, TEQChooseWindow.java, UTSCChooseWindow.java. I noticed that TEQSignUpWindow.java has nearly identical code as UTSCSignUpWindow.java and that TEQChooseWindow.java has nearly identical code as UTSCChooseWindow.java. I would suggest using an interface and abstract class to improve the design of the code. We could use an interface called ChooseWindow, SignUpWindow to structure the function definitions and use an abstract class called ChooseWindowImpl, SignUpWindowImpl to implement those function definitions in the interface. Then we could have UTSCChooseWindow.java, UTSCSignUpWindow.java, TEQChooseWindow.java, and TEQSignUpWindow.java inherit from those abstract classes so that only functions are not similar are defined in the classes. In terms of the code style, there is some debug statements and dead code.          
 
 ## Tylar
 
