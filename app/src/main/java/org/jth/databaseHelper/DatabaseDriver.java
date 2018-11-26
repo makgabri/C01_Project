@@ -88,8 +88,8 @@ public class DatabaseDriver {
 	      return true;
 	      
 	    } catch (Exception e) {
-	      e.printStackTrace();
-	    }
+	    	e.printStackTrace();
+		}
 	    return false;
 	  }
 	  
@@ -117,9 +117,7 @@ public class DatabaseDriver {
 		      statement.close();
 		      return true;
 		      
-		    } catch (Exception e) {
-		      e.printStackTrace();
-		    }
+		    } catch (Exception e) {}
 		    return false;
 	  }
 

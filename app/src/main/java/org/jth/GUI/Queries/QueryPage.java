@@ -89,6 +89,7 @@ public class QueryPage extends JFrame implements ActionListener {
             result.setText("");
             cleanWindow();
             drawStarterWindow(1);
+            this.dispose();
         } else if (e.getSource() == templateList) {
             fieldList.removeAllItems();
             for (String field : tsh.getColumnFromTable(conn,

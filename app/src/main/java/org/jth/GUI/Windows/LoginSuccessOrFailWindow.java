@@ -1,6 +1,7 @@
 package org.jth.GUI.Windows;
 
 import org.jth.GUI.Orgnization.OrganizationChooseWindow;
+import org.jth.GUI.Orgnization.TEQChooseWindow;
 import org.jth.user.Roles;
 import org.jth.user.User;
 
@@ -75,7 +76,7 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
             } else if(roles == Roles.ORGANIZATION){
                 OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(user);
             } else {
-
+                TEQChooseWindow teqChooseWindow = new TEQChooseWindow(user);
             }
         } else {
             dispose();

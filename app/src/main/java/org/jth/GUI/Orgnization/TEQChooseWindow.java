@@ -19,21 +19,22 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
-public class OrganizationChooseWindow extends JFrame implements ActionListener {
+public class TEQChooseWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
 
     private JButton uploadButton = new JButton("Upload");
     //private JButton checkUploadedButton = new JButton("Check Uploaded");
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
     private JButton uploadStatusButton = new JButton("Check Upload Status");
+    private JButton queryButton = new JButton("Perform a Query");
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private Boolean uploaded = false;
     private User user;
     private DatabaseSelectHelper dbs;
 
-    public OrganizationChooseWindow(User user) {
-        super("Organization Main Menu");
+    public TEQChooseWindow(User user) {
+        super("TEQ Main Menu");
         drawWindow();
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -50,10 +51,12 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         container.setLayout(gridbag);
         c.gridwidth = GridBagConstraints.REMAINDER;
         gridbag.setConstraints(uploadButton, c);
+        gridbag.setConstraints(queryButton, c);
         gridbag.setConstraints(removeUploadFileButton, c);
         gridbag.setConstraints(uploadStatusButton, c);
         //gridbag.setConstraints(checkUploadedButton, c);
         container.add(uploadButton);
+        container.add(queryButton);
         //container.add(checkUploadedButton);
         container.add(removeUploadFileButton);
         container.add(uploadStatusButton);
@@ -62,6 +65,11 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         //checkUploadedButton.addActionListener(this);
         removeUploadFileButton.addActionListener(this);
         uploadStatusButton.addActionListener(this::checkUpload);
+        queryButton.addActionListener(this::openQueryWindow);
+    }
+
+    private void openQueryWindow(ActionEvent e) {
+        QueryPage queryPage = new QueryPage();
     }
 
     private void checkUpload(ActionEvent e) {
