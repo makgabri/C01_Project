@@ -1,6 +1,10 @@
 package org.jth.GUI.Windows;
 
 import org.jth.GUI.Orgnization.OrganizationChooseWindow;
+import org.jth.GUI.TEQ.TEQChooseWindow;
+import org.jth.GUI.UTSC.UTSCChooseWindow;
+import org.jth.GUI.UTSC.UTSCSignUpWindow;
+import org.jth.user.Roles;
 import org.jth.user.User;
 
 import javax.swing.*;
@@ -12,7 +16,7 @@ public class SignUpSuccessWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
     private JPanel textPanel = new JPanel(new GridBagLayout());
     private JPanel buttonPanel = new JPanel(new FlowLayout());
-    private JButton exit = new JButton("Back");
+    private JButton exit = new JButton("OK");
 
     private User user;
 
@@ -51,7 +55,13 @@ public class SignUpSuccessWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == exit) {
             this.dispose();
-            OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(user);
+            if(user.getRole() == Roles.ORGANIZATION) {
+                OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(user);
+            } else if(user.getRole() == Roles.TEQ) {
+                TEQChooseWindow teqChooseWindow = new TEQChooseWindow(user);
+            } else {
+                UTSCChooseWindow utscChooseWindow = new UTSCChooseWindow(user);
+            }
         }
     }
 }

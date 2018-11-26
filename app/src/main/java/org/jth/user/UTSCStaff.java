@@ -12,12 +12,13 @@ public class UTSCStaff extends User {
 	 * @param userId - the user id  of the UTSC staff member
 	 * @param email - the email of the UTSC staff member
 	 */
-	public UTSCStaff(String firstName, String lastName, String userId, String email) {
+	public UTSCStaff(String firstName, String lastName, String userId, String email, String creationDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userId = userId;
 		this.email = email;
 		this.role = Roles.UTSC;
+		this.creationDate = creationDate;
 	}
 	
 	/**

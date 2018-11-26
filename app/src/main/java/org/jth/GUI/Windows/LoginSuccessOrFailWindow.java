@@ -1,7 +1,8 @@
 package org.jth.GUI.Windows;
 
 import org.jth.GUI.Orgnization.OrganizationChooseWindow;
-import org.jth.GUI.Orgnization.TEQChooseWindow;
+import org.jth.GUI.TEQ.TEQChooseWindow;
+import org.jth.GUI.UTSC.UTSCChooseWindow;
 import org.jth.GUI.app.Tracker;
 import org.jth.user.Roles;
 import org.jth.user.User;
@@ -75,9 +76,11 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
         if(e.getSource() == loginSuccessButton) {
             dispose();
             if(roles == Roles.UTSC) {
-
+                UTSCChooseWindow utscChooseWindow = new UTSCChooseWindow(user);
+                tracker.addWindow("utsc", utscChooseWindow);
             } else if(roles == Roles.ORGANIZATION){
                 OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(user);
+                tracker.addWindow("org", organizationChooseWindow);
             } else {
                 TEQChooseWindow teqChooseWindow = new TEQChooseWindow(user);
                 tracker.addWindow("teq", teqChooseWindow);

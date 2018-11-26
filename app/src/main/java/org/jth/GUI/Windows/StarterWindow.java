@@ -2,6 +2,8 @@ package org.jth.GUI.Windows;
 
 import jdk.nashorn.internal.scripts.JO;
 import org.jth.GUI.Orgnization.*;
+import org.jth.GUI.TEQ.TEQSignUpWindow;
+import org.jth.GUI.UTSC.UTSCSignUpWindow;
 import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseInsertHelper;
@@ -89,8 +91,10 @@ public class StarterWindow extends JFrame implements ActionListener {
             if(clickOrganization) {
                 OrganizationSignUpWindow orgnizationSignUpWindow = new OrganizationSignUpWindow();
             } else if(clickUTSC) {
+                UTSCSignUpWindow utscSignUpWindow = new UTSCSignUpWindow();
                 System.out.println("UTSC sign Up");
             } else {
+                TEQSignUpWindow teqSignUpWindow = new TEQSignUpWindow();
                 System.out.println("TEQ sign Up");
             }
 

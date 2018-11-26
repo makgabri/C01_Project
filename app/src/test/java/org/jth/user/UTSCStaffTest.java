@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
+import org.jth.databaseHelper.DatabaseSelectHelper;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.security.AuthenticateImpl;
 import org.jth.security.PasswordHelpers;
@@ -17,11 +18,13 @@ import org.jth.user.UTSCStaff;
 
 
 class UTSCStaffTest {
-	User utscStaff = new UTSCStaff("Sumit", "Kapal", "supal", "s.kapal@mail.utoronto.ca");
+
 	DatabaseInsertHelper dbi = new DatabaseInsertHelperImpl();
+	DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
 	//Map<String, String> userMap = dbi.insertUser(Roles.UTSC.name(), "1232314", "123");
 	String userId = new DatabaseSelectHelperImpl().getUserId("1232314");
-	
+
+	User utscStaff = new UTSCStaff("Sumit", "Kapal", "supal", "s.kapal@mail.utoronto.ca", dbs.getCreationDate(userId));
 	AuthenticateImpl user = new AuthenticateImpl(userId);
 
 	@Test

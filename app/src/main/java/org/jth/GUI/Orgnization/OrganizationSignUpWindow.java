@@ -2,6 +2,8 @@ package org.jth.GUI.Orgnization;
 
 import org.jth.GUI.Windows.PasswordNotMatchWindow;
 import org.jth.GUI.Windows.SignUpSuccessWindow;
+import org.jth.GUI.Windows.StarterWindow;
+import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
 import org.jth.user.Organization;
 import org.jth.user.Roles;
@@ -29,6 +31,7 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
 
     private JButton signUpButton = new JButton("Sign Up");
 
+    private Tracker tracker = Tracker.getInstance();
 
     public OrganizationSignUpWindow() {
         super("Organization Sign Up Menu");
@@ -90,12 +93,6 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
         container.add(signUpButton);
     }
 
-    private SupportType convertIntoSupportType() {
-        String supportType = supportTypeField.getText();
-        System.out.println(SupportType.valueOf(capitalizeAndReplaceSpaceWithUnderline(supportType)));
-        return null;
-    }
-
     /**
      * capitalize all the letter and replace the space with underline
      * @param line input String
@@ -128,6 +125,9 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
                     user = new Organization(nameField.getText(), userInfo.get("userId"), emailField.getText(),
                             postalCodeField.getText(), supportType, userInfo.get("creationDate"));
                     SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow(user);
+                    ((StarterWindow) tracker.getWindow("start")).setInvisible();
+                    setVisible(false);
+                    dispose();
                     this.dispose();
                 }
             }

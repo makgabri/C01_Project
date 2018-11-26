@@ -1,5 +1,9 @@
-package org.jth.GUI.Orgnization;
+package org.jth.GUI.TEQ;
 
+import org.jth.GUI.Orgnization.AlreadyUploadWindow;
+import org.jth.GUI.Orgnization.CancelUploadFileWindow;
+import org.jth.GUI.Orgnization.NotExcelWindow;
+import org.jth.GUI.Orgnization.UploadSuccessWindow;
 import org.jth.GUI.Queries.QueryPage;
 import org.jth.GUI.Windows.StarterWindow;
 import org.jth.GUI.app.Tracker;
