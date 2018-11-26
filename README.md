@@ -6,7 +6,7 @@ Our team name is Java & The Hutts, with Team1 being used for administrative purp
 * Mohammad Moustafa - 3<sup>rd</sup> year CS student
 * Gabrian Mak - 3<sup>rd</sup> year CS student
 * Brian Liao - 3<sup>rd</sup> year Stats student
-* Anh Le - 2<sup>nd</sup> year CS student
+* <s>Anh Le - 2<sup>nd</sup> year CS student</s>
 * Xingyuan Zhu - 3<sup>rd</sup> year CS student
 
 
