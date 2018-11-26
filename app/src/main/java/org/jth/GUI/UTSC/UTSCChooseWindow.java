@@ -88,6 +88,7 @@ public class UTSCChooseWindow extends JFrame implements ActionListener {
 
     private void openQueryWindow(ActionEvent e) {
         QueryPage queryPage = new QueryPage();
+        tracker.changePrevious("utsc");
         setVisible(false);
     }
 

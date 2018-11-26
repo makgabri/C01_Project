@@ -13,6 +13,9 @@ import org.jth.user.User;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Map;
 import javax.swing.*;
 
@@ -25,7 +28,8 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
     private JTextField nameField = new JTextField(15);
     private JTextField emailField = new JTextField(15);
     private JTextField postalCodeField = new JTextField(15);
-    private JTextField supportTypeField = new JTextField(15);
+    //private JTextField supportTypeField = new JTextField(15);
+    JComboBox supportTypeField = new JComboBox(getSupportType());
     private JPasswordField passwordField = new JPasswordField(15);
     private JPasswordField conformPasswordField = new JPasswordField(15);
 
@@ -111,19 +115,13 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
                     new String(conformPasswordField.getPassword()))) {
                 PasswordNotMatchWindow passwordNotMatchWindow = new PasswordNotMatchWindow();
             } else {
-                SupportType supportType = null;
-                try {
-                    supportType = SupportType.valueOf(capitalizeAndReplaceSpaceWithUnderline(supportTypeField.getText().trim()));
-                } catch (IllegalArgumentException ex) {
-                    SupportTypeDoesNotMatchWindow supportTypeDoesNotMatchWindow = new SupportTypeDoesNotMatchWindow();
-                    flag = false;
-                }
+                String supportType = (String) supportTypeField.getSelectedItem();
                 if (flag) {
                     DatabaseInsertHelperImpl databaseInsertHelper = new DatabaseInsertHelperImpl();
                     Map<String, String> userInfo = databaseInsertHelper.insertUser(Roles.ORGANIZATION.name(), emailField.getText(),
                             new String(passwordField.getPassword()));
                     user = new Organization(nameField.getText(), userInfo.get("userId"), emailField.getText(),
-                            postalCodeField.getText(), supportType, userInfo.get("creationDate"));
+                            postalCodeField.getText(), SupportType.valueOf(supportType), userInfo.get("creationDate"));
                     SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow(user);
                     ((StarterWindow) tracker.getWindow("start")).setInvisible();
                     setVisible(false);
@@ -132,5 +130,13 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+    
+    private String[] getSupportType() {
+        java.util.LinkedList<String> list = new LinkedList<String>();
+        for (SupportType s : SupportType.values()) {
+            list.add(s.name());
+        }
+        return list.toArray(new String[list.size()]);
     }
 }
