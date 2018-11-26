@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class Tracker {
 
     private HashMap<String, Object> windowHolder;
+    private String previous;
     
     // Declare instance, only one instance should exist at a time
     private static Tracker instance = null;
@@ -35,5 +36,13 @@ public class Tracker {
     
     public Object getWindow(String name) {
         return windowHolder.get(name);
+    }
+    
+    public String getPrevious() {
+        return this.previous;
+    }
+    
+    public void changePrevious(String previous) {
+        this.previous = previous;
     }
 }

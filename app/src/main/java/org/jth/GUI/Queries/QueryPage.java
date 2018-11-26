@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.*;
 import org.jth.GUI.TEQ.TEQChooseWindow;
+import org.jth.GUI.UTSC.UTSCChooseWindow;
 import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.templates.TemplateSelectHelperImpl;
@@ -97,7 +98,11 @@ public class QueryPage extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == exitQueries) {
             setVisible(false);
-            ((TEQChooseWindow) tracker.getWindow("teq")).setVisible();
+            if (tracker.getPrevious().equals("teq")) {
+                ((TEQChooseWindow) tracker.getWindow("teq")).setVisible();
+            } else {
+                ((UTSCChooseWindow) tracker.getWindow("utsc")).setVisible();
+            }
             dispose();
         }
     }

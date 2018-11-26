@@ -91,6 +91,7 @@ public class TEQChooseWindow extends JFrame implements ActionListener {
 
     private void openQueryWindow(ActionEvent e) {
         QueryPage queryPage = new QueryPage();
+        tracker.changePrevious("teq");
         setVisible(false);
     }
 
