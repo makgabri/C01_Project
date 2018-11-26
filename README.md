@@ -55,3 +55,7 @@ From these sprints we have completed the following user stories:
 2. <U3> - As Ravjeet (a organization member), I would like to be able to see if I have uploaded data or not
 3. <U2> - As Crystal Li (a TEQ staff), I want to be able to change limitations for the account, so that accounts that are used by administrators can have more permission over than others
 4. <U4> - As Sumit Kapal (a UTSC Staff), I would like to be able to add different methods of graphical representations[U4]
+
+Link to video
+
+https://www.youtube.com/watch?v=eT8REjxnQeY&feature=youtu.be
