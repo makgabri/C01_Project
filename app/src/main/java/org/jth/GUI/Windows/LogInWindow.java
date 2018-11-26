@@ -86,7 +86,7 @@ public class LogInWindow extends JFrame implements ActionListener {
                 } else {
                     LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(0, roles, user);
                 }
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException | NullPointerException ex) {
                 ex.printStackTrace();
             }
         }
