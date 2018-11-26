@@ -2,6 +2,7 @@ package org.jth.GUI.Windows;
 
 import jdk.nashorn.internal.scripts.JO;
 import org.jth.GUI.Orgnization.*;
+import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
@@ -44,7 +45,6 @@ public class StarterWindow extends JFrame implements ActionListener {
     private Boolean clickUTSC = false;
     private Boolean clickTEQ = false;
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == utsc) {
@@ -76,7 +76,7 @@ public class StarterWindow extends JFrame implements ActionListener {
             } else if(clickUTSC) {
                 System.out.println("UTSC login");
                 LogInWindow logInWindow = new LogInWindow(Roles.UTSC);
-            } else {
+            } else if(clickTEQ) {
                 System.out.println("TEQ login");
                 LogInWindow logInWindow = new LogInWindow(Roles.TEQ);
             }
@@ -171,6 +171,14 @@ public class StarterWindow extends JFrame implements ActionListener {
         clearDB.addActionListener(this::clearDB);
     }
 
+    public void setInvisible() {
+        setVisible(false);
+    }
+    
+    public void setVisible() {
+        setVisible(true);
+    }
+    
     private void clearDB(ActionEvent event) {
         Connection connection = DatabaseDriver.connectOrCreateDatabase();
         try {

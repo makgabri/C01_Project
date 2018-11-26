@@ -2,6 +2,7 @@ package org.jth.GUI.Windows;
 
 import org.jth.GUI.Orgnization.OrganizationChooseWindow;
 import org.jth.GUI.Orgnization.TEQChooseWindow;
+import org.jth.GUI.app.Tracker;
 import org.jth.user.Roles;
 import org.jth.user.User;
 
@@ -24,6 +25,8 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
     private JLabel loginfail = new JLabel("Sign in Failed!");
 
     private User user;
+    
+    private Tracker tracker = Tracker.getInstance();
 
     public LoginSuccessOrFailWindow(int success, Roles roles, User user) {
         super("Login State");
@@ -77,6 +80,7 @@ public class LoginSuccessOrFailWindow extends JFrame implements ActionListener {
                 OrganizationChooseWindow organizationChooseWindow = new OrganizationChooseWindow(user);
             } else {
                 TEQChooseWindow teqChooseWindow = new TEQChooseWindow(user);
+                tracker.addWindow("teq", teqChooseWindow);
             }
         } else {
             dispose();

@@ -1,5 +1,6 @@
 package org.jth.GUI.Windows;
 
+import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
 import org.jth.databaseHelper.DatabaseSelectHelper;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
@@ -15,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class LogInWindow extends JFrame implements ActionListener {
     private Roles roles;
-
+    
     private User user;
     private DatabaseSelectHelper databaseSelectHelper = new DatabaseSelectHelperImpl();
 
@@ -26,6 +27,8 @@ public class LogInWindow extends JFrame implements ActionListener {
     private JButton logInButton = new JButton("Log In");
     private JTextField emailField = new JTextField(10);
     private JTextField passwordField = new JPasswordField(10);
+    
+    private Tracker tracker = Tracker.getInstance();
 
     public LogInWindow(Roles roles) {
         super("Log In");
@@ -77,6 +80,9 @@ public class LogInWindow extends JFrame implements ActionListener {
                 if (user.logIn(databaseSelectHelper.getUserId(emailField.getText()), passwordField.getText())) {
 
                     LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(1, roles, user);
+                    ((StarterWindow) tracker.getWindow("start")).setInvisible();
+                    setVisible(false);
+                    dispose();
                 } else {
                     LoginSuccessOrFailWindow loginSuccessOrFailWindow = new LoginSuccessOrFailWindow(0, roles, user);
                 }

@@ -1,6 +1,8 @@
 package org.jth.GUI.Orgnization;
 
 import org.jth.GUI.Queries.QueryPage;
+import org.jth.GUI.Windows.StarterWindow;
+import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.databaseHelper.DatabaseUpdateHelperImpl;
 import org.jth.exceptions.NotExcelException;
@@ -33,6 +35,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private Boolean uploaded = false;
     private User user;
     private DatabaseSelectHelper dbs;
+    private Tracker tracker = Tracker.getInstance();
 
     public OrganizationChooseWindow(User user) {
         super("Organization Main Menu");
@@ -117,6 +120,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == logout) {
             setVisible(false);
+            ((StarterWindow) tracker.getWindow("start")).setVisible();
             dispose();
         } else {
             parsingExcel.dropAllTheTemplates();

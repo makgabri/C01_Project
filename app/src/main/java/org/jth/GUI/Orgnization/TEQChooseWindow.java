@@ -1,6 +1,8 @@
 package org.jth.GUI.Orgnization;
 
 import org.jth.GUI.Queries.QueryPage;
+import org.jth.GUI.Windows.StarterWindow;
+import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 import org.jth.databaseHelper.DatabaseUpdateHelperImpl;
 import org.jth.exceptions.NotExcelException;
@@ -22,21 +24,24 @@ import java.io.IOException;
 public class TEQChooseWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
 
+    private JLabel title = new JLabel("<html><b><font size=+1>TEQ Menu</font></b></html>");
     private JButton uploadButton = new JButton("Upload");
     //private JButton checkUploadedButton = new JButton("Check Uploaded");
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
     private JButton uploadStatusButton = new JButton("Check Upload Status");
     private JButton queryButton = new JButton("Perform a Query");
+    public JButton logout = new JButton("Logout");
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private Boolean uploaded = false;
     private User user;
     private DatabaseSelectHelper dbs;
+    private Tracker tracker = Tracker.getInstance();
 
     public TEQChooseWindow(User user) {
         super("TEQ Main Menu");
         drawWindow();
-        setSize(400, 200);
+        setSize(400, 350);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -50,26 +55,34 @@ public class TEQChooseWindow extends JFrame implements ActionListener {
         GridBagConstraints c = new GridBagConstraints();
         container.setLayout(gridbag);
         c.gridwidth = GridBagConstraints.REMAINDER;
+        c.insets = new Insets(5,5,5,5);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(title, c);
         gridbag.setConstraints(uploadButton, c);
         gridbag.setConstraints(queryButton, c);
         gridbag.setConstraints(removeUploadFileButton, c);
         gridbag.setConstraints(uploadStatusButton, c);
+        gridbag.setConstraints(logout, c);
         //gridbag.setConstraints(checkUploadedButton, c);
+        container.add(title);
         container.add(uploadButton);
         container.add(queryButton);
         //container.add(checkUploadedButton);
         container.add(removeUploadFileButton);
         container.add(uploadStatusButton);
+        container.add(logout);
 
         uploadButton.addActionListener(this);
         //checkUploadedButton.addActionListener(this);
         removeUploadFileButton.addActionListener(this);
         uploadStatusButton.addActionListener(this::checkUpload);
         queryButton.addActionListener(this::openQueryWindow);
+        logout.addActionListener(this);
     }
 
     private void openQueryWindow(ActionEvent e) {
         QueryPage queryPage = new QueryPage();
+        setVisible(false);
     }
 
     private void checkUpload(ActionEvent e) {
@@ -114,10 +127,22 @@ public class TEQChooseWindow extends JFrame implements ActionListener {
             } else {
                 AlreadyUploadWindow alreadyUploadWindow = new AlreadyUploadWindow();
             }
+        } else if (e.getSource() == logout) {
+            setVisible(false);
+            ((StarterWindow) tracker.getWindow("start")).setVisible();
+            dispose();
         } else {
             parsingExcel.dropAllTheTemplates();
             CancelUploadFileWindow cancelUploadFileWindow = new CancelUploadFileWindow();
             new DatabaseUpdateHelperImpl().updateUploadStatus(user.getUserId(), false);
         }
+    }
+    
+    public void setInvisible() {
+       setVisible(false);
+    }
+    
+    public void setVisible() {
+      setVisible(true);
     }
 }
