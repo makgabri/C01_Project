@@ -27,6 +27,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     //private JButton checkUploadedButton = new JButton("Check Uploaded");
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
     private JButton uploadStatusButton = new JButton("Check Upload Status");
+    public JButton logout = new JButton("logout");
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private Boolean uploaded = false;
@@ -36,7 +37,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     public OrganizationChooseWindow(User user) {
         super("Organization Main Menu");
         drawWindow();
-        setSize(400, 200);
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         setResizable(false);
@@ -56,17 +57,20 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
         gridbag.setConstraints(uploadButton, c);
         gridbag.setConstraints(removeUploadFileButton, c);
         gridbag.setConstraints(uploadStatusButton, c);
+        gridbag.setConstraints(logout, c);
         container.add(title);
         //gridbag.setConstraints(checkUploadedButton, c);
         container.add(uploadButton);
         //container.add(checkUploadedButton);
         container.add(removeUploadFileButton);
         container.add(uploadStatusButton);
+        container.add(logout);
 
         uploadButton.addActionListener(this);
         //checkUploadedButton.addActionListener(this);
         removeUploadFileButton.addActionListener(this);
         uploadStatusButton.addActionListener(this::checkUpload);
+        logout.addActionListener(this);
     }
 
     private void checkUpload(ActionEvent e) {
@@ -111,6 +115,9 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
             } else {
                 AlreadyUploadWindow alreadyUploadWindow = new AlreadyUploadWindow();
             }
+        } else if (e.getSource() == logout) {
+            setVisible(false);
+            dispose();
         } else {
             parsingExcel.dropAllTheTemplates();
             CancelUploadFileWindow cancelUploadFileWindow = new CancelUploadFileWindow();

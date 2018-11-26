@@ -10,8 +10,5 @@ public class app {
         Tracker tracker = Tracker.getInstance();
         StarterWindow starterWindow = new StarterWindow();
         tracker.addWindow("start", starterWindow);
-        while (tracker.getStatus()) {
-          break;
-        }
     }
 }

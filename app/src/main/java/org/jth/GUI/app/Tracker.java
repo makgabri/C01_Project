@@ -8,7 +8,6 @@ public class Tracker {
     
     // Declare instance, only one instance should exist at a time
     private static Tracker instance = null;
-    private static boolean systemAlive = true;
     
     // Constructor
     private Tracker() {
@@ -36,13 +35,5 @@ public class Tracker {
     
     public Object getWindow(String name) {
         return windowHolder.get(name);
-    }
-    
-    public boolean getStatus() {
-        return systemAlive;
-    }
-    
-    public void closeSystem() {
-        systemAlive = false;
     }
 }
