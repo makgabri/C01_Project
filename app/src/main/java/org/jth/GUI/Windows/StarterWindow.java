@@ -26,7 +26,10 @@ public class StarterWindow extends JFrame implements ActionListener {
 
     private JLabel title = new JLabel("<html><b><u><font size=+2>I-Care Template App</font></u></b></html>");
     private JLabel creators = new JLabel("Application developed by: Jawa & The Hutts");
-
+    
+    private JLabel utscLogin = new JLabel("<html><b><font size=+1>UTSC Login</font></b></html>");
+    private JLabel teqLogin = new JLabel("<html><b><font size=+1>TEQ Login</font></b></html>");
+    private JLabel organizationLogin = new JLabel("<html><b><font size=+1>Organization Login</font></b></html>");
     private JButton utsc = new JButton("UTSC Staff");
     private JButton teq = new JButton("TEQ");
     private JButton organization = new JButton("Organization");
@@ -44,16 +47,18 @@ public class StarterWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == utsc || e.getSource() == teq || e.getSource() == organization) {
+        if (e.getSource() == utsc) {
             cleanWindow();
             drawStarterWindow(2);
-            if(e.getSource() == organization) {
-                clickOrganization = true;
-            } else if(e.getSource() == teq) {
-                clickTEQ = true;
-            } else {
-                clickUTSC = true;
-            }
+            clickUTSC = true;
+        } else if (e.getSource() == teq) {
+            cleanWindow();
+            drawStarterWindow(3);
+            clickTEQ = true;
+        } else if (e.getSource() == organization) {
+            cleanWindow();
+            drawStarterWindow(4);
+            clickOrganization = true;
         }
 
         if (e.getSource() == back) {
@@ -129,10 +134,21 @@ public class StarterWindow extends JFrame implements ActionListener {
             buttons.add(initDB, gbc);
             buttons.add(clearDB, gbc);
             buttons.add(creators, gbc);
-        } else {
+        } else if (choice == 2) {
+            buttons.add(utscLogin, gbc);
             buttons.add(logIn, gbc);
             buttons.add(signUp, gbc);
             buttons.add(back, gbc);
+        } else if (choice == 3) {
+          buttons.add(teqLogin, gbc);
+          buttons.add(logIn, gbc);
+          buttons.add(signUp, gbc);
+          buttons.add(back, gbc);
+        } else {
+          buttons.add(organizationLogin, gbc);
+          buttons.add(logIn, gbc);
+          buttons.add(signUp, gbc);
+          buttons.add(back, gbc);
         }
 
         add(buttons);
