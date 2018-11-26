@@ -1,24 +1,20 @@
 package org.jth.GUI.Windows;
 
-import jdk.nashorn.internal.scripts.JO;
 import org.jth.GUI.Orgnization.*;
 import org.jth.GUI.TEQ.TEQSignUpWindow;
 import org.jth.GUI.UTSC.UTSCSignUpWindow;
-import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseDriver;
 import org.jth.databaseHelper.DatabaseInsertHelper;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
 import org.jth.exceptions.ConnectionFailedException;
 import org.jth.templates.TemplateDriver;
 import org.jth.user.Roles;
-import org.jth.user.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.management.relation.Role;
 import javax.swing.*;
 
 public class StarterWindow extends JFrame implements ActionListener {
@@ -76,12 +72,15 @@ public class StarterWindow extends JFrame implements ActionListener {
         if(e.getSource() == logIn) {
             if(clickOrganization) {
                 System.out.println("Organization login");
+                @SuppressWarnings("unused")
                 LogInWindow logInWindow = new LogInWindow(Roles.ORGANIZATION);
             } else if(clickUTSC) {
                 System.out.println("UTSC login");
+                @SuppressWarnings("unused")
                 LogInWindow logInWindow = new LogInWindow(Roles.UTSC);
             } else if(clickTEQ) {
                 System.out.println("TEQ login");
+                @SuppressWarnings("unused")
                 LogInWindow logInWindow = new LogInWindow(Roles.TEQ);
             }
 
@@ -89,11 +88,14 @@ public class StarterWindow extends JFrame implements ActionListener {
 
         if(e.getSource() == signUp) {
             if(clickOrganization) {
+                @SuppressWarnings("unused")
                 OrganizationSignUpWindow orgnizationSignUpWindow = new OrganizationSignUpWindow();
             } else if(clickUTSC) {
+                @SuppressWarnings("unused")
                 UTSCSignUpWindow utscSignUpWindow = new UTSCSignUpWindow();
                 System.out.println("UTSC sign Up");
             } else {
+                @SuppressWarnings("unused")
                 TEQSignUpWindow teqSignUpWindow = new TEQSignUpWindow();
                 System.out.println("TEQ sign Up");
             }

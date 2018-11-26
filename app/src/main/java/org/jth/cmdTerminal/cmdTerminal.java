@@ -9,15 +9,11 @@ import org.jth.exceptions.*;
 import java.io.IOException;
 // Database neccesity imports
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.Target;
 import java.security.NoSuchAlgorithmException;
 
 import org.jth.GUI.Windows.StarterWindow;
 // Database neccesity imports
 import org.jth.databaseHelper.*;
-// User neccessity imports
-import java.util.HashMap;
-import java.util.Map;
 // Login neccessity imports
 import org.jth.security.*;
 import org.jth.user.Roles;
@@ -30,7 +26,8 @@ public class cmdTerminal{
     // Global variable to store parsed excel file
     private ParsingExcel parsed = ParsingExcel.getInstance();
     private DatabaseInsertHelper dbi = new DatabaseInsertHelperImpl();
-	private DatabaseUpdateHelper dbu = new DatabaseUpdateHelperImpl();
+	@SuppressWarnings("unused")
+    private DatabaseUpdateHelper dbu = new DatabaseUpdateHelperImpl();
     private DatabaseSelectHelper dbs = new DatabaseSelectHelperImpl();
     private AuthenticateImpl auth;
     
@@ -70,6 +67,7 @@ public class cmdTerminal{
     private void logIn()
     {
         System.out.println("Enter email");
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         usermail = scanner.nextLine();
         System.out.println("Enter password");
@@ -111,6 +109,7 @@ public class cmdTerminal{
     {
         // Get excel file name
         System.out.println("Enter file name");
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         String filename = scanner.nextLine();
         // Parse the excel file
@@ -152,10 +151,12 @@ public class cmdTerminal{
     }
     
     public static void displayStarterPage() {
+        @SuppressWarnings("unused")
         StarterWindow starterWindow = new StarterWindow();
     }
 
-    // Main method
+    // Main method - uncomment out to use cmd
+    /**
     public static void main(String[] args)
     {
         Connection connection = DatabaseDriver.connectOrCreateDatabase();
@@ -188,6 +189,7 @@ public class cmdTerminal{
             // Instance of cmd terminal
             while (cmdNum != 0) {
                 terminalInstance.printCmdMenu();
+                @SuppressWarnings("resource")
                 Scanner nextCommand = new Scanner(System.in);
                 cmdNum = nextCommand.nextInt();
                 System.out.println("-----------------------------------------------------------");
@@ -212,6 +214,7 @@ public class cmdTerminal{
             }
             System.out.println("Thank you for using the system ");
         }
-    }
+        
+    }*/
 
 }
