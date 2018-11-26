@@ -5,6 +5,7 @@ import org.jth.GUI.Windows.SignUpSuccessWindow;
 import org.jth.databaseHelper.DatabaseInsertHelperImpl;
 import org.jth.user.Organization;
 import org.jth.user.Roles;
+import org.jth.user.SupportType;
 import org.jth.user.User;
 
 import java.awt.*;
@@ -88,29 +89,51 @@ public class OrganizationSignUpWindow extends JFrame implements ActionListener {
         container.add(textPanel);
         container.add(signUpButton);
     }
+
+    private SupportType convertIntoSupportType() {
+        String supportType = supportTypeField.getText();
+        System.out.println(SupportType.valueOf(capitalizeAndReplaceSpaceWithUnderline(supportType)));
+        return null;
+    }
+
+    /**
+     * capitalize all the letter and replace the space with underline
+     * @param line input String
+     * @return a String that is proper formed.
+     */
+    private String capitalizeAndReplaceSpaceWithUnderline(String line) {
+        line = line.toUpperCase();
+        return line.replaceAll(" ", "_");
+    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        boolean flag = true;
         if(e.getSource() == signUpButton) {
-
             if(!new String(passwordField.getPassword()).equals(
                     new String(conformPasswordField.getPassword()))) {
                 PasswordNotMatchWindow passwordNotMatchWindow = new PasswordNotMatchWindow();
             } else {
-                DatabaseInsertHelperImpl databaseInsertHelper = new DatabaseInsertHelperImpl();
-                Map<String, String> userInfo = databaseInsertHelper.insertUser(Roles.ORGANIZATION.name(), emailField.getText(),
-                        new String(passwordField.getPassword()));
-                user = new Organization(nameField.getText(), userInfo.get("userId"), emailField.getText(),
-                        postalCodeField.getText(), supportTypeField.getText(), userInfo.get("creationDate"));
-                SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow(user);
-                this.dispose();
+                SupportType supportType = null;
+                try {
+                    supportType = SupportType.valueOf(capitalizeAndReplaceSpaceWithUnderline(supportTypeField.getText().trim()));
+                } catch (IllegalArgumentException ex) {
+                    SupportTypeDoesNotMatchWindow supportTypeDoesNotMatchWindow = new SupportTypeDoesNotMatchWindow();
+                    flag = false;
+                }
+                if (flag) {
+                    DatabaseInsertHelperImpl databaseInsertHelper = new DatabaseInsertHelperImpl();
+                    Map<String, String> userInfo = databaseInsertHelper.insertUser(Roles.ORGANIZATION.name(), emailField.getText(),
+                            new String(passwordField.getPassword()));
+                    user = new Organization(nameField.getText(), userInfo.get("userId"), emailField.getText(),
+                            postalCodeField.getText(), supportType, userInfo.get("creationDate"));
+                    SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow(user);
+                    this.dispose();
+                }
                 //TODO insert into database.
 
 
             }
-            
-            SignUpSuccessWindow signUpSuccessWindow = new SignUpSuccessWindow(user);
-            this.dispose();
         }
     }
 }

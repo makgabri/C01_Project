@@ -71,7 +71,7 @@ public class ParsingExcel {
     }
 
     /**
-     * @param wb:excel文件对象
+     * @param wb: excel workbook
      */
     private void readXls(Workbook wb) {
         for(int s = 0; s < wb.getNumberOfSheets(); s ++) {
