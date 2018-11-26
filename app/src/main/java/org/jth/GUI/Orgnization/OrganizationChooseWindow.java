@@ -1,6 +1,5 @@
 package org.jth.GUI.Orgnization;
 
-import org.jth.GUI.Queries.QueryPage;
 import org.jth.GUI.Windows.StarterWindow;
 import org.jth.GUI.app.Tracker;
 import org.jth.databaseHelper.DatabaseSelectHelperImpl;
@@ -10,17 +9,15 @@ import org.jth.exceptions.TemplateNullException;
 import org.jth.parsing.ParsingExcel;
 import org.jth.user.User;
 import org.jth.databaseHelper.DatabaseSelectHelper;
-import org.jth.databaseHelper.DatabaseSelectHelperImpl;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
+@SuppressWarnings("serial")
 public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private Container container = getContentPane();
 
@@ -30,6 +27,7 @@ public class OrganizationChooseWindow extends JFrame implements ActionListener {
     private JButton removeUploadFileButton = new JButton("Remove Upload File");
     private JButton uploadStatusButton = new JButton("Check Upload Status");
     public JButton logout = new JButton("Logout");
+    @SuppressWarnings("unused")
     private static final long SLEEP_TIME = 3 * 1000;
     private ParsingExcel parsingExcel = ParsingExcel.getInstance();
     private Boolean uploaded = false;
