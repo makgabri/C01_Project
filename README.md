@@ -42,6 +42,13 @@ In the third sprint we completed:
 2. Parsing Excel files
 3. Command Line
 
+In the fourth spinrt we completed:
+
+1. Created a Main Menu GUI
+2. Implemented Login into our GUI
+3. Implemented upload to our GUI
+4. Implemented Queries to TEQ and UTSC Staff
+
 From these sprints we have completed the following user stories:
 
 1. <U1> - As Sumit Kapal (a UTSC Staff), I would like to be able to create accounts for TEQ staff and organizations, so that they can access the system
