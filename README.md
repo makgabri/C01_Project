@@ -20,6 +20,14 @@ All that is required for running the project is the appropriate Java version for
 2. Open the project in your preferred IDE and run it as you would any Java project.
 3. A GUI will pop up allowing you to use the application. You can also clear and initialize the database through the GUI
 
+## Running the test cases
+Maven is required for running the test cases. To run the unit tests:
+
+1. Open bash and change to the project's directory 
+2. ```$ cd app```
+3. ```$ mvn compile```
+4. ```$ mvn test```
+
 ## Progress
 Our team is currently in design and preparation phase of the third sprint.
 In the first sprint we completed:
@@ -54,8 +62,11 @@ From these sprints we have completed the following user stories:
 1. <U1> - As Sumit Kapal (a UTSC Staff), I would like to be able to create accounts for TEQ staff and organizations, so that they can access the system
 2. <U3> - As Ravjeet (a organization member), I would like to be able to see if I have uploaded data or not
 3. <U2> - As Crystal Li (a TEQ staff), I want to be able to change limitations for the account, so that accounts that are used by administrators can have more permission over than others
-4. <U4> - As Sumit Kapal (a UTSC Staff), I would like to be able to add different methods of graphical representations[U4]
+4. <U4> - As Sumit Kapal (a UTSC Staff), I would like to be able to add different methods of graphical representations
 
 ## Link to video
 
 https://www.youtube.com/watch?v=eT8REjxnQeY&feature=youtu.be
+
+
+
